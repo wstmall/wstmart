@@ -1,0 +1,58 @@
+{extend name="base" /}
+{block name="css"}
+<link href="__ADMIN__/js/ztree/css/zTreeStyle/zTreeStyle.css?v={$v}" rel="stylesheet" type="text/css" />
+{/block}
+{block name="js"}
+<script src="__ADMIN__/js/ztree/jquery.ztree.all-3.5.js?v={$v}"></script>
+<script src="__ADMIN__/roles/roles.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<form autocomplete='off'>
+<input type='hidden' id='roleId' class='ipt' value="{$object['roleId']}"/>
+<table class='wst-form wst-box-top'>
+  <tr>
+     <th width='120'>角色名称<font color='red'>*</font></th>
+     <td><input type="text" id='roleName' class='ipt' value="{$object['roleName']}" maxLength='20' data-rule="角色名称: required;"/></td>
+  </tr>
+  <tr>
+     <th>角色备注</th>
+     <td><input type="text" id='roleDesc' class='ipt' value="{$object['roleDesc']}" style='width:70%' maxLength='100'/></td>
+  </tr>
+  <tr>
+     <th valign='top'>权限</th>
+     <td>
+       <ul id="menuTree" class="ztree"></ul>
+     </td>
+  </tr>
+  <tr>
+     <td colspan='2' align='center'>
+       <input type='button' value='保存' class='btn btn-blue' onclick='javascript:save()'>
+       <input type='button' value='返回' class='btn' onclick='javascript:history.go(-1)'>
+     </td>
+  </tr>
+</table>
+</form>
+<script>
+var zTree,rolePrivileges = '{$object['privileges']}'.split(',');
+$(function(){
+	var roleId = $('#roleId').val();
+	var setting = {
+		    check: {
+				enable: true
+			},
+		    async: {
+		        enable: true,
+		        url:WST.U('admin/privileges/listQueryByRole'),
+		        autoParam:["id", "name=n", "level=lv"],
+		        otherParam:["roleId",roleId]
+		    },
+		    callback:{
+		    	onNodeCreated:getNodes
+		    }
+	};
+	$.fn.zTree.init($("#menuTree"), setting);
+	zTree = $.fn.zTree.getZTreeObj("menuTree");
+})
+</script>
+{/block}

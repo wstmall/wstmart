@@ -1,0 +1,151 @@
+{extend name="default/shops/base" /}
+{block name="title"}店铺设置-卖家中心{__block__}{/block}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/batchupload.css?v={$v}" />
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+{/block}
+
+{block name="content"}
+<script>
+$(function(){
+  $('.state-complete').css('border-color','#e45050');
+})
+</script>
+<style>
+.filelist .btn-del,.webuploader-pick,.wst-batchupload .placeholder .webuploader-pick,.wst-batchupload .statusBar .btns .uploadBtn{background: #e45050;}
+.wst-batchupload .statusBar .btns .uploadBtn:hover {background: #e45525 none repeat scroll 0 0;}
+.shopbanner{position: relative;}
+.del-banner{
+  position: absolute;
+  top:0px;
+  right:0px;
+  background: #e45050 none repeat scroll 0 0;
+  z-index: 55;
+  color: #ffffff;
+  cursor: pointer;
+  height: 18px;
+  line-height: 18px;
+  padding: 0 5px;
+}
+</style>
+<div class="wst-body"> 
+<div class="wst-shop-head"><span>店铺设置</span></div>
+<div class="wst-clear"></div>
+   <div class="wst-shop-content">
+
+    <form name="shopCfg"  id="shopCfg" autocomplete="off" method="post">
+
+
+        <table class="wst-form">
+           <tr>
+             <th width='120' align='right'>店铺SEO关键字<font color='red'>*</font>：</th>
+             <td><input type='text' id='shopKeywords' name='shopKeywords' class="ipt"  value='{$object.shopKeywords}' data-rule='关键字:required;' style='width:350px;' maxLength='25' /></td>
+           </tr>
+           <tr>
+           <th width='120'>店铺SEO描述：</th>
+           <td colspan='3'>
+               <textarea rows="2" style='width:350px;' class="ipt" id='shopDesc' name='shopDesc' >{$object.shopDesc}</textarea>
+           </td>
+           </tr>
+           <tr>
+           <th width='120'>店铺热搜关键词：</th>
+           <td><input type='text' id='shopHotWords' name='shopHotWords' class="ipt"  value='{$object.shopHotWords}' style='width:350px;' placeholder="店铺主页搜索栏下的引导搜索词" maxLength='100'/></td>
+         </tr>
+
+
+           <tr style="height:80px">
+             <th width='120' align='right' valign='top'>顶部广告：</th>
+             <td>
+                <div id="shopBannerPicker" style='margin-left:0px;margin-top:5px;height:30px;overflow:hidden'>上传顶部广告图片</div>
+              <div>图片大小:1920 x 110 (px)(格式为 gif, jpg, jpeg, png)</div>
+              <div style="margin-top:5px;">
+              <div class="wst-lfloat shopbanner" {if empty($object.shopBanner)}style='display:none'{/if}>
+                <img id="shopBannerPreview" class="lazyImg" height="100" style="max-width:500px;" src="__ROOT__/{$object.shopBanner}">
+                <span class="del-banner" onclick="delbanner(this)">删除</span>
+              </div>
+                <input type="hidden" id="shopBanner" class="ipt" value="{$object.shopBanner}" />
+              </div>
+             </td>
+           </tr>
+
+
+
+           <tr>
+             <th width='120' align='right'>滚动广告<font color='red'>*</font>：</th>
+             <td>
+              
+                  <div id="batchUpload" class="wst-batchupload" style="border:1px solid #ccc">
+                    <div style="border-bottom:1px solid #dadada;padding-left:10px; "> 图片大小:1200 x 400 (px)(格式为 gif, jpg, jpeg, png) </div>
+                    <div class="queueList filled">
+                        <div id="dndArea" class="placeholder {if !empty($object['shopAds'])}element-invisible{/if}">
+				            <div id="filePicker"></div>
+				            <p>或将照片拖到这里，单次最多可选5张，每张最大不超过5M</p>
+				        </div>
+                        <ul class="filelist" >
+                            {volist name="$object['shopAds']" id="vo"}
+                            <li  class="state-complete" style="border: 1px solid rgb(59, 114, 165);height:210px;">
+                               <p class="title"></p>
+                               <p class="imgWrap">
+                                  <img src="__ROOT__/{$vo}">
+                               </p>
+                               <input type="hidden" v="{$vo}" iv="{$vo}" class="j-gallery-img">
+                               <span class="btn-del">删除</span>
+                               <input class="cfg-img-url" type="text" value="{$object['shopAdsUrl'][$key]}" style="width:170px;" placeholder="广告路径">
+                            </li>
+                            {/volist}
+                      </ul>
+                    </div>
+                    <div class="statusBar" >
+                        <div class="progress" style="display: none;">
+                            <span class="text">0%</span>
+                            <span class="percentage" style="width: 0%;"></span>
+                        </div>
+                        <div class="info"></div>
+                        <div class="btns">
+                            <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
+                        </div>
+                    </div>
+                </div>
+
+              <div style='clear:both;'></div>
+             </td>
+           </tr>
+
+           <tr>
+             <td colspan='2' style='text-align:center;padding:20px;'>
+                 <button type="submit" class='s-btn' onclick="save()">保&nbsp;存</button>&nbsp;&nbsp;
+                 <button type="button" class='s-btn' onclick='javascript:location.reload();'>重&nbsp;置</button>
+             </td>
+           </tr>
+        </table>
+
+  </form>
+
+
+   </div>
+</div>
+{/block}  
+{block name="footer"}
+	{include file="default/footer" /}
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/shops/shopconfigs/shop_cfg.js?v={$v}'></script>
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/batchupload.js?v={$v}'></script>
+<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+<script>
+$(function(){
+})
+function delbanner(obj){
+    var c = WST.confirm({content:'您确定要删除顶部广告图片吗?',yes:function(){
+             $('#shopBannerPreview').attr('src','');
+             $('#shopBanner').val('');
+             $(obj).hide();
+             layer.close(c);
+          }})
+  }
+</script>
+
+{/block}

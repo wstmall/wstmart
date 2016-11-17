@@ -1,0 +1,54 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/areas/areas.js?v={$v}" type="text/javascript"></script>
+<script>
+$(function(){initGrid();})
+</script>
+{/block}
+{block name="main"}
+<input type='hidden' id='h_areaId' value='{$pArea["areaId"]}'/>
+<input type='hidden' id='h_parentId' value='{$pArea["parentId"]}'/>
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div class="wst-toolbar">
+  {if condition="($pArea['areaId'] != 0)"}
+      上级地区：{$pArea['areaName']}
+  <button class="btn f-right" onclick='javascript:toReturn(0)'>返回</button>
+  {/if}
+  {if WSTGrant('DQGL_01')}
+  <button class="btn btn-green f-right" onclick='javascript:toEdit(0,{$pArea["areaId"]})'>新增</button>
+  {/if}
+  <div style='clear:both'></div>
+</div>
+<div id="maingrid"></div>
+<div id='areasBox' style='display:none'>
+  <form id='areaForm' autocomplete="off">
+  <input type='hidden' class='ipt' id='areaId' />
+  <input type='hidden' class='ipt' id='parentId' />
+  <table class='wst-form wst-box-top'>
+     <tr>
+        <th width='100'>地区名称<font color='red'>*</font>：</th>
+        <td><input type='text' id='areaName' name="areaName" class='ipt' maxLength='20' style='width:200px;' onblur='javascript:letterOnblur(this)'/></td>
+     </tr>
+     <tr>
+        <th width='100'>是否显示<font color='red'>*</font>：</th>
+        <td height='24'>
+           <label>
+              <input type="radio" id="isShow1" name="isShow" class="ipt" value="1" checked>显示
+           </label>
+           <label>
+              <input type="radio" id="isShow1" name="isShow" class="ipt" value="0">隐藏
+           </label>
+        </td>
+     </tr>
+     <tr>
+        <th width='100'>排序字母<font color='red'>*</font>：</th>
+        <td><input type='text' id='areaKey' name='areaKey' class='ipt' style='width:60px;'  maxLength='1'/></td>
+     </tr>
+     <tr>
+        <th width='100'>排序号<font color='red'>*</font>：</th>
+        <td><input type='text' id='areaSort' name='areaSort' class='ipt' style='width:60px;' onkeypress='return WST.isNumberKey(event);' onkeyup="javascript:WST.isChinese(this,1)" maxLength='10' value='0'/></td>
+     </tr>
+  </table>
+  </form>
+</div>
+{/block}

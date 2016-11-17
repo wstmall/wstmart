@@ -1,0 +1,69 @@
+{extend name="default/users/base" /}
+{block name="title"}安全设置 - 买家中心{__block__}{/block}
+{block name="css"}
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/security.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="content"}
+<div class="wst-user-head"><span>绑定手机</span><a href="{:url('home/users/security')}">返回</a></div>
+<div class="wst-clear"></div>
+{if ($process=='One')}
+	<form method="post" id="phoneForm" autocomplete="off">
+      <table class='wst-form'>
+       <tr>
+         <th align='right'>绑定手机号码<font color='red'>*</font>：</th>
+         <td>
+         <input type='text' class="ipt" id='userPhone' name='userPhone' style='width:250px;' maxLength='30' data-rule="手机号 required;mobile;remote(post:{:url('home/users/checkLoginKey')})" data-msg-mobile="请输入有效的手机号" data-msg-required="请输入手机号" data-tip="请输入手机号" data-target="#verifyPhone"/>
+         <button id="timeObtain" class="wst-sec-obtain" type="button" onclick="javascript:getPhoneVerify('o');">获取手机验证码</button>
+         <span id="verifyPhone"></span>
+         </td>
+       </tr>
+       <tr>
+	        <th align='right'><font color='red'>*</font>输入短信校验码：</th>
+			<td>
+				<input type='text' class="ipt" id='Checkcode' name='Checkcode' style='width:250px;' maxLength='30' data-rule="短信校验码: required;" data-msg-required="请输入短信校验码" data-tip="请输入短信校验码"/>
+			</td>
+		</tr>
+           <tr>
+             <td colspan='2' style='padding-left:115px;height:60px;'>
+                 <button class="wst-sec-but" type="submit" style="width:100px;height: 30px;">立即绑定</button>
+             </td>
+           </tr>
+        </table>
+      </form>
+     <form method="post" id="phoneVerify" autocomplete="off" style="display:none;">
+      <input type='hidden' id='VerifyId' value='' autocomplete="off"/>
+      <table class='wst-form' style="width:500px;">
+        <tr>
+	        <th align='right'><font color='red'>*</font>验证码：</th>
+			<td>
+				<input id="smsVerfy" style="ime-mode:disabled;width:150px;" name="smsVerfy" data-rule="验证码: required;" data-msg-required="请输入验证码" data-tip="请输入验证码" data-target="#verify" class="ipt wst-lfloat" tabindex="6" autocomplete="off" maxlength="6" type="text"/>
+				<label class="wst-sec-img">
+					<img id='verifyImg' src="{:url('home/users/getVerify')}" onclick='javascript:WST.getVerify("#verifyImg")' style="width:110px;"> 
+				</label>      	
+			   	<label>&nbsp;看不清？<a href="javascript:WST.getVerify('#verifyImg')"style="color:#69b7b5;">换一张</a></label><span id="verify"></span>
+			</td>
+		</tr>
+         <tr>
+           <td colspan='2' style='padding-left:71px;height:50px;'>
+               <button class="wst-sec-but" type="submit" style="width:100px;height: 30px;">确认</button>
+           </td>
+         </tr>
+        </table>
+      </form>
+{/if}
+{if ($process=='Three')}
+<div class="wst-sec-su">
+	<span class="wst-sec-sut"><img src="__STYLE__/img/icon_success.png"/></span>
+	<span class="wst-sec-sub">您已成功绑定手机！</span>
+</div>
+{/if}
+{/block}
+{block name="js"}
+	<script type='text/javascript' src='__STYLE__/users/security/security.js?v={$v}'></script>
+	<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+	<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+	<script>
+	$(function(){vephoneForm();})
+	</script>
+{/block}

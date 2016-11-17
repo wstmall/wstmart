@@ -1,0 +1,76 @@
+{extend name="default/base" /}
+{block name="title"}用户注册-{:WSTConf('CONF.mallName')}{__block__}{/block}
+{block name="css"}
+<link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/login.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="nav"}
+    {php}$liteTitle = "欢迎注册".WSTConf('CONF.mallName');{/php}
+	{include file="default/header_lite" /}
+{/block}
+{block name="main"}
+<div class="wst-regist-b">
+	<div class="wst-container">
+	<div class="wst-regist">
+	<div class="wst-regist-c">
+	<input type="hidden" id="nameType" class="wst_ipt nameType" value='2' autocomplete="off"/>
+	<form id="reg_form"  method="post" autocomplete="off">
+	<div class="wst-regist-head">Hi～欢迎来注册</div>
+	<table class="wst-table">
+		<tr class="wst-login-tr">
+			<td class="wst-regist-td"><font color='red'>*</font>用户名</td>
+			<td><input id="loginName" name="loginName" class="wst_ipt wst-regist-input" tabindex="1" maxlength="30" autocomplete="off" onpaste="return false;" style="ime-mode:disabled;" placeholder="邮箱/用户名/手机号"  type="text" onkeyup="javascript:WST.isChinese(this,1)"/></td>
+		</tr>
+		<tr class="wst-login-tr">
+			<td class="wst-regist-td"><font color='red'>*</font>密码</td>
+			<td><input id="loginPwd" name="loginPwd" class="wst_ipt wst-regist-input" tabindex="2" style="ime-mode:disabled;" autocomplete="off" type="password" placeholder="6-16位字符"/></td>
+		</tr>
+		<tr class="wst-login-tr">
+			<td class="wst-regist-td"><font color='red'>*</font>确认密码</td>
+			<td><input id="reUserPwd" name="reUserPwd" class="wst_ipt wst-regist-input" tabindex="3" autocomplete="off" type="password" placeholder="6-16位字符"/></td>
+		</tr>
+		<tr id="mobileCodeDiv" class="wst-login-tr hide">
+			<td class="wst-regist-td"><font color='red'>*</font>短信验证码</td>
+			<td>
+				<input maxlength="6" autocomplete="off" tabindex="6" class="wst_ipt wst-regist-codemo" name="mobileCode" style="ime-mode:disabled" id="mobileCode" type="text" data-target="#mobileCodeTips" placeholder="短信验证码"/>
+				<button id="timeTips" onclick="getVerifyCode();" class="wst-regist-obtain">获取短信验证码</button>
+				<span id="mobileCodeTips"></span>
+			</td>
+		</tr>
+		<tr id="authCodeDiv" class="wst-login-tr">
+			<td class="wst-regist-td"><font color='red'>*</font>验证码</td>
+			<td>
+				<div class="wst-regist-code">
+				<input id="verifyCode" style="ime-mode:disabled" name="verifyCode"  class="wst_ipt wst-regist-codein" tabindex="6" autocomplete="off" maxlength="6" type="text"  data-target="#verifyCodeTips" placeholder="验证码"/>
+				<img id='verifyImg' class="wst-regist-codeim" src="{:url('home/users/getVerify')}" onclick='javascript:WST.getVerify("#verifyImg")' style="width:116px;border-top-right-radius:6px;border-bottom-right-radius:6px;"><span id="verifyCodeTips"></span>    	
+			   	</div>
+			</td>
+		</tr>
+		<tr class="wst-login-tr">
+			<td colspan="2" style="padding-left:180px;">
+				<label>
+					<input id="protocol" name="protocol" type="checkbox" class="wst_ipt" value="1" data-rule="checked"/>我已阅读并同意
+	           		<a href="javascript:;" style="color:#69b7b5;" id="protocolInfo" onclick="showProtocol();">《用户注册协议》</a>
+	           	</label>                                  
+				<label style="float:right;margin-top:3px;">看不清？<a style="color:#69b7b5;" href="javascript:WST.getVerify('#verifyImg')">换一张</a></label>
+			</td>
+		</tr>
+		<tr style="height:80px;">
+			<td colspan="2" style="padding-left:260px;">
+				<input id="reg_butt" class="wst-regist-but" type="submit" value="注册" style="width: 180px;height:30px;"/>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div>
+	</div>
+	</div>
+</div>
+{/block}
+{block name="js"}
+	<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+	<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+	<script type='text/javascript' src='__STYLE__/js/login.js?v={$v}'></script>
+	<Script>$(function(){initRegist();})</Script>
+{/block}

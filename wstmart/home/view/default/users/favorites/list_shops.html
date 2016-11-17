@@ -1,0 +1,49 @@
+{extend name="default/users/base" /}
+{block name="title"}关注的店铺 - 买家中心{__block__}{/block}
+{block name="css"}{/block}
+{block name="content"}
+<div class="wst-user-head"><span>我关注的店铺</span></div>
+<div class="wst-clear"></div>
+<div id="list-shops"></div>
+<div class="wst-fav-pa"><div id="shopsPage"></div></div>
+<script id="list" type="text/html">
+{{# for(var i = 0; i < d.length; i++){ }}
+	<div class="wst-favo-shop">
+		<div class="wst-favo-shopl">
+			<a href="javascript:getShop({{ d[i].shopId }})" class="wst-favo-shopimg"><img class="shopsImg2" data-original="__ROOT__/{{ d[i].shopImg }}" title="{{ d[i].shopName }}"/></a>
+			<p>{{WST.cutStr(d[i].shopName,15)}}</p>
+			<a href="javascript:getShop({{ d[i].shopId }})" class="wst-favo-shopa">进入店铺</a><a href="javascript:cancelFavorite({{ d[i].favoriteId }},1)" class="wst-favo-shopa">取消关注</a>
+		</div>
+		<div class="wst-favo-shopr">
+			<div class="wst-favo-more"><span class="wst-lfloat">推荐商品</span><a href="javascript:getShop({{ d[i].shopId }})" class="wst-rfloat">查看更多 ></a></div>
+			<div class="wst-favo-good wst-lfloat">
+			<div class="als-container" id="{{# if(d[i].goods.length>5){ }}js-goods{{i}}{{# } }}">
+			  {{# if(d[i].goods.length>5){ }}<span class="als-prev"><img src="__STYLE__/img/icon_left.png" alt="prev" title="previous" /></span>{{# } }}
+			  <div class="als-viewport">
+			    <ul class="als-wrapper">
+				{{# for(var a = 0; a < d[i].goods.length; a++){ }}
+			      <li class="als-item wst-favo-goods">
+					<div class="wst-favo-goodimg"><a href="javascript:getGoods({{ d[i].goods[a].goodsId }})"><img class="goodsImg2" data-original="__ROOT__/{{ d[i].goods[a].goodsImg }}" title="{{ d[i].goods[a].goodsName }}"/></a></div>
+					<span>￥{{ d[i].goods[a].shopPrice }}</span>
+				  </li>
+				{{# } }}
+			    </ul>
+			  </div>
+			  {{# if(d[i].goods.length>5){ }}<span class="als-next"><img src="__STYLE__/img/icon_right.png" alt="next" title="next" /></span>{{# } }}
+			</div>
+			</div>
+		</div>
+		<div class="wst-clear"></div>
+	</div>
+{{# } }}
+</script>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/js/jquery.als.js?v={$v}'></script>
+<script type='text/javascript' src='__STYLE__/users/favorites/favorites.js?v={$v}'></script>
+<script>
+$(function(){
+	freShopList();
+});
+</script>
+{/block}

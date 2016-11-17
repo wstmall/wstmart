@@ -1,0 +1,59 @@
+{extend name="default/users/base" /}
+{block name="title"}安全设置 - 买家中心{__block__}{/block}
+{block name="css"}
+<link href="__STYLE__/css/security.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="content"}
+	<div class="wst-sec-info">
+	<img class="wst-lfloat usersImg" data-original='__ROOT__/{$data['userPhoto']}' width='100' height='100' title="{$data['loginName']}"/>
+	<div class="wst-sec-infor">
+	<span class="wst-sec-na wst-lfloat">{$data['loginName']}</span>
+	{if($data['ranks'])}
+	<span class="wst-sec-grade"><img class="wst-lfloat" src="__ROOT__/{$data['ranks']['userrankImg']}"/><span class="wst-lfloat">{$data['ranks']['rankName']}</span></span>
+	{/if}
+	<div style='clear:both;'></div>
+	<div style="margin-top:6px;">
+	<span class="wst-sec-infoi" id="level"></span>
+	<div class="wst-sec-infoi" style="margin-top:5px;">
+		<span class="wst-sec-strip wst-lfloat">{if ($data['loginPwd'])}<span class="wst-sec-strip2 wst-lfloat"></span>{/if}{if ($data['userEmail'])}<span class="wst-sec-strip2 wst-lfloat"></span>{/if}{if ($data['userPhone'])}<span class="wst-sec-strip2 wst-lfloat"></span>{/if}</span>
+	</div>
+	<div class="wst-sec-infoi" style="margin-top:5px;">
+		<span>上次登录时间：{php}echo date("Y年m月d日 H:i:s",strtotime($data['lastTime']));{/php}</span><br/>
+		<span>上次登录IP：{$data['lastIP']}</span>
+	</div>
+	</div>
+	</div>
+	<div style='clear:both;'></div>
+	</div>
+	<div class="wst-sec-s">
+		<div class="wst-sec-lists">{if ($data['loginPwd'])}<span class="wst-sec-green"><img src="__STYLE__/img/user_icon_yyz.png"/>已设置</span>{else}<span class="wst-sec-ash"><img src="__STYLE__/img/icon_wyz.png"/>未设置</span>{/if}
+		<span class="wst-sec-w">&nbsp;登录密码</span>&nbsp;&nbsp;登陆密码用于会员的登陆以及进行登陆的一系列操作，{if ($data['loginPwd'])}建议您定期更改密码{else}您还没有设置密码{/if}
+		<a class="wst-user-buta wst-rfloat" onclick="location.href=WST.U('home/users/editPass')">{if ($data['loginPwd'])}修改密码{else}立即设置{/if}</a></div>
+		<div class="wst-sec-lists">{if ($data['payPwd'])}<span class="wst-sec-green"><img src="__STYLE__/img/user_icon_yyz.png"/>已设置</span>{else}<span class="wst-sec-ash"><img src="__STYLE__/img/icon_wyz.png"/>未设置</span>{/if}
+		<span class="wst-sec-w">&nbsp;支付密码</span>&nbsp;&nbsp;支付密码用于会员的提现账号设置及提现申请操作，{if ($data['payPwd'])}建议您定期更改支付密码{else}您还没有设置支付密码{/if}
+		<a class="wst-user-buta wst-rfloat" onclick="location.href=WST.U('home/users/editPayPass')">{if ($data['payPwd'])}修改密码{else}立即设置{/if}</a></div>
+		<div class="wst-sec-lists">{if ($data['userEmail'])}<span class="wst-sec-green"><img src="__STYLE__/img/user_icon_yyz.png"/>已验证</span>{else}<span class="wst-sec-ash"><img src="__STYLE__/img/icon_wyz.png"/>未验证</span>{/if}
+		<span class="wst-sec-w">&nbsp;邮箱验证</span>&nbsp;&nbsp;邮箱验证方便您及时接收优惠促销信息，以及积分、优惠卷和账户余额变动的提醒。{if ($data['userEmail'])}您的绑定邮箱：{$data['userEmail']}{else}您还没有验证邮箱{/if}
+		<a class="wst-user-buta wst-rfloat" onclick="location.href=WST.U('home/users/editEmail')">{if ($data['userEmail'])}修改邮箱{else}立即验证{/if}</a></div>
+		<div class="wst-sec-lists">{if ($data['userPhone'])}<span class="wst-sec-green"><img src="__STYLE__/img/user_icon_yyz.png"/>已验证</span>{else}<span class="wst-sec-ash"><img src="__STYLE__/img/icon_wyz.png"/>未验证</span>{/if}
+		<span class="wst-sec-w">&nbsp;手机验证</span>&nbsp;&nbsp;手机验证方便您及时接收优惠促销信息，以及积分、优惠卷和账户余额变动的提醒。{if ($data['userPhone'])}您的绑定手机：{$data['userPhone']}{else}您还没有验证手机{/if}
+		<a class="wst-user-buta wst-rfloat" onclick="location.href=WST.U('home/users/editPhone')">{if ($data['userPhone'])}修改手机{else}立即验证{/if}</a></div>
+		<div style='clear:both;'></div>
+	</div>
+{/block}
+{block name="js"}
+<script>
+$(function(){
+	var securityCount = $('.wst-sec-strip2').length;
+	if(securityCount==1){
+	   $('#level').html('安全级别(较低级)&nbsp; &nbsp; &nbsp;<span class="wst-sec-infoin">建议提升安全</span>');
+	}else if(securityCount==2){
+	   $('#level').html('安全级别(中级)&nbsp; &nbsp; &nbsp;<span class="wst-sec-infoin">建议提升安全</span>');
+	}else if(securityCount==3){
+	   $('#level').html('安全级别(高级)&nbsp; &nbsp; &nbsp;<span class="wst-sec-infoin">建议定期更改密码</span>');
+	}else{
+	   $('#level').html('安全级别(低级)&nbsp; &nbsp; &nbsp;<span class="wst-sec-infoin">账号有风险</span>');
+	}
+});
+</script>
+{/block}

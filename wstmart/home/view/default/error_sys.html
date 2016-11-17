@@ -1,0 +1,21 @@
+{extend name="default/base" /}
+{block name="title"}系统出错了 - {:WSTConf('CONF.mallName')}{__block__}{/block}
+{block name="css"}{/block}
+{block name="main"}
+<div class="wst-container">
+	<div class="wst-empty empty2">
+		<div class="prompt2">
+			<span>OMG，系统出错了！</span>
+			<p>你竟然能来到这里  (╯﹏╰)</p>
+			<p>看来我们要去面壁思过了...</p>
+		</div>
+		<div class="button2">
+			<a href="javascript:history.go(-1)" class="wst-empty-btn wst-empty-btn1">返回上一页</a>
+		   <a href="{$Request.root.true}" class="wst-empty-btn wst-empty-btn1">返回首页</a>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="js"}{/block}
+{block name="footer"}{__block__}
+{/block}

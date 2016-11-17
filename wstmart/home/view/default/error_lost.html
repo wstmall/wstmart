@@ -1,0 +1,20 @@
+{extend name="default/base" /}
+{block name="title"}记录找不到了 - {:WSTConf('CONF.mallName')}{__block__}{/block}
+{block name="css"}{/block}
+{block name="main"}
+<div class="wst-container">
+	<div class="wst-empty empty3">
+		<div class="prompt3">
+		<p>很抱歉，你来晚了一步，它已经任性的消失了...</p>
+		<p>你要坚强些，继续发掘别的宝贝吧</p>
+		</div>
+		<div class="button3">
+			<a href="javascript:history.go(-1)" class="wst-empty-btn wst-empty-btn1">返回上一页</a>
+		   <a href="{$Request.root.true}" class="wst-empty-btn wst-empty-btn1">返回首页</a>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="js"}{/block}
+{block name="footer"}{__block__}
+{/block}

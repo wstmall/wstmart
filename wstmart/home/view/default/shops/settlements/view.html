@@ -1,0 +1,108 @@
+{extend name="default/shops/base" /}
+{block name="title"}结算详情-卖家中心{__block__}{/block}
+{block name="content"}
+<div class="wst-shop-head"><span>结算详情</span><a href="<?=url('home/settlements/index');?>">返回</a></div>
+<div class="wst-clear"></div>
+<div class="wst-body"> 
+    <form id='editform' autocomplete='off'>
+        <div class="wst-tab-item" style="position: relative;">
+           <table class='wst-form'> 
+              <tr>
+			     <td class='head-ititle' colspan='2'>结算账号</td>
+			  </tr>
+			  <tr>
+			     <th width='150'>开卡银行：</th>
+			     <td>{$object['accName']}</td>
+			  </tr>
+			  <tr>
+			     <th>开卡地区：</th>
+			     <td>{$object['areaName']}</td>
+			  </tr>
+			  <tr>
+			     <th>卡号：</th>
+			     <td>{$object['accNo']}</td>
+			  </tr>
+			  <tr>
+			     <th>持卡人：</th>
+			     <td>{$object['accUser']}</td>
+			  </tr>
+			  <tr>
+			     <td class='head-ititle' colspan='2'>结算信息</td>
+			  </tr>
+			  <tr>
+			     <th>结算单号：</th>
+			     <td>{$object['settlementNo']}</td>
+			  </tr>
+			  <tr>
+			     <th>结算金额：</th>
+			     <td>¥{$object['settlementMoney']}</td>
+			  </tr>
+			  <tr>
+			     <th>结算佣金：</th>
+			     <td>¥{$object['commissionFee']}</td>
+			  </tr>
+			  <tr>
+			     <th>返还金额：</th>
+			     <td>¥{$object['backMoney']}</td>
+			  </tr>
+			  <tr>
+			     <th>申请时间：</th>
+			     <td>{$object['createTime']}</td>
+			  </tr>
+			  <tr>
+			     <th>结算状态：</th>
+			     <td>
+			     {if $object['settlementStatus']==1}
+			     已结算
+			     {else}
+			     待结算
+			     {/if}
+			     </td>
+			  </tr>
+			  {if $object['settlementStatus']==1}
+			  <tr>
+			     <th>结算时间：</th>
+			     <td>{$object['settlementTime']}</td>
+			  </tr>
+			  <tr>
+			     <th>结算备注：</th>
+			     <td>{$object['remarks']}</td>
+			  </tr>
+			  {/if}
+			  <tr>
+			     <td colspan='2' align="center">
+			     	<table class='wst-list' style='margin-left:5px;'>
+			     	   <thead>
+			     		<tr>
+			     			<th>序号</th>
+			     			<th>订单号</th>
+			     			<th>支付方式</th>
+			     			<th>商品金额</th>
+			     			<th>运费</th>
+			     			<th>订单总金额</th>
+			     			<th>实付金额</th>
+			     			<th>佣金</th>
+			     			<th>下单时间</th>
+			     		</tr>
+			     		</thead>
+			     		{volist name='$object["list"]' id='vo'}
+		                <tr>
+		                   <td>{$key+1}</td>
+		                   <td>{$vo['orderNo']}</td>
+		                   <td>{:WSTLangPayType($vo['payType'])}</td>
+		                   <td>¥{$vo['goodsMoney']}</td>
+		                   <td>¥{$vo['deliverMoney']}</td>
+		                   <td>¥{$vo['totalMoney']}</td>
+		                   <td>¥{$vo['realTotalMoney']}</td>
+		                   <td>¥{$vo['commissionFee']}</td>
+		                   <td>{$vo['createTime']}</td>
+		                </tr>
+		                {/volist}
+			     	</table>
+			     </td>
+			  </tr>
+           </table>
+        </div>
+     </form>
+</div>
+{/block}  

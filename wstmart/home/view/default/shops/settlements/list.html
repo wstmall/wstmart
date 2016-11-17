@@ -1,0 +1,163 @@
+{extend name="default/shops/base" /}
+{block name="title"}订单结算 - 卖家中心{__block__}{/block}
+{block name="css"}
+{/block}
+{block name="content"}
+<div id='tab' class="wst-tab-box">
+	<ul class="wst-tab-nav">
+		<li id="wst-msg-li-0">结算信息<span style="display:none;"></span></li>
+		<li id="wst-msg-li-1">未结算订单<span style="display:none;"></span></li>
+		<li id="wst-msg-li-2">已结算订单<span style="display:none;"></span></li>
+	</ul>
+	<div class="wst-tab-content" style='width:98%;'>
+	    <div class='wst-tab-item'>
+	       <div>
+	       结算单号：<input type="text" id="settlementNo_0" style='width:120px;' autocomplete="off"/>
+						结算状态：<select id='isFinish_0' autocomplete="off">
+								<option value='-1'>全部</option>
+								<option value='0'>未结算</option>
+								<option value='1'>已结算</option>
+								</select>
+						<button class='s-btn' onclick="getQueryPage(0)">查询</button>
+	       </div>
+           <table class='wst-list' style="font-size:13px;">
+			 <thead>
+				<tr>
+					<th width='20'>&nbsp;</th>
+					<th width='100'>结算单号</th>
+					<th width='40'>类型</th>
+					<th width='60'>结算金额</th>
+					<th width='80'>结算佣金</th>
+					<th width='80'>返还金额</th>
+					<th width='130'>创建时间</th>
+					<th width='60'>结算状态</th>
+					<th width='130'>结算时间</th>
+					<th width='*'>备注</th>
+				</tr>
+			</thead>
+			<script id="tblist0" type="text/html">
+				{{# for(var i = 0; i < d.length; i++){ }}
+				<tr>
+				    <td>{{i+1}}</td>
+					<td><a style='color:blue' href='javascript:view("{{d[i].settlementId}}")'>{{d[i].settlementNo}}</a></td>
+					<td>{{# if(d[i].settlementType==1){ }}定时{{# }else{ }}手动{{# } }}</td>
+					<td>¥{{d[i].settlementMoney}}</td>
+                    <td>¥{{d[i].commissionFee}}</td>
+                    <td>¥{{d[i].backMoney}}</td>
+                    <td>{{d[i].createTime}}</td>
+					<td>{{# if(d[i].settlementStatus==1){ }}已结算{{# }else{ }}未结算{{# } }}</td>
+                    <td>{{WST.blank(d[i].settlementTime,'-')}}</td> 
+                    <td style='line-height:20px;'>{{WST.blank(d[i].remarks)}}</td>
+				</tr>
+				{{# } }}
+            </script>
+			<tbody id="tbody0"></tbody>
+				<tfoot>
+					<tr>
+						<td colspan='10' align='center' id="pager_0"></td>
+					</tr>
+				</tfoot>
+		</table>
+        </div>
+        {/** 待结算订单 **/}
+        <div class='wst-tab-item hide'>
+            <div>
+                订单号：<input type="text" id="orderNo_1" style='width:120px;' autocomplete="off"/>
+				<button class='s-btn' onclick="getUnSettledOrderPage(0)">查询</button>
+				<button class='s-btn' style='width:110px;' onclick="settlement()">申请结算</button>
+            </div>
+	        <table class='wst-list' style="font-size:13px;">
+				<thead>
+					<tr>
+						<th width='20'><input type='checkbox' onclick='WST.checkChks(this,".chk_1")'/></th>
+						<th width='100'>订单号</th>
+						<th width='130'>下单时间</th>
+						<th width='80'>支付方式</th>
+						<th width='80'>商品总金额</th>
+						<th width='70'>运费</th>
+						<th width='90'>订单总金额</th>
+						<th width='90'>实付金额</th>
+						<th width='70'>应付佣金</th>			
+					</tr>
+				</thead>
+				<script id="tblist1" type="text/html">
+				{{# for(var i = 0; i < d.length; i++){ }}
+				    <tr>
+						<td><input type='checkbox' class='chk_1' value='{{d[i].orderId}}'/></td>
+						<td>{{d[i].orderNo}}</td>
+                        <td>{{d[i].createTime}}</td>
+                        <td>{{d[i].payTypeNames}}</td>
+						<td>¥{{d[i].goodsMoney}}</td>
+						<td>¥{{d[i].deliverMoney}}</td>
+						<td>¥{{d[i].totalMoney}}</td>
+						<td>¥{{d[i].realTotalMoney}}</td>
+						<td>¥{{d[i].commissionFee}}</td>
+					</tr>
+				{{# } }}
+                </script>
+			<tbody id="tbody1">
+			</tbody>
+				<tfoot>
+					<tr>
+						<td colspan='7' align='center' id="pager_1"></td>
+					</tr>
+				</tfoot>
+			</table>
+
+        </div>
+        <div class='wst-tab-item hide'>
+            <div>
+            	结算单号：<input type="text" id="settlementNo_2" style='width:120px;' autocomplete="off"/>
+				订单号：<input type="text" id="orderNo_2" style='width:120px;' autocomplete="off"/>
+				结算状态：<select id='isFinish_2' autocomplete="off">
+							    <option value='-1'>全部</option>
+								<option value='0'>未结算</option>
+								<option value='1'>已结算</option>
+						  </select>
+				<button class='s-btn' onclick="getSettleOrderPage(0)">查询</button>
+            </div>
+	        <table class='wst-list' style="font-size:13px;">
+				<thead>
+					<tr>
+						<th width='20'>&nbsp;</th>
+						<th width='100'>订单号</th>
+						<th width='80'>支付方式</th>
+						<th width='80'>商品总金额</th>
+						<th width='70'>运费</th>
+						<th width='90'>订单总金额</th>
+						<th width='90'>实付金额</th>
+						<th width='70'>应付佣金</th>
+						<th width='130'>结算单号</th>
+						<th width='130'>结算时间</th>
+					</tr>
+				</thead>
+				<script id="tblist2" type="text/html">
+				{{# for(var i = 0; i < d.length; i++){ }}
+					<tr>
+						<td>{{i+1}}</td>
+						<td>{{d[i].orderNo}}</td>
+						<td>{{d[i].payTypeNames}}</td>
+						<td>¥{{d[i].goodsMoney}}</td>
+						<td>¥{{d[i].deliverMoney}}</td>
+						<td>¥{{d[i].totalMoney}}</td>
+						<td>¥{{d[i].realTotalMoney}}</td>
+						<td>¥{{d[i].commissionFee}}</td>
+						<td>{{d[i].settlementNo}}</td>
+                        <td>{{WST.blank(d[i].settlementTime,'-')}}</td>
+					</tr>
+				{{# } }}
+                </script>
+				<tbody id="tbody2"></tbody>
+				<tfoot>
+					<tr>
+						<td colspan='9' align='center' id="pager_2"></td>
+					</tr>
+				</tfoot>
+			</table>
+        </div>
+	</div>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/shops/settlements/settlements.js?v={$v}'></script>
+
+{/block}

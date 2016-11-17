@@ -1,0 +1,15 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/messages/message.js?v={$v}" type="text/javascript"></script>
+<script src="__STATIC__/plugins//kindeditor/kindeditor.js?v={$v}" type="text/javascript" ></script>
+{/block}
+{block name="main"}
+<style>
+body{overflow:auto;padding:5px;}
+</style>
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div id="msg">
+  <p>{$data['msgContent']}</p>
+</div>
+{/block}
+

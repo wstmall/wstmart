@@ -1,0 +1,114 @@
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/colpick/css/colpick.css" />
+<script src="__STATIC__/plugins/colpick/js/colpick.js"></script>
+
+<div id="wst-tab-5" title="图片设置" class='wst-tab'>
+    <table class='wst-form wst-box-top'>
+	<tr>
+	 <th>水印位置：</th>
+	 <td>
+	 	<label><input type="radio" id='watermarkPosition' name='watermarkPosition' class='ipt' value="0" {if ($object['watermarkPosition']==0)}checked{/if} />无</label>
+	 	<label><input type="radio" id='watermarkPosition' name='watermarkPosition' class='ipt' value="1" {if ($object['watermarkPosition']==1)}checked{/if} />左上</label>
+	 	<label><input type="radio" id='watermarkPosition' name='watermarkPosition' class='ipt' value="3" {if ($object['watermarkPosition']==3)}checked{/if} />右上</label>
+	 	<label><input type="radio" id='watermarkPosition' name='watermarkPosition' class='ipt' value="5" {if ($object['watermarkPosition']==5)}checked{/if} />居中</label>
+	 	<label><input type="radio" id='watermarkPosition' name='watermarkPosition' class='ipt' value="7" {if ($object['watermarkPosition']==7)}checked{/if} />左下</label>
+	 	<label><input type="radio" id='watermarkPosition' name='watermarkPosition' class='ipt' value="9" {if ($object['watermarkPosition']==9)}checked{/if} />右下</label>
+	 	<span style="color:gray;">设置为"无"则视为关闭水印</span>
+	 </td>
+	</tr>
+	  <tr>
+	     <th width='150'>水印文字：</th>
+	     <td>
+	     	<input type="text" id='watermarkWord' class='ipt' value="{$object['watermarkWord']}" maxLength='50' />
+	     	<span style="color:gray;">当文字和图片同时存在时以文字为主</span>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th>水印文字大小：</th>
+	     <td>
+	     	<input type="text" id='watermarkSize' class='ipt' value="{$object['watermarkSize']}" maxLength='2'/>
+	     	<span style="color:gray;">建议大小为20</span>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th>水印文字颜色：</th>
+	     <td>
+	     	<input type="text" id='watermarkColor' class='ipt' value="{$object['watermarkColor']}" />
+	     	<span style="color:gray;">仅支持16进制的颜色：如#00FF00</span>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th>水印文字字体路径：</th>
+	     <td>
+	     	<input type="text" id='watermarkTtf' class='ipt' value="{$object['watermarkTtf']}" placeholder="如：WSTMart/ttf/1.ttf" />
+	     	<span style="color:gray;">后缀为.ttf,若留空则使用默认字体</span>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th>水印文件：</th>
+	     <td>
+	     	<div id='watermarkFilePicker'>上传图标</div><span id='watermarkFileMsg'></span>
+	     	<input type="hidden" id='watermarkFile' class='ipt' value="{$object['watermarkFile']}" />
+	     </td>
+	  </tr>
+	  	<tr>
+          <th width='100'>水印图预览：</th>
+          <td>
+          	<div style="min-height:70px;" id="preview">
+          	{if (isset($object['watermarkFile']))}
+          	 <img id='watermarkFilePrevw' src="__ROOT__/{$object['watermarkFile']}" style="max-height:75px;" /> 
+          	{/if}
+          	</div>
+          	<span style="color:gray;">水印图最终大小由上传的图片大小决定</span>
+          </td>
+       </tr>
+	  
+	  <tr>
+	     <th>水印透明度：</th>
+	     <td>
+	     	<input type="text" id='watermarkOpacity' class='ipt' value="{$object['watermarkOpacity']}" />
+	     	<br>
+	     	<span style="color:gray;">水印的透明度,可选值为0-100。当设置为100时则为不透明</span>
+	     </td>
+	  </tr>
+      <tr>
+	     <th>商城Logo：</th>
+	     <td>
+	     <div id='mallLogoPicker'>请上传商城Logo</div><span id='mallLogoMsg'></span>
+	     <img src='__ROOT__/{$object["mallLogo"]}' width='120' hiegth='120' id='mallLogoPrevw'/>
+	     <input type="hidden" id='mallLogo' class='ipt' value='{$object["mallLogo"]}'/>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th>默认店铺头像：</th>
+	     <td>
+	     <div id='shopLogoPicker'>请上传默认店铺头像</div><span id='shopLogoMsg'></span>
+	     <img src='__ROOT__/{$object["shopLogo"]}' width='120' hiegth='120' id='shopLogoPrevw'/>
+	     <input type="hidden" id='shopLogo' class='ipt' value='{$object["shopLogo"]}'/>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th>默认会员头像：</th>
+	     <td>
+	     <div id='userLogoPicker'>请上传默认会员头像</div><span id='userLogoMsg'></span>
+	     <img src='__ROOT__/{$object["userLogo"]}' width='120' hiegth='120' id='userLogoPrevw'/>
+	     <input type="hidden" id='userLogo' class='ipt' value='{$object["userLogo"]}'/>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th>默认商品图片：</th>
+	     <td>
+	     <div id='goodsLogoPicker'>请上传默认商品图片</div><span id='goodsLogoMsg'></span>
+	     <img src='__ROOT__/{$object["goodsLogo"]}' width='120' hiegth='120' id='goodsLogoPrevw'/>
+	     <input type="hidden" id='goodsLogo' class='ipt' value='{$object["goodsLogo"]}'/>
+	     </td>
+	  </tr>
+	  <tr>
+	  	{if ($grant)}
+	     <td colspan='2' align='center'>
+	        <input type="button" value="保存" class='btn btn-blue' onclick='javascript:edit()'/>
+            <input type="reset" class='btn' value="重置" />
+	     </td>
+	     {/if}
+	  </tr>
+	 </table>
+</div>

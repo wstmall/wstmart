@@ -1,0 +1,94 @@
+@CHARSET "UTF-8";
+body{
+	padding:0px;
+	margin: 0 auto;
+	overflow-x:hidden;
+	background:url(../img/bg.jpg) 0px 0px no-repeat;
+}
+.wst-lo-center{
+    margin: 0 auto;height:300px;position: fixed;left:25%;top:25%;
+}
+.wst-lo{
+	float: left;
+	width: 50%;
+}
+.wst-lo-left{
+    float: right;
+	width: 326px;
+	height:300px;
+	padding-right:6px;
+	margin-right: 5px;
+	background-size: cover;
+}
+.wst-lo-form{
+	padding-top:40px;
+	padding-left:0px;
+}
+.wst-lo-form .frame{
+	float: left;
+	height:33px;
+	padding-right:5px;
+	margin-bottom:10px;
+	border-radius:3px;
+	background:#ffffff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.wst-lo-form .frame .text{
+	outline: none;
+	margin-top: 2px;
+	float: left;
+	height:23px;
+	width:220px;
+	background:#ffffff;
+	border:1px solid #ffffff;
+}
+.wst-lo-form .frame .text2{
+	outline: none;
+	margin-top: 2px;
+	float: left;
+	height:23px;
+	width:117px;
+	background:#ffffff;
+	border:1px solid #ffffff;
+}
+.wst-lo-form .frame span{
+	float: left;
+	height:32px;
+	width:32px;
+}
+.wst-lo-form .loginname{
+	background:url(../img/icon_shuru.png) 3px 5px no-repeat;
+}
+.wst-lo-form .loginpwd{
+	background:url(../img/icon_shuru.png) -34px 5px no-repeat;
+}
+.wst-lo-form .verifycode{
+	background:url(../img/icon_shuru.png) -70px 5px no-repeat;
+}
+.wst-lo-form .but{
+	float: left;
+	height:32px;
+	margin:0px 0px 0px 3px;
+}
+.wst-lo-form .but input{
+	float: left;
+	height:30px;
+	width:120px;
+	border:none;
+	outline: none;
+	color: #0f88b5;
+	font-family:"microsoft yahei";
+	border-radius:2px;
+	margin-right:12px;
+	cursor:pointer;
+	background:url(../img/btn_bg.png) 0px 0px no-repeat;
+	background-size: cover;
+}
+.wst-lo-form .but input:hover{
+	color: #ffffff;
+	background:url(../img/btn_bg_hover.png) 0px 0px no-repeat;
+	background-size: cover;
+}
+#verifyImg{
+	cursor:pointer;width:108px;border-top-right-radius:6px;border-bottom-right-radius:6px;height:33px;
+}

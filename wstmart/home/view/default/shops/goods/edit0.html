@@ -1,0 +1,131 @@
+<style>
+.webuploader-pick {background: #e45050 none repeat scroll 0 0;}
+</style>
+<input type='hidden' id='goodsId' class='j-ipt' value='{$object["goodsId"]}'/>
+<table class='wst-form'>
+  <tr>
+     <th width='150'>商品名称<font color='red'>*</font>：</th>
+     <td width='300'>
+        <input type='text' class='j-ipt' id='goodsName' value='{$object["goodsName"]}' maxLength='100' data-rule='商品名称:required;'/>
+     </td>
+     <td rowspan='6'>
+        <div id='goodsImgBox'>
+        <img src='__ROOT__/{$object["goodsImg"]}' id='preview' width='150' height='150'>
+        </div>
+        <div id='goodsImgPicker'>请上传商品图片</div><span id='uploadMsg'></span>
+        <input type='hidden' id='goodsImg' class='j-ipt' data-target='#msg_goodsImg' value='{if $object["goodsId"]>0}{$object["goodsImg"]}{/if}' data-rule="商品图片: required;"/>
+        <span class='msg-box' id='msg_goodsImg'></span>
+     </td>
+  </tr>
+  <tr>
+     <th>商品编号<font color='red'>*</font>：</th>
+     <td><input type='text' class='j-ipt' id='goodsSn' value='{$object["goodsSn"]}' maxLength='20' data-rule='商品编号:required;'/></td>
+  </tr>
+  <tr>
+  <th width='150'>商品货号<font color='red'>*</font>：</th>
+     <td width='300'>
+        <input type='text' class='j-ipt' id='productNo' value='{$object["goodsSn"]}' maxLength='20' data-rule='商品货号:required;'/>
+     </td>
+  </tr>
+  <tr>
+     <th>市场价格<font color='red'>*</font>：</th>
+     <td><input type='text' class='j-ipt' id='marketPrice' value='{$object["marketPrice"]}' maxLength='10' data-rule='商场价格:required;'/></td>
+  </tr>
+  <tr>
+     <th>店铺价格<font color='red'>*</font>：</th>
+     <td><input type='text' class='j-ipt' id='shopPrice' value='{$object["shopPrice"]}' maxLength='10' data-rule='店铺价格:required;'/></td>
+  </tr>
+  <tr>
+     <th>商品库存<font color='red'>*</font>：</th>
+     <td><input type='text' class='j-ipt' id='goodsStock' value='{$object["goodsStock"]}' maxLength='10' data-rule='商品库存:required;integer[+]'/></td>
+  </tr>
+  <tr>
+     <th>预警库存<font color='red'>*</font>：</th>
+     <td><input type='text' class='j-ipt' id='warnStock' value='{$object["warnStock"]}' maxLength='10' data-rule='预警库存:required;integer[+]'/></td>
+  </tr>
+  <tr>
+     <th>商品单位<font color='red'>*</font>：</th>
+     <td colspan='2'><input type='text' class='j-ipt' id='goodsUnit' value='{$object["goodsUnit"]}' maxLength='10' data-rule='商品单位:required;'/></td>
+  </tr>
+  <tr>
+     <th>SEO关键字：</th>
+     <td ><input type='text' class='j-ipt' id='goodsSeoKeywords' maxLength='100' value='{$object["goodsSeoKeywords"]}'/></td>
+  </tr>
+  <tr>
+     <th>商品促销信息：</th>
+     <td colspan='2'><textarea class='j-ipt' id='goodsTips' maxLength='100' style='width:500px;height:50px'>{$object["goodsTips"]}</textarea></td>
+  </tr>
+  <tr>
+     <th>商品状态<font color='red'>*</font>：</th>
+     <td colspan='2'>
+      <div class="radio-box">
+        <label><input type='radio' name='isSale' id="isSale-1" class='j-ipt wst-radio' value='1' {if $object['isSale']==1}checked{/if}/><label for="isSale-1" class="mt-1"></label>上架</label>
+        <label><input type='radio' name='isSale' id="isSale-0" class='j-ipt wst-radio' value='0' {if $object['isSale']==0}checked{/if}/><label for="isSale-0" class="mt-1"></label>下架</label>
+      </div>
+     </td>
+  </tr>
+  <tr>
+     <th>商品属性：</th>
+     <td colspan='2'>
+      <div class="checkbox-box">
+        <label>
+	        <input id="isRecom" name='isRecom' class="j-ipt wst-checkbox" {if $object['isRecom']==1}checked{/if} value="1" type="checkbox"/><label class="mt-1" for="isRecom"></label>推荐
+	    </label>
+	    <label>
+	        <input id="isBest" name="isBest" class="j-ipt wst-checkbox" {if $object['isBest']==1}checked{/if} value="1" type="checkbox"/><label class="mt-1" for="isBest"></label>精品
+	    </label>
+	    <label>
+	        <input id="isNew" name="isNew" class="j-ipt wst-checkbox" {if $object['isNew']==1}checked{/if} value="1" type="checkbox"/><label class="mt-1" for="isNew"></label>新品
+	    </label>
+	    <label>
+	        <input id="isHot" name="isHot" class="j-ipt wst-checkbox" {if $object['isHot']==1}checked{/if} value="1" type="checkbox"/><label class="mt-1" for="isHot"></label>热销
+	    </label>       
+     </td>
+   </div>
+  </tr>
+  <tr>
+     <th>商城分类<font color='red'>*</font>：</th>
+     <td colspan='2'>
+         <select id="cat_0" class='ipt j-goodsCats' level="0" onchange="WST.ITGoodsCats({id:'cat_0',val:this.value,isRequire:true,className:'j-goodsCats',afterFunc:'lastGoodsCatCallback'});getBrands('brandId',this.value)">
+	      	<option value="">-请选择-</option>
+	      	{volist name=":WSTGoodsCats(0)" id="vo"}
+	        <option value="{$vo['catId']}">{$vo['catName']}</option>
+	        {/volist}
+	     </select>
+     </td>
+  </tr>
+  <tr>
+     <th>本店分类：</th>
+     <td colspan='2'>
+         <select id="shopCatId1" class='j-ipt' onchange="getShopsCats('shopCatId2',this.value,'');">
+            <option value="">-请选择-</option>
+            {volist name=":WSTShopCats(0)" id="vo"}
+            <option value="{$vo['catId']}" {if $object['shopCatId1']==$vo['catId']}selected{/if}>{$vo['catName']}</option>
+            {/volist}
+         </select>
+         <select id='shopCatId2' class='j-ipt'>
+             <option value=''>请选择</option>
+         </select>
+     </td>
+  </tr>
+  <tr>
+     <th>品牌：</th>
+     <td colspan='2'>
+         <select id="brandId" class='j-ipt'>
+            <option value="0">-请选择-</option>
+         </select>
+     </td>
+  </tr>
+  <tr>
+     <th>商品描述<font color='red'>*</font>：</th>
+     <td colspan='2'>
+         <textarea rows="2" cols="60" id='goodsDesc' class='j-ipt' name='goodsDesc' data-rule='商品描述:required;'>{$object['goodsDesc']}</textarea>
+     </td>
+  </tr>
+  <tr>
+     <td colspan='3' align='center' style='text-align:center'>
+        <button class="s-btn" onclick='javascript:save()' type='button'>保存</button>
+        <button type="reset" class="s-btn">重置</button>
+     </td>
+  </tr>
+</table>

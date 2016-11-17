@@ -1,0 +1,61 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/js/wstgridtree.js?v={$v}" type="text/javascript"></script>
+<script src="__ADMIN__/goodscats/goodscats.js?v={$v}" type="text/javascript"></script>
+<script>
+$(function(){initGrid();})
+</script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+{if WSTGrant('SPFL_01')}
+<div class="wst-toolbar">
+   <button class="btn btn-green f-right" onclick='javascript:toEdit(0)'>新增</button>
+   <div style='clear:both'></div>
+</div>
+{/if}
+<div id="maingrid"></div>
+<div id='goodscatsBox' style='display:none'>
+  <form id='goodscatsForm' autocomplete="off">
+  <input type='hidden' id='parentId' name="parentId" class='ipt'/>
+  <table class='wst-form wst-box-top'>
+     <tr>
+        <th width='100'>商品分类名称<font color='red'>*</font>：</th>
+        <td><input type='text' id='catName' name="catName" class='ipt' maxLength='20' style='width:200px;'/></td>
+     </tr>
+     <tr>
+        <th width='100'>佣金<font color='red'>*</font>：</th>
+        <td height='24'>
+            <input type="text" id="commissionRate" name="commissionRate" class="ipt" value="-1" data-target="#msg_commissionRate" size='7' class='ipt'>%<span id='msg_commissionRate'>（-1代表继承上级佣金）</span>
+        </td>
+     </tr>
+     <tr>
+        <th width='100'>是否显示<font color='red'>*</font>：</th>
+        <td height='24'>
+           <label>
+              <input type="radio" id="isShow1" name="isShow" class="ipt" value="1" checked>显示
+           </label>
+           <label>
+              <input type="radio" id="isShow0" name="isShow" class="ipt" value="0">隐藏
+           </label>
+        </td>
+     </tr>
+     <tr>
+        <th width='100'>是否首页楼层<font color='red'>*</font>：</th>
+        <td height='24'>
+           <label>
+              <input type="radio" id="isFloor1" name="isFloor" class="ipt" value="1" checked>推荐
+           </label>
+           <label>
+              <input type="radio" id="isFloor0" name="isFloor" class="ipt" value="0">不推荐
+           </label>
+        </td>
+     </tr>
+     <tr>
+        <th width='100'>排序号<font color='red'>*</font>：</th>
+        <td><input type='text' id='catSort' name='catSort' class='ipt' style='width:60px;' onkeypress='return WST.isNumberKey(event);' onkeyup="javascript:WST.isChinese(this,1)" maxLength='10' value='0'/></td>
+     </tr>
+  </table>
+  </form>
+</div>
+{/block}

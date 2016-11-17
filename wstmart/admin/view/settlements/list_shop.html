@@ -1,0 +1,28 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/settlements/settlements.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div class="wst-toolbar">
+商家所在地：
+<select id="areaId1" class='j-ipt j-areas' level="0" onchange="WST.ITAreas({id:'areaId1',val:this.value,className:'j-areas'});">
+  <option value="-1">-请选择-</option>
+  {volist name="areaList" id="vo"}
+  <option value="{$vo['areaId']}">{$vo['areaName']}</option>
+  {/volist}
+</select>
+店铺：<input type="text" name="shopName"  placeholder='店铺名称/店铺编号' id="shopName" class='j-ipt'/>
+<button class="btn btn-blue" type='button' onclick='javascript:loadShopGrid()'>查询</button>
+{if WSTGrant('SJJS_04')}
+<button class="btn btn-blue" type='button' onclick='javascript:generateSettleByShop()'>生成结算单</button>
+{/if}
+<div style='clear:both'></div>
+</div>
+<div id="maingrid"></div>
+<script>
+$(function(){
+	initGrid();
+})
+</script>
+{/block}

@@ -1,0 +1,69 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/homemenus/homemenus.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div class="wst-toolbar">
+   菜单类型：<select id='s_menuType' onchange='loadGrid()'>
+      <option value='-1'>全部</option>
+      <option value='0'>用户菜单</option>
+      <option value='1'>商家菜单</option>
+   </select>
+   {if WSTGrant('QTCD_01')}
+   <button class="btn btn-green f-right" onclick="javascript:toEdit(0)">新增</button>
+   {/if}
+   <div style="clear:both"></div>
+</div>
+<div id="maingrid"></div>
+<div id='menuBox' style='display:none'>
+    <form id='menuForm'>
+    <table class='wst-form wst-box-top'>
+       <tr>
+          <th>菜单名称<font color='red'>*</font>：</th>
+          <td>
+              <input type="text" id="menuName" name="menuName" class="ipt" maxLength='20' />
+          </td>
+       </tr>
+       <tr>
+          <th>菜单Url<font color='red'>*</font>：</th>
+          <td>
+              <input type="text" id="menuUrl" name="menuUrl" class="ipt" maxLength='200' style='width:300px'/>
+          </td>
+       </tr>
+       <tr>
+          <th>附加资源：</th>
+          <td>
+              <textarea id="menuOtherUrl" name="menuOtherUrl" class="ipt" style='width:80%'></textarea>
+          </td>
+       </tr>
+       <tr>
+          <th>菜单类型<font color='red'>*</font>：</th>
+          <td>
+			<select id="menuType" class="ipt">
+				<option value="0">用户菜单</option>
+				<option value="1">商家菜单</option>
+			</select>
+          </td>
+       </tr>
+       <tr>
+          <th>菜单排序<font color='red'>*</font>：</th>
+          <td>
+              <input type="text" id="menuSort" name="menuSort" class="ipt" maxLength='20' />
+          </td>
+       </tr>
+       <tr>
+          <th>是否显示<font color='red'>  </font>：</th>
+          <td>
+            <lable>
+              <input type="radio" name="isShow" value="1" id="isShow" class="ipt" data-target="#verifyCodeTips"/>显示
+            </lable>
+            <lable>
+              <input type="radio" name="isShow" value="0" id="isShow" class="ipt" />隐藏
+            </lable><span id="isShowTips"></span>
+          </td>
+       </tr>
+    </table>
+    </form>
+</div>
+{/block}

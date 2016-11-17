@@ -1,0 +1,196 @@
+{extend name="default/users/base" /}
+{block name="title"}待评价订单 - 买家中心{__block__}{/block}
+{block name="css"}
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+{/block}
+{block name="content"}
+  <div class="wst-user-head"><span>评价订单</span></div>
+  <div class='wst-user-content'>
+    {volist name="$data" id="vo" key='k'}
+    {if (empty($vo['appraise']))}
+    <form id="appraise-form{$k}">
+
+    <div class="appraise-box">
+      <input type="hidden" id="gid{$k}" value="{$vo['goodsId']}">
+      <input type="hidden" id="oid{$k}" value="{$vo['orderId']}">
+      <input type="hidden" id="gsid{$k}" value="{$vo['goodsSpecId']}">
+      <div class="o-goods-info">
+        <img src="__ROOT__/{$vo['goodsImg']}" title="商品名称"  />
+        <p class="o-goodsName" title="{$vo['goodsName']}">{$vo['goodsName']}</p>
+        <p class="o-goodsSpec" title="{$vo['goodsSpecNames']}">{$vo['goodsSpecNames']}</p>
+      </div>
+      <div class="appraise-area" id="app-box{$k}">
+                <div class="appraise-item goodsScore{$k}">
+                  <div class="appraise-title">商品评分：</div>
+                  <div class="appraise-content">
+                    <div class="{$vo['id']}_goodsScore"  style='float:left'></div>
+                    <div id="{$vo['id']}_goodsScore_hint"  style='float:left'></div>
+                  </div>
+                </div>
+                <div class="wst-clear"></div>
+
+               <div class="appraise-item timeScore{$k}">
+                    <div class="appraise-title"> 时效评分：</div>
+                    <div class="appraise-content">
+                      <div class="{$vo['id']}_timeScore"  style='float:left'></div>
+                      <div id="{$vo['id']}_timeScore_hint" style='float:left'></div>
+                    </div>
+               </div>
+               <div class="wst-clear"></div>
+
+               <div class="appraise-item serviceScore{$k}">
+                  <div class="appraise-title">服务评分：</div>
+                  <div class="appraise-content">
+                      <div class="{$vo['id']}_serviceScore"  style='float:left'></div>
+                      <div id="{$vo['id']}_serviceScore_hint"  style='float:left'></div>
+                  </div>
+               </div>
+               <div class="wst-clear"></div>
+               <div id="score_error{$k}"></div>
+
+               <div class="appraise-item">
+                  <div class="appraise-title">点评内容：</div>
+                  <div class="appraise-content">
+                      <textarea maxlength="200"  id="content{$k}" style="width:610px;resize:none;" cols="70" rows="5"
+                      data-rule="点评内容:required; length(3~200)"
+                      data-msg-length="点评内容为3-200个字"
+                      data-target="#msg_holder"
+                      ></textarea>
+                      <div id="msg_holder"></div>
+                  </div>
+               </div>
+               <div class="wst-clear"></div>
+
+               <div class="appraise-item">
+                  <div class="appraise-title"> </div>
+                  <div class="appraise-content">
+
+                    <div id='picBox{$k}' style='height:120px;width:650px;margin-top:-20px;position:relative;'>
+                    <div id="filePicker{$k}" style='margin-left:0px;width:300px;position:relative;left:2px;top:23px;'>
+                      晒照片(限5张)
+                    </div>
+                    <div class="" style="position:relative;left:-26px;top:-9px;float:right;">
+                      <button class="appraise-btn" type="submit" >评价</button></div>
+                    <div style="clear: both;"></div>
+                    </div>
+                  </div>
+               </div>
+      </div>
+    </div>
+    </form>
+    <div class="wst-clear"></div>
+    {else /}
+    <div class="appraise-complate">
+      <div class="o-goods-info">
+        <img src="__ROOT__/{$vo['goodsImg']}" title="商品名称"  />
+        <p class="o-goodsName" title="{$vo['goodsName']}">{$vo['goodsName']}</p>
+        <p class="o-goodsSpec" title="{$vo['goodsSpecNames']}">{$vo['goodsSpecNames']}</p>
+      </div>
+
+      <div class="appraise-area">
+                <div class="appraise-item">
+                  <div class="appraise-title">商品评分：</div>
+                  <div class="appraise-content">
+                    {for start="0" end="$vo['appraise']['goodsScore']"}
+                      <img src="__STATIC__/plugins/raty/img/star-on-big.png">
+                    {/for}
+                  </div>
+                </div>
+                <div class="wst-clear"></div>
+
+               <div class="appraise-item">
+                    <div class="appraise-title"> 时效评分：</div>
+                    <div class="appraise-content">
+                       {for start="0" end="$vo['appraise']['timeScore']"}
+                        <img src="__STATIC__/plugins/raty/img/star-on-big.png">
+                        {/for}
+                    </div>
+               </div>
+               <div class="wst-clear"></div>
+
+               <div class="appraise-item">
+                  <div class="appraise-title">服务评分：</div>
+                  <div class="appraise-content">
+                      {for start="0" end="$vo['appraise']['serviceScore']"}
+                        <img src="__STATIC__/plugins/raty/img/star-on-big.png">
+                      {/for}
+                  </div>
+               </div>
+               <div class="wst-clear"></div>
+
+               <div class="appraise-item">
+                  <div class="appraise-title">点评内容：</div>
+                  <div class="appraise-content">
+                       <p class="complate-content">{$vo['appraise']['content']}  [{:date('Y-m-d',strtotime($vo['appraise']['createTime']))}]</p>
+                  </div>
+               </div>
+               <div class="wst-clear"></div>
+
+               <div class="appraise-item">
+                  <div class="appraise-title"> </div>
+                  <div class="appraise-content">
+                    <div id="appraise-img-{$k}">
+                    {volist name="$vo['appraise']['images']" id="img"}
+                      {if !empty($img)}
+                      <img src="__ROOT__/{:str_replace('.','_thumb.',$img)}" layer-src="__ROOT__/{$img}" width="75" height="75" />
+                      {/if}
+                    {/volist}
+                    </div>
+                  </div>
+               </div>
+      </div>
+
+
+    </div>
+    <div class="wst-clear"></div>
+
+    {/if}
+    {/volist}
+
+
+
+  </div>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/users/orders/orders.js?v={$v}'></script>
+<script type="text/javascript" src="__STATIC__/plugins/raty/jquery.raty.min.js?v={$v}"></script>
+
+<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script>
+/*评分*/
+$(function(){
+  /*调用相册层*/
+  $(this).find('div[id^="appraise-img-"]').each(function(k,v){
+      appraisesShowImg($(this).attr('id'));
+  });
+
+var options = {
+      hints         : ['很不满意', '不满意', '一般', '满意', '非常满意'],
+      width:200,
+      targetKeep: true,
+      starHalf:'__STATIC__/plugins/raty/img/star-half-big.png',
+      starOff:'__STATIC__/plugins/raty/img/star-off-big.png',
+      starOn:'__STATIC__/plugins/raty/img/star-on-big.png',
+      cancelOff: '__STATIC__/plugins/raty/img/cancel-off-big.png',
+        cancelOn: '__STATIC__/plugins/raty/img/cancel-on-big.png'
+    }
+  {volist name="$data" id="g" key='key1' }
+    options.target='#{$g["id"]}_goodsScore_hint';
+    $('.{$g["id"]}_goodsScore').raty(options);
+    options.target='#{$g["id"]}_timeScore_hint';
+    $('.{$g["id"]}_timeScore').raty(options);
+    options.target='#{$g["id"]}_serviceScore_hint';
+    $('.{$g["id"]}_serviceScore').raty(options);
+    upload({$key1});
+    //调用验证规则
+    validator({$key1});
+  {/volist}
+});
+
+
+</script>
+{/block}

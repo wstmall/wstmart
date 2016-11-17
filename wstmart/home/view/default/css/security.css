@@ -1,0 +1,173 @@
+@CHARSET "UTF-8";
+a{
+	cursor:pointer;
+}
+.wst-sec-info{
+	padding:20px 0px 20px 30px;
+	background: #fed1b0;
+}
+.wst-sec-infor{
+	float: left;
+	margin-left:20px;
+}
+.wst-sec-na{
+	font-size:20px;
+	color:#f06f69;
+	line-height:20px;
+}
+.wst-sec-grade img{
+	width: 20px;
+	margin-top:1px;
+	margin-left:20px;
+}
+.wst-sec-grade span{
+	margin-left:8px;
+	line-height:20px;
+	font-family:"microsoft yahei";
+}
+.wst-sec-infoi{
+	float: left;
+	width: 100%;
+	color:#3c3228;
+	font-family:"microsoft yahei";
+}
+.wst-sec-infoin{
+	color:#0cd8d5;
+}
+.wst-sec-s{
+	padding:30px 20px;
+	font-family:"microsoft yahei";
+}
+.wst-sec-lists{
+	float: left;
+	width: 100%;
+	height: 60px;
+	line-height:60px;
+}
+.wst-sec-green{
+	color:#11cc71;
+}
+.wst-sec-ash{
+	color:#f1730f;
+}
+.wst-sec-green img,.wst-sec-ash img{
+	float: left;
+	margin-top:24px;
+	margin-right:3px;
+}
+.wst-sec-w{
+	color:#363636;
+	font-size:17px;
+}
+.wst-sec-strip{
+	width: 300px;
+	height: 20px;
+	background: #d7cece;
+}
+.wst-sec-strip2{
+	width: 100px;
+	height: 20px;
+	background: #53e053;
+}
+/**/
+.wst-sec-head2{
+	margin-top:20px;
+	padding: 28px;
+	height: 30px;
+}
+.wst-sec-min{
+	width: 30%;
+	text-align: center;
+	height:26px;
+	line-height:26px;
+	background: #e0e0e0;
+	color:#282828;
+	font-size:15px;
+	font-family:"microsoft yahei";
+}
+.wst-sec-mi{
+	width: 13px;
+}
+.wst-sec-min1{
+	width: 0;
+    height: 0;
+    border-top: 13px solid transparent;
+    border-left: 13px solid #e0e0e0;
+    border-bottom: 13px solid transparent;
+}
+.wst-sec-min2{
+	width: 0;
+    height: 0;
+    border-top: 13px solid #e0e0e0;
+    border-left: 13px solid transparent; 
+}
+.wst-sec-min3{
+	width: 0;
+    height: 0;
+    border-bottom: 13px solid #e0e0e0;
+    border-left: 13px solid transparent;
+}
+.wst-sec-gr{
+	color:#ffffff;
+	background: #45d862;
+}
+.wst-sec-gr1{
+	border-left: 13px solid #45d862;
+}
+.wst-sec-gr2{
+	border-top: 13px solid #45d862;
+}
+.wst-sec-gr3{
+	border-bottom: 13px solid #45d862;
+}
+/*密码*/
+.wst-form{
+	float: left;
+	margin-top:20px;
+	margin-left:20px;
+}
+/*邮箱*/
+.wst-sec-img{
+	float: left;
+	margin-top:3px;
+}
+.wst-sec-prompt{
+	margin-top:36px;
+	margin-left:30px;
+}
+.wst-sec-p1{
+	margin-top:20px;
+	font-size:15px;
+}
+.wst-sec-p2{
+	margin-top:20px;
+}
+.wst-sec-su{
+	margin: 0 auto;
+	width: 260px;
+	height: 120px;
+}
+.wst-sec-sut,.wst-sec-sub{
+	float: left;
+	width: 100%;
+	text-align:center;
+}
+.wst-sec-sut{
+	margin-top:60px;
+}
+.wst-sec-sub{
+	color: #11cd6e;
+	font-size:18px;
+	font-family:"microsoft yahei";
+	margin-top:6px;
+}
+/*手机*/
+.wst-sec-obtain{
+	width:130px;
+ 	background:#f0efef;
+ 	border-radius: 3px;
+ 	border: 1px solid #d3c8c7;
+ 	padding:8px 0px;
+ 	cursor:pointer;
+ 	color: #110f0f;
+}

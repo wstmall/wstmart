@@ -1,0 +1,100 @@
+{extend name="default/shops/base" /}
+{block name="title"}库存预警 - 卖家中心{__block__}{/block}
+{block name="css"}
+{/block}
+{block name="content"}
+<div class="wst-shop-head"><span>库存预警</span></div>
+<div class="wst-shop-tbar">
+  <label>
+    商品分类：
+    <select name="cat1" id="cat1" onchange="getCat(this.value)" class="s-query">
+        <option value="">-请选择-</option>
+      {volist name=":WSTShopCats(0)" id="vo"}
+            <option value="{$vo['catId']}" >{$vo['catName']}</option>
+      {/volist}
+    </select>
+    <select name="cat2" id="cat2" class="s-query"><option value="">-请选择-</option></select>
+  </label>
+  <label>
+    <button class="s-btn" onclick="stockByPage()">查询</button>
+  </label>
+</div>
+<div class="wst-shop-content">
+   <table class='wst-list'>
+   <thead>
+   <tr>
+     <th width="220">商品名称</th>
+     <th>货号</th>
+     <th>规格</th>
+     <th width="130">现有库存<font color='red'>(双击编辑)</font></th>
+     <th width="130">预警库存<font color='red'>(双击编辑)</font></th>
+     <th width="120">操作</th>
+   </tr>
+   </thead>
+   <tbody id='list'></tbody>
+   <tfoot>
+     <tr align="center"><td colspan='10' id='pager' align="center" style='padding:5px 0px 5px 0px'></td></tr>
+   </tfoot>
+   <script id="tblist" type="text/html">
+   {{# for(var i = 0; i < d.length; i++){ }}
+   <tr>
+      {{# if(d[i]['isSpec']==1) { }}
+      <td>
+          <div class="goods-img">
+          <a href="{{WST.U("home/goods/detail","id="+d[i]['goodsId']+"&key="+d[i]['verfiycode'])}}">
+            <img class='j-goodsImg'  data-original='__ROOT__/{{d[i].goodsImg}}'/>
+          </a>
+        </div>
+        <p class="goodsName">
+          {{WST.cutStr(d[i]['goodsName'],43)}}
+        </p>
+      </td>
+        <td>{{d[i]['productNo']}}</td>
+		<td>
+		<span class="spec">
+		{{# for(var s = 0; s < d[i].spec.length; s++){ }}
+			{{d[i].spec[s]['catName']}}：{{d[i].spec[s]['itemName']}};
+		{{# } }}
+		</span>
+		</td>
+		<td width="40" ondblclick="javascript:toEditGoodsStock({{d[i]['id']}},1)">
+        <input id="ipt_1_{{d[i]['id']}}" onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberKey(event)" onblur="javascript:editGoodsStock({{d[i]['id']}},1,{{d[i]['goodsId']}})" class="stockin" maxlength="6"/>
+        <span id="span_1_{{d[i]['id']}}" style="display: inline;cursor:pointer;color:#f30505;">{{d[i]['goodsStock']}}</span>
+        </td>
+		<td width="40" ondblclick="javascript:toEditGoodsStock({{d[i]['id']}},2)">
+        <input id="ipt_2_{{d[i]['id']}}" onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberKey(event)" onblur="javascript:editGoodsStock({{d[i]['id']}},2,{{d[i]['goodsId']}})" class="stockin" maxlength="6"/>
+        <span id="span_2_{{d[i]['id']}}" style="display: inline;cursor:pointer;color:#f30505;">{{d[i]['warnStock']}}</span>
+        </td>
+      <td><a class="g-handle" href='javascript:toEdit({{d[i]['goodsId']}},"sale")'>[进入商品编辑]</a></td>
+      {{# }else{ }}
+      <td>
+          <div class="goods-img">
+          <a href="{{WST.U("home/goods/detail","id="+d[i]['goodsId']+"&key="+d[i]['verfiycode'])}}">
+            <img class='j-goodsImg'  data-original='__ROOT__/{{d[i].goodsImg}}'/>
+          </a>
+        </div>
+        <p class="goodsName">
+          {{WST.cutStr(d[i]['goodsName'],43)}}
+        </p>
+      </td>
+		<td>{{d[i]['productNo']}}</td>
+		<td>无</td>
+		<td width="40" ondblclick="javascript:toEditGoodsStock({{d[i]['goodsId']}},3)">
+        <input id="ipt_3_{{d[i]['goodsId']}}" onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberKey(event)" onblur="javascript:editGoodsStock({{d[i]['goodsId']}},3)" class="stockin" maxlength="6"/>
+        <span id="span_3_{{d[i]['goodsId']}}" style="display: inline;cursor:pointer;color:#f30505;">{{d[i]['goodsStock']}}</span>
+        </td>
+		<td width="40" ondblclick="javascript:toEditGoodsStock({{d[i]['goodsId']}},4)">
+        <input id="ipt_4_{{d[i]['goodsId']}}" onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberKey(event)" onblur="javascript:editGoodsStock({{d[i]['goodsId']}},4)" class="stockin" maxlength="6"/>
+        <span id="span_4_{{d[i]['goodsId']}}" style="display: inline;cursor:pointer;color:#f30505;">{{d[i]['warnStock']}}</span>
+        </td>
+        <td><a class="g-handle" href='javascript:toEdit({{d[i]['goodsId']}},"sale")'>[进入商品编辑]</a></td>
+      {{# } }}
+   </tr>
+   {{# } }}
+   </script>
+  </table> 
+</div>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/shops/stockwarn/stockwarn.js?v={$v}'></script>
+{/block}

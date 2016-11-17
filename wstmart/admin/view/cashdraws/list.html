@@ -1,0 +1,23 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/cashdraws/cashdraws.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div class="wst-toolbar">
+提现单号：<input type="text" name="cashNo"  placeholder='提现单号' id="cashNo" class='j-ipt'/>
+提现状态：<select id='cashSatus' class='j-ipt'>
+          <option value='-1'>全部</option>
+          <option value='0'>待处理</option>
+          <option value='1'>已通过</option>
+       </select>
+<button class="btn btn-blue" onclick='javascript:loadGrid(0)'>查询</button>
+<div style='clear:both'></div>
+</div>
+<div id="maingrid"></div>
+<script>
+$(function(){
+	initGrid();
+})
+</script>
+{/block}

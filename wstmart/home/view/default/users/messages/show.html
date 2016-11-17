@@ -1,0 +1,20 @@
+{extend name="default/users/base" /}
+{block name="title"}首页-买家中心{__block__}{/block}
+{block name="css"}
+{/block}
+{block name="content"}
+<div class="wst-user-head"><span>查看消息</span><a href="<?=url('home/Messages/Index');?>">返回</a></div>
+<div class="wst-clear"></div>
+  <div class="wst-body"> 
+       <div class='wst-page-content'>        
+        <div class='wst-tbar-group'>
+                      
+        </div>
+          <div class="msgContent">      
+            {$data['msgContent']}
+          </div>
+        </div>
+    </div>
+{/block}
+{block name="js"}
+{/block}

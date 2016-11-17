@@ -1,0 +1,19 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/articles/articles.js?v={$v}" type="text/javascript"></script>
+<script>
+$(function(){initGrid();})
+</script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div class="wst-toolbar">
+	   文章标题：<input type='text' id='key' placeholder='文章标题'/>  
+   <button class="btn btn-blue" onclick='javascript:loadGrid()'>查询</button>
+   {if WSTGrant('WZGL_01')}
+   <button class="btn btn-green f-right" onclick='javascript:toEdit(0)'>新增</button>
+   {/if}
+   <div style='clear:both'></div>
+</div>
+<div id="maingrid"></div>
+{/block}

@@ -1,0 +1,21 @@
+{extend name="base" /}
+{block name='css'}
+<style>
+.l-text-wrapper{width:168px;float:left;}
+.tbr-h{height:30px;line-height:30px;}
+</style>
+{/block}
+{block name="js"}
+<script src="__ADMIN__/logstafflogins/logstafflogins.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div class="wst-toolbar">
+<div class='f-left tbr-h'>登录日期：</div>
+<input type="text" style="margin:0px;vertical-align:baseline;" id="startDate" name="startDate" class="ipt" maxLength="20"  />
+<div class='f-left tbr-m'>至</div>
+<input type="text" style="margin:0px;vertical-align:baseline;" id="endDate" name="endDate" class="ipt" maxLength="20"  />
+<button class="btn btn-blue" onclick='javascript:loadGrid(0)'>查询</button>  
+</div>
+<div id="maingrid"></div>
+{/block}

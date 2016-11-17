@@ -1,0 +1,129 @@
+<div style="border-top: 1px solid #df2003;padding-bottom:25px;margin-top:35px;min-width:1200px;"></div>
+<div class="wst-footer-flink">
+	<div class="wst-footer" >
+
+		<div class="wst-footer-cld-box">
+			<div class="wst-footer-fl" style="text-align: left;padding-left:10px;">友情链接</div>
+
+			<div style="padding-left:60px;">
+				{wst:friendlink cache='86400'}
+				<div style="float:left;"><a href="{$vo['friendlinkUrl']}"  style="font-size:16px;color:#887878;font-weight:bold;" target="_blank">{$vo["friendlinkName"]}</a>&nbsp;&nbsp;</div> 
+				{/wst:friendlink}
+				<div class="wst-clear"></div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<ul class="wst-footer-info">
+	<li><div class="wst-footer-info-img"><img src="__STYLE__/img/icon_play.png"></div>
+		<div class="wst-footer-info-text">
+			<h1>支付宝支付</h1>
+			<p>支付宝签约商家</p>
+		</div>
+	</li>
+	<li><div class="wst-footer-info-img"><img src="__STYLE__/img/icon_zhengpin.png"></div>
+		<div class="wst-footer-info-text">
+			<h1>正品保证</h1>
+			<p>100%原产地</p>
+		</div>
+	</li>
+	<li><div class="wst-footer-info-img"><img src="__STYLE__/img/icon_thwy.png"></div>
+		<div class="wst-footer-info-text">
+			<h1>退货无忧</h1>
+			<p>前天退货保障</p>
+		</div>
+	</li>
+	<li><div class="wst-footer-info-img"><img src="__STYLE__/img/icon_mfps.png"></div>
+		<div class="wst-footer-info-text">
+			<h1>免费配送</h1>
+			<p>满98元包邮</p>
+		</div>
+	</li>
+	<li><div class="wst-footer-info-img"><img src="__STYLE__/img/icon_hdfk.png"></div>
+		<div class="wst-footer-info-text">
+			<h1>货到付款</h1>
+			<p>400城市送货上门</p>
+		</div>
+	</li>
+</ul>
+<div class="wst-footer-help">
+	<div class="wst-footer">
+		<div class="wst-footer-hp-ck1">
+			{volist name=":WSTHelps(5,6)" id="vo1"}
+			<div class="wst-footer-wz-ca">
+				<div class="wst-footer-wz-pt">
+					<span class="wst-footer-wz-pn">{$vo1["catName"]}</span>
+					<div style='margin-left:10px;'>
+						{volist name="vo1['articlecats']" id="vo2"}
+						<a href="{:Url('Home/Helpcenter/view',array('id'=>$vo2['articleId']))}">{:WSTMSubstr($vo2['articleTitle'],0,8)}</a><br/>
+						{/volist}
+					</div>
+				</div>
+			</div>
+			{/volist}
+
+			<div class="wst-contact">
+				<ul>
+					<li style="height:30px;">
+						<div class="icon-phone"></div><p class="call-wst">服务热线：</p>
+					</li>
+					<li style="height:38px;">
+						{if(WSTConf('CONF.serviceTel')!='')}<p class="email-wst">{:WSTConf('CONF.serviceTel')}</p>{/if}
+					</li>
+					<li style="height:85px;">
+						<div class="qr-code" style="position:relative;">
+							<img src="__STYLE__/img/wst_qr_code.jpg" style="height:110px;">
+							<div class="focus-wst">
+							    {if(WSTConf('CONF.serviceQQ')!='')}
+								<p class="focus-wst-qr">在线客服：</p>
+								<p class="focus-wst-qra">
+						          <a href="tencent://message/?uin={:WSTConf('CONF.serviceQQ')}&Site=QQ交谈&Menu=yes">
+									  <img border="0" src="http://wpa.qq.com/pa?p=1:{:WSTConf('CONF.serviceQQ')}:7" alt="QQ交谈" width="71" height="24" />
+								  </a>
+								</p>
+          						{/if}
+          						{if(WSTConf('CONF.serviceEmail')!='')}
+								<p class="focus-wst-qr">商城邮箱：</p>
+								<p class="focus-wst-qre">{:WSTConf('CONF.serviceEmail')}</p>
+								{/if}
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+
+			<div class="wst-clear"></div>
+		</div>
+
+	    <div class="wst-footer-hp-ck3">
+	        <div class="links">
+	           {php}$navs = WSTNavigations(1);{/php}
+	           {volist name="$navs" id='vo'}
+               <a href="{$vo['navUrl']}" {if $vo['isOpen']==1}target="_blank"{/if}>{$vo['navTitle']}</a>
+               {if $i< count($navs)}&nbsp;&nbsp;|&nbsp;&nbsp;{/if}
+               {/volist}
+	        </div>
+	        <div class="copyright">
+	        {php}
+	        	if(WSTConf('CONF.mallFooter')!=''){
+	         		echo htmlspecialchars_decode(WSTConf('CONF.mallFooter'));
+	        	}
+	        {/php}
+	      	{php}
+				if(WSTConf('CONF.visitStatistics')!=''){
+					echo htmlspecialchars_decode(WSTConf('CONF.visitStatistics'))."<br/>";
+			    }
+			{/php}
+	        {if condition="WSTConf('CONF.mallLicense') eq ''"}
+	        <div>
+				Copyright©2016 Powered By <a target="_blank" href="http://www.wstmart.net">WSTMart</a>
+			</div>
+			{else/}
+				<div id="wst-mallLicense" data='1' style="display:none;">Copyright©2016 Powered By <a target="_blank" href="http://www.wstmart.net">WSTMart</a></div>
+	        {/if}
+	        </div>
+	    </div>
+	</div>
+</div>

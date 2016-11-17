@@ -1,0 +1,35 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/js/license.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+   </head>
+   <body>
+   <body>
+       <form id='editFrom' name="editFrom" method="post" id="myform" autocomplete="off">
+        <table class="wst-form" style='margin-top:30px;'>
+           <tr>
+             <th align='right'>授权域名 <font color='red'>*</font>：</th>
+             <td>
+             {:request()->root(true)}
+             </td>
+           </tr>
+           <tr>
+             <th align='right' width='140'>授权码 <font color='red'>*</font>：</th>
+             <td>
+             <input type='text' id='license' name='license' style='width:400px;' data-rule="授权码: required;"/>
+             </td>
+           </tr>
+           <tr id='licenseTr' style='display:none'>
+             <th align='right' width='140'>授权状态 ：</th>
+             <td id='licenseStatus' style='color:red;'></td>
+           </tr>
+           <tr>
+             <td colspan='2' style='padding-left:250px;'>
+                 <button type="button" class="btn btn-blue" onclick='edit()'>提&nbsp;交</button>
+                 <button type="reset" class="btn btn-primary">重&nbsp;置</button>
+             </td>
+           </tr>
+        </table>
+       </form>
+{/block}

@@ -1,0 +1,64 @@
+{extend name="default/users/base" /}
+{block name="title"}首页-买家中心{__block__}{/block}
+{block name="css"}
+{/block}
+{block name="content"}
+  <div class="wst-user-head"><span>管理地址</span></div>
+	<input type="button" value="新增收货地址" class="wst-sec-but u-btn addr-btn" onclick="location.href=WST.U('home/useraddress/edit')" />
+  <label>你已经创建<span class="g g1">0</span>个收货地址,最多可以创建<span class="g">20个</span></label>
+        <script id="address" type="text/html">
+            {{# for(var i = 0, len = d.length; i < len; i++){ }}
+            <table class='wst-addr' >
+               <tr>
+                 <td>{{d[i].userName}}—{{d[i].areaName1}}</td>
+                 <td>
+                 &nbsp;&nbsp;&nbsp;&nbsp;
+                 {{# if(d[i].isDefault==1) { }}
+                  <p class="default">默认地址</p>
+                 {{# } }}
+                  <a href="javascript:delAddress({{ d[i].addressId }},this)" class='del'>X</a>
+                 </td>
+               </tr>
+
+
+               <tr><td class="addr-title">收货人：</td>
+                 <td>{{d[i].userName}}</td>
+               </tr>
+               <tr><td class="addr-title">所在地区：</td>
+                 <td>{{d[i].areaName}}</td>
+               </tr>
+               <tr><td class="addr-title">地址：</td>
+                 <td>{{d[i].userAddress}}</td>
+               </tr>
+               <tr><td class="addr-title">联系电话：</td>
+                 <td>{{d[i].userPhone}}</td>
+               </tr>
+
+               <tr>
+                 <td>&nbsp;</td>
+                 <td class='edit'>
+                   <a href="javascript:editAddress({{ d[i].addressId }})">编辑</a>
+                   {{# if(d[i].isDefault!=1) { }}
+                    <a href="javascript:setDefault({{ d[i].addressId }})">设为默认</a>
+                   {{# } }}
+                   <div class="wst-clear"></div>
+                 </td>
+               </tr>
+            </table>
+            {{# } }}
+           </script>
+           <div id="address_box" class="address_box">
+              
+           </div>
+           <input type="button" value="新增收货地址" class="wst-sec-but u-btn addr-btn" onclick="location.href=WST.U('home/useraddress/edit')" />
+          <label>你已经创建<span class="g g1">0</span>个收货地址,最多可以创建<span class="g">20个</span></label>
+
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/users/useraddress/useraddress.js?v={$v}'></script>
+<script>
+$(function(){
+  listQuery();
+});
+</script>
+{/block}

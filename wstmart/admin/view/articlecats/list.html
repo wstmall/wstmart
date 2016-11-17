@@ -1,0 +1,44 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/js/wstgridtree.js?v={$v}" type="text/javascript"></script>
+<script src="__ADMIN__/articlecats/articlecats.js?v={$v}" type="text/javascript"></script>
+<script>
+$(function(){initGrid();})
+</script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+{if WSTGrant('WZFL_01')}
+<div class="wst-toolbar">
+  <button class="btn btn-green f-right" onclick='javascript:toEdit(0)'>新增</button>
+  <div style='clear:both'></div>
+</div>
+{/if}
+<div id="maingrid"></div>
+<div id='articlecatBox' style='display:none'>
+  <form id='articlecatForm' autocomplete="off">
+  <input type='hidden' id='parentId' name="parentId" class='ipt' />
+  <table class='wst-form wst-box-top'>
+     <tr>
+        <th width='100'>分类名称<font color='red'>*</font>：</th>
+        <td><input type='text' id='catName' name="catName" class='ipt' maxLength='20' style='width:200px;'/></td>
+     </tr>
+     <tr>
+        <th width='100'>是否显示<font color='red'>*</font>：</th>
+        <td height='24'>
+           <label>
+              <input type="radio" id="isShow1" name="isShow" class="ipt" value="1" checked>显示
+           </label>
+           <label>
+              <input type="radio" id="isShow1" name="isShow" class="ipt" value="0">隐藏
+           </label>
+        </td>
+     </tr>
+     <tr>
+        <th width='100'>排序号<font color='red'>*</font>：</th>
+        <td><input type='text' id='catSort' name='catSort' class='ipt' style='width:60px;' onkeypress='return WST.isNumberKey(event);' onkeyup="javascript:WST.isChinese(this,1)" maxLength='10' value='0'/></td>
+     </tr>
+  </table>
+  </form>
+</div>
+{/block}

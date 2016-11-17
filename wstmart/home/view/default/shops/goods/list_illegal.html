@@ -1,0 +1,83 @@
+{extend name="default/shops/base" /}
+{block name="title"}违规商品-会员中心{__block__}{/block}
+{block name="content"}
+<div class="wst-shop-head"><span>违规商品</span></div>
+<div class="wst-shop-tbar">
+<label>
+  商品分类：
+  <select name="cat1" id="cat1" onchange="getCat(this.value)" class="s-query">
+      <option value="">-请选择-</option>
+    {volist name=":WSTShopCats(0)" id="vo"}
+          <option value="{$vo['catId']}" >{$vo['catName']}</option>
+    {/volist}
+  </select>
+  <select name="cat2" id="cat2" class="s-query"><option value="">-请选择-</option></select>
+</label>
+<label>
+  商品名称：<input type="text" name="goodsName" id="goodsName" class="s-query" /><button class="s-btn" id="store-query" onclick="illegalByPage()">查询</button>
+</label>
+</div>
+<div class="wst-clear"></div>
+<form id='editform' autocomplete='off'>
+<div class="wst-body"> 
+        <table class='wst-list'>
+		   <thead>
+        <div class="s-menu">
+          <a href='javascript:void(0);' onclick="benchDel('store',1)" class="s-del"><span>删除</span></a>
+        </div>
+		   <tr>
+		     <th width='10'>
+          <div class="checkbox-box-s checkbox-box-s-all">
+           <input style="margin-left:2px;" class="wst-checkbox-s" onclick="javascript:WST.checkChks(this,'.chk1')" type='checkbox' id="all-1"/>
+           <label for="all-1"></label>
+          </div>
+        </th>
+		     <th>商品名称</th>
+		     <th>商品编号</th>
+		     <th>违规原因</th>
+		     <th width="150">操作</th>
+		   </tr>
+		   </thead>
+		   <tbody id='list2'></tbody>
+		   <tfoot>
+		     <tr align="center"><td colspan='5' id='pager2'></td></tr>
+		   </tfoot>
+		   <script id="tblist2" type="text/html">
+           {{# for(var i = 0; i < d.length; i++){ }}
+           <tr>
+             <td>
+              <div class="checkbox-box-s">
+              <input type='checkbox'  class='chk1 wst-checkbox-s' id="chk-1-{{i}}" value='{{d[i]['goodsId']}}' /><label for="chk-1-{{i}}"></label>
+              </div>
+             </td>
+
+             <td>
+              <div class="goods-img">
+                <a href="{{WST.U("home/goods/detail","id="+d[i]['goodsId']+"&key="+d[i]['verfiycode'])}}">
+                  <img class='j-lazyGoodsImg'  data-original='__ROOT__/{{d[i].goodsImg}}'/>
+                </a>
+              </div>
+              <p class="goodsName">
+                {{WST.cutStr(d[i]['goodsName'],43)}}
+              </p>
+             </td>
+             <td>{{d[i]['goodsSn']}}</td>
+             <td>{{d[i]['illegalRemarks']}}</td>
+             <td>
+                <a class="g-handle" href='javascript:toView({{d[i]['goodsId']}})'>[查看]</a>
+                <a class="g-handle" href='javascript:toEdit({{d[i]['goodsId']}},"illegal")'>[编辑]</a>
+                <a class="g-handle" href='javascript:del({{d[i]['goodsId']}},"illegal")'>[删除]</a>
+             </td>
+          </tr>
+          {{# } }}
+          </script>
+		</table>
+</div>
+</form>
+{/block}  
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/shops/goods/goods.js?v={$v}'></script>
+<script>
+$(function(){illegalByPage(0)})
+</script>
+{/block}

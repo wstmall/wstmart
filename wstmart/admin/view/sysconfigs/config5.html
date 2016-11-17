@@ -1,0 +1,24 @@
+<div id="wst-tab-5" title="SEO设置" class='wst-tab'>
+     <table class='wst-form wst-box-top'>
+	  <tr>
+	     <th width='150'>商城标题：</th>
+	     <td><input type="text" id='seoMallTitle' class='ipt' value="{$object['seoMallTitle']}" maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	     <th>商城关键字：</th>
+	     <td><input type="text" id='seoMallKeywords' class='ipt' value="{$object['seoMallKeywords']}" maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	     <th>商城描述：</th>
+	     <td><input type="text" id='seoMallDesc' class='ipt' value="{$object['seoMallDesc']}" maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	  	{if ($grant)}
+	     <td colspan='2' align='center'>
+	        <input type="button" value="保存" class='btn btn-blue' onclick='javascript:edit()'/>
+            <input type="reset" class='btn' value="重置" />
+	     </td>
+	     {/if}
+	  </tr>
+	 </table>
+</div>

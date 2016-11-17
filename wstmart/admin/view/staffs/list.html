@@ -1,0 +1,33 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/staffs/staffs.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div class="wst-toolbar">
+   职员信息：<input id='key' type='text' placeholder='账号/姓名/编号'>
+   <button class="btn btn-blue" onclick='javascript:loadGrid(0)'>查询</button>
+   {if WSTGrant('ZYGL_01')}
+   <button class="btn btn-green f-right" onclick='javascript:toEdit(0)'>新增</button>
+   {/if}
+   <div style='clear:both'></div>
+</div>
+<div id="maingrid"></div>
+<div id='editPassBox' style='display:none;padding-top:5px;'>
+  <form id='editPassFrom' autocomplete="off">
+   <table class='wst-form'>
+      <tr>
+         <th>新密码：</th>
+         <td><input type='password' id='newPass' name='newPass' class='ipt' data-rule="新密码: required;length[6~]" maxLength='16'/></td>
+      </tr>
+      <tr>
+         <th>确认密码：</th>
+         <td><input type='password' id='newPass2' name='newPass2' class='ipt' data-rule="确认密码: required;match(newPass);" maxLength='16'/></td>
+      </tr>
+   </table>
+  </form>
+</div>
+<script>
+$(function(){initGrid();})
+</script>
+{/block}

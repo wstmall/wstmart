@@ -1,0 +1,118 @@
+{extend name="default/shops/base" /}
+{block name="title"}商品分类 - 卖家中心{__block__}{/block}
+{block name="css"}{/block}
+
+{block name="content"}
+<div class="wst-body"> 
+<div class="wst-shop-head"><span>商品分类</span></div>
+<div class="wst-clear"></div>
+   <div style='text-align:right;height: 36px;'>
+   	 <span></span>
+   	 <a href='javascript:addCat(1);' style='float:right;margin:9px 30px 0px 0px;'><img class="wst-lfloat" style="margin:-3px 5px 0px 0px;" src="__STYLE__/img/seller_icon_xz.png">新增</a>
+   </div>
+   <form autocomplete="off">
+   <table id="cat_list_tab" class='wst-list wst-form'>
+   <thead>
+   <tr class="wst-colour">
+     <th class="wst-fre-th">名称</th>
+     <th width='60'>排序号</th>
+     <th width='80' style="line-height: normal;">是否显示<br/><span style="font-weight:normal;color:red;">(双击可修改)</span></th>
+     <th width="150">操作</th>
+   </tr>
+   </thead>
+   {volist name="list" id="vo" key='i'}
+   <tbody>
+   <tr id='tr_{$i}' isLoad='1'>
+     <td class="wst-fre-td">
+	     <span class='wst-tree-open active' onclick='javascript:treeCatOpen(this,{$vo.catId})'><img class="wst-lfloat" style="margin-top:-3px;" src="__STYLE__/img/seller_icon_zk.png"></span>
+	     <input type='text' style='width:400px;' value='{$vo['catName']}' dataId="{$vo.catId}" onchange='javascript:editCatName(this)'/>
+     </td>
+     <td><input class='catsort' type='text' style='width:35px;' value="{$vo['catSort']}" dataId="{$vo.catId}" onchange='javascript:editCatSort(this)' onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberKey(event)"/></td>
+     {if condition="$vo['isShow']==0 "}
+	  <td style="cursor:pointer;" ondblclick="changeCatStatus(1,{$vo['catId']},0)"><span class='wst-state_no'><img class="wst-lfloat" style="margin-top:-3px;" src="__STYLE__/img/seller_icon_error.png"></span></td>
+     {else/}
+      <td style="cursor:pointer;" ondblclick="changeCatStatus(0,{$vo['catId']},0)"><span class='wst-state_yes'><img class="wst-lfloat" style="margin-top:-3px;" src="__STYLE__/img/seller_icon_right.png"></span></td>
+     {/if}
+     <td>
+     <a href="javascript:void(0);" onclick='javascript:addCat(this,{$vo["catId"]},{$i});' class='add btn' title='新增'>[新增]</a>
+     <a href="javascript:void(0);" onclick="javascript:delCat({$vo['catId']},0)" class='del btn' title='删除'>[删除]</a>&nbsp;
+     </td>
+   </tr>
+   {if isset($vo['childNum'])}
+   {if condition="$vo['childNum'] gt 0 "}
+      {volist name="vo['child']" id="vo2" key='i2'}
+	  <tr id='tr_{$i}_{$i2}' class="tr_{$i} tree_{$vo.catId}" isLoad='1'>
+	     <td class="wst-fre-td">
+	     <span class="wst-tree-second"></span>
+	     <input type='text' style='width:400px;' value='{$vo2['catName']}' dataId="{$vo2.catId}" onchange='javascript:editCatName(this)'/>
+	     </td>
+	     <td><input class='catsort' type='text' style='width:35px;' value="{$vo2['catSort']}" dataId="{$vo2.catId}" onchange='javascript:editCatSort(this)' onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberKey(event)"/></td>
+	     {if condition="$vo2['isShow']==0 "}
+		  <td style="cursor:pointer;" onclick="changeCatStatus(1,{$vo2['catId']},{$vo['catId']})"><span class='wst-state_no'><img class="wst-lfloat" style="margin-top:-3px;" src="__STYLE__/img/seller_icon_error.png"></span></td>
+	     {else/}
+	      <td style="cursor:pointer;" onclick="changeCatStatus(0,{$vo2['catId']},{$vo['catId']})"><span class='wst-state_yes'><img class="wst-lfloat" style="margin-top:-3px;" src="__STYLE__/img/seller_icon_right.png"></span></td>
+	     {/if}
+	     <td>
+	     <a href="javascript:delCat({$vo2['catId']},0)" class='del btn' title='删除'>[删除]</a>&nbsp;
+	     </td>
+	  </tr>
+      {/volist}
+   {/if}
+   {/if}
+   </tbody>
+   {/volist}
+</table>
+</form>
+<div class='wst-tbar-group' style='height: 76px;text-align: center'>
+     <button class='wst-shop-but hide' style='margin-top:40px;;width:80px;height: 30px;' type="button" onclick='javascript:batchSaveCats()'>保&nbsp;存</button>
+     <button class='wst-shop-but hide' style='margin-top:40px;margin-left:5px;width:80px;height: 30px;;' type="button" onclick='javascript:location.reload()'>取&nbsp;消</button>
+     <a style='float:right;margin:30px 30px 0px 0px;' href='javascript:addCat(1);'><img class="wst-lfloat" style="margin:-3px 5px 0px 0px;" src="__STYLE__/img/seller_icon_xz.png">新增</a>
+</div>
+</div>
+
+
+
+<script id="cat_p_tr" type="text/html">
+<tbody class='tbody_new'>
+	<tr class="tr_new" isload="1">
+		<td class="wst-fre-td">
+			<span class="wst-tree-open"><img class="wst-lfloat" style="margin-top:-3px;" src="__STYLE__/img/seller_icon_zk.png"></span>
+			<input class="catname" type="text" style="width:400px;height:22px;margin-left:6px;" dataid="">
+		</td>
+		<td>
+			<input class="catsort" type="text" style="width:35px;" value="0" onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberKey(event)">
+		</td>
+		<td style="cursor:pointer;">
+			<input class="catshow" type="checkbox" checked=""/>
+		</td>
+		<td>
+			<a href="javascript:void(0);" onclick="addCat(this,0,0);" class="add btn" title="新增">[新增]</a>
+			<a href="javascript:void(0);" class="del btn" title="删除" onclick="delCat(this,1)">[删除]</a>&nbsp;
+		</td>
+	</tr>
+</tbody>
+</script>
+
+<script id="cat_c_tr" type="text/html">
+<tr class="{{d.className}}" isload="1" catid="{{d.p}}">
+	<td class="wst-fre-td">
+		<span class="wst-tree-second"></span>
+		<input class="catname" type="text" style='width:400px' dataid="">
+	</td>
+	<td>
+		<input class="catsort" type="text" style="width:35px;" value="0" onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberKey(event)">
+	</td>
+	<td style="cursor:pointer;">
+		<input class="catshow" type="checkbox" checked=""/>
+	</td>
+	<td>
+		<a href="javascript:void(0);" class="del btn" title="删除" onclick="delCatObj(this,2)">[删除]</a>&nbsp;
+	</td>
+</tr>
+</script>
+
+{/block}  
+{block name="footer"}
+	{include file="default/footer" /}
+{/block}
+{block name="js"}<script type='text/javascript' src='__STYLE__/shops/shopcats/shopcats.js?v={$v}'></script>{/block}

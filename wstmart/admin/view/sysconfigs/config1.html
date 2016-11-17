@@ -1,0 +1,87 @@
+<div id="wst-tab-1" title="服务器设置" class='wst-tab'>
+     <table class='wst-form wst-box-top'>
+      <tr>
+	     <td colspan='2' class='head-ititle'>邮件服务器设置</td>
+	  </tr>
+	  <tr>
+	     <th width='150'>SMTP服务器：</th>
+	     <td><input type="text" id='mailSmtp' class='ipt' maxLength='100' value='{$object["mailSmtp"]}'/></td>
+	  </tr>
+	  <tr>
+	     <th>SMTP端口：</th>
+	     <td><input type="text" id='mailPort' class='ipt' maxLength='10' value='{$object["mailPort"]}'/></td>
+	  </tr>
+	  <tr>
+	     <th>是否验证SMTP：</th>
+	     <td>
+	     <label>
+	         <input type='radio' id='mailAuth1' name='mailAuth' class='ipt' value='1' {if $object['mailAuth']==1}checked{/if}/>是
+	     </label>
+	     <label>
+	         <input type='radio' id='mailAuth0' name='mailAuth' class='ipt' value='0' {if $object['mailAuth']==0}checked{/if}/>否
+	     </label>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th>SMTP发件人邮箱：</th>
+	     <td><input type="text" id='mailAddress' class='ipt' value='{$object["mailAddress"]}' maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	     <th>SMTP登录账号：</th>
+	     <td><input type="text" id='mailUserName' class='ipt' value='{$object["mailUserName"]}' maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	     <th>SMTP登录密码：</th>
+	     <td><input type="text" id='mailPassword' class='ipt' value='{$object["mailPassword"]}' maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	     <th>发件人名称：</th>
+	     <td><input type="text" id='mailSendTitle' class='ipt' value='{$object["mailSendTitle"]}' maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	     <td colspan='2' class='head-ititle'>短信服务器设置</td>
+	  </tr>
+	  <tr>
+	     <th>开启手机验证：</th>
+	     <td>
+	     <label>
+	         <input type='radio' id='smsOpen1' name='smsOpen' class='ipt' value='1' {if $object['smsOpen']==1}checked{/if}/>是
+	     </label>
+	     <label>
+	         <input type='radio' id='smsOpen0' name='smsOpen' class='ipt' value='0' {if $object['smsOpen']==0}checked{/if}/>否
+	     </label>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th>短信账号：</th>
+	     <td><input type="text" id='smsKey' class='ipt' value="{$object['smsKey']}" maxLength='100'/>&nbsp;&nbsp;点击<a target='_blank' href='http://www.smschinese.cn/'>购买</a></td>
+	  </tr>
+	  <tr>
+	     <th>短信密码：</th>
+	     <td><input type="text" id='smsPass' class='ipt' value="{$object['smsPass']}" maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	     <th>号码每日发送数：</th>
+	     <td><input type="text" id='smsLimit' class='ipt' value="{$object['smsLimit']}" maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	     <th>开启短信发送验证码：</th>
+	     <td>
+	     <label>
+	         <input type='radio' id='smsVerfy1' class='ipt' name='smsVerfy' value='1' {if $object['smsVerfy']==1}checked{/if}/>是
+	     </label>
+	     <label>
+	         <input type='radio' id='smsVerfy0' class='ipt' name='smsVerfy' value='0' {if $object['smsVerfy']==0}checked{/if}/>否
+	     </label>
+	     </td>
+	  </tr>
+	  <tr>
+	  	{if ($grant)}
+	     <td colspan='2' align='center'>
+	        <input type="button" value="保存" class='btn btn-blue' onclick='javascript:edit()'/>
+            <input type="reset" class='btn' value="重置" />
+	     </td>
+	     {/if}
+	  </tr>
+	 </table>
+</div>

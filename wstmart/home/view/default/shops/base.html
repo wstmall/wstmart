@@ -1,0 +1,121 @@
+<!doctype html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{block name="title"}{:WSTConf('CONF.mallTitle')}{/block}</title>
+<link href="__STYLE__/css/common.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/shop.css?v={$v}" rel="stylesheet">
+{block name="css"}{/block}
+<script type="text/javascript" src="__STATIC__/js/jquery.min.js?v={$v}"></script>
+<script type="text/javascript" src="__STATIC__/plugins/layer/layer.js?v={$v}"></script>
+	  
+<script type='text/javascript' src='__STATIC__/js/common.js?v={$v}'></script>
+{block name="depend_common_js"}{/block}
+<script type='text/javascript' src='__STYLE__/js/common.js?v={$v}'></script>
+<script type='text/javascript' src='__ROOT__/static/plugins/lazyload/jquery.lazyload.min.js?v={$v}'></script>
+<script>
+window.conf = {
+		"ROOT"      : "__ROOT__", 
+		"APP"       : "__APP__", 
+		"STATIC"    : "__STATIC__", 
+		"SUFFIX"    : "{:config('url_html_suffix')}", 
+		"SMS_VERFY" : "{:WSTConf('CONF.smsVerfy')}",
+    	"PHONE_VERFY" : "{:WSTConf('CONF.phoneVerfy')}",
+    	"GOODS_LOGO"  : "{:WSTConf('CONF.goodsLogo')}",
+    	"SHOP_LOGO"   : "{:WSTConf('CONF.shopLogo')}",
+    	"MALL_LOGO"   : "{:WSTConf('CONF.mallLogo')}",
+    	"USER_LOGO"   : "{:WSTConf('CONF.userLogo')}",
+    	"IS_LOGIN"    : "{if (int)session('WST_USER.userId')>0 }1{else}0{/if}",
+    	"TIME_TASK"   : "1",
+      "MESSAGE_BOX": "{:WSTShopMessageBox()}"
+	}
+	{:WSTLoginTarget(1)}
+$(function() {
+	WST.initShopCenter();
+});
+</script>
+</head>
+<body>
+{block name="nav"}
+	{include file="default/header_top" /}
+<div class='wst-lite-bac'>
+<div class='wst-lite-container'>
+   <div class='wst-logo'><a href='{$Request.root.true}'><img src="__ROOT__/{:WSTConf('CONF.mallLogo')}" height="80" width='160'></a></div>
+   <div class="wst-lite-tit"><span>卖家中心</span><a class="wst-lite-in" href='{$Request.root.true}'>返回商城首页</a></div>
+   <div class="wst-lite-sea">
+      <div class='search'>
+      	  <input type="hidden" id="search-type" value="{:isset($keytype)?1:0}"/>
+
+      	  <ul class="j-search-box">
+            <li class="j-search-type">
+              搜<span>{if isset($keytype)}店铺{else}商品{/if}</span>&nbsp;<i class="arrow"> </i>
+            </li>
+            <li class="j-type-list">
+              {if isset($keytype)}
+              <div data="0">商品</div>
+              {else}
+              <div data="1">店铺</div>
+              {/if}
+            </li>
+          </ul>
+          
+	      <input type="text" id='search-ipt' class='search-ipt' value='{:isset($keyword)?$keyword:""}'/>
+	      <div id='search-btn' class="search-btn" onclick='javascript:WST.search(this.value)'></div>
+      </div>
+   </div>
+   <div class="wst-clear"></div>
+</div>
+<div class="wst-clear"></div>
+</div>
+{/block}
+<div class="wst-wrap">
+          <div class='wst-header'>
+			<div class="wst-shop-nav">
+				<div class="wst-nav-box">
+				    {php}$homeMenus = WSTHomeMenus(1);{/php}
+					{volist name="$homeMenus['menus']" id="vo"}
+						<a href="__ROOT__/{$vo['menuUrl']}?id={$vo['menuId']}"><li class="liselect wst-lfloat {if($vo['menuId'] == $homeMenus['menuId1'])}wst-nav-boxa{/if}">{$vo['menuName']}</li></a>
+					{/volist}
+					<div class="wst-clear"></div>
+				</div>
+			</div>
+			<div class="wst-clear"></div>
+		</div>
+          <div class='wst-nav'></div>
+          <div class='wst-main'>
+            <div class='wst-menu'>
+              {if isset($homeMenus['menus'][$homeMenus['menuId1']]['list']) }
+              	{volist name="$homeMenus['menus'][$homeMenus['menuId1']]['list']" id="menus"}
+              	<span class='wst-menu-title'>{$menus['menuName']}<img src="__STYLE__/img/user_icon_sider_zhankai.png"></span>
+              	<ul>
+                {if isset($menus['list']) }
+                	{volist name="menus['list']" id="menu" key='k'}
+                  	<li class="{if($homeMenus['menuId3']==$menu['menuId'])}wst-menua{/if} wst-menuas" onclick="getMenus('{$menu['menuId']}','{$menu['menuUrl']}')">
+                  	{$menu['menuName']}
+                  	<span id="mId_{$menu['menuId']}"></span>
+                  	</li>
+                	{/volist}
+                {/if}
+              	</ul>
+              	{/volist}
+              {/if}
+            </div>
+            <div class='wst-content'>
+            {block name="content"}<div class="result">卖家中心</div>{/block}
+            </div>
+          </div>
+          <div style='clear:both;'></div>
+          <br/>
+        </div>
+{block name="footer"}
+	{include file="default/footer" /}
+{/block}
+{block name="js"}{/block}
+<script>
+function getMenus(menuId,menuUrl){
+    $.post(WST.U('home/index/getMenuSession'), {menuId:menuId}, function(data){
+    	location.href=WST.U(menuUrl);
+    });
+}
+</script>
+</body>
+</html>

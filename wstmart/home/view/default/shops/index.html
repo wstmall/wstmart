@@ -1,0 +1,66 @@
+{extend name="default/shops/base" /}
+{block name="title"}卖家中心 - {:WSTConf('CONF.mallName')}{__block__}{/block}
+{block name="css"}
+<style>
+.wst-content{min-height:185px;}
+</style>
+{/block}
+{block name="content"}
+<div class="wst-shop-info">
+	<span class="wst-shop-img">
+	  <a href="{:url('home/shops/home',array('shopId'=>$data['shop']['shopId']))}">
+	  <img src="__ROOT__/{:WSTImg($data['shop']['shopImg'])}" title="{$data['shop']['shopName']}" alt="{$data['shop']['shopName']}">
+	  </a>
+	</span>
+	<div class="wst-shop-na">
+		<p><a href='{:Url("home/shops/home","shopId=".$data["shop"]["shopId"])}'>{:WSTMSubstr($data['shop']['shopName'],0,10)}</a></p>
+		<div class="wst-shop-na2">
+		{volist name="$data['shop']['accreds']" id="v"}
+		<img src="__ROOT__/{$v['accredImg']}"><span>{$v['accredName']}</span>
+		{/volist}
+		</div>
+		<span class="wst-shop-na3">上次登录：{:session('WST_USER.lastTime')}</span>
+		<span class="wst-shop-na3">店铺地址：{:WSTMSubstr($data['shop']['shopAddress'],0,10)}</span>
+	</div>
+	<div class="wst-shop-eva">
+		<p>商品评分</p>
+		<div class="wst-shop-evai">
+		{for start="0" end="$data['shop']['scores']['goodsScore']"}
+			<img src="__STATIC__/plugins/raty/img/star-on.png">
+		{/for}
+		{for start="1" end="6-$data['shop']['scores']['goodsScore']"}
+			<img src="__STATIC__/plugins/raty/img/star-off.png">
+		{/for}
+		</div>
+	</div>
+	<div class="wst-shop-eva">
+		<p>时效评分</p>
+		<div class="wst-shop-evai">
+		{for start="0" end="$data['shop']['scores']['timeScore']"}
+			<img src="__STATIC__/plugins/raty/img/star-on.png">
+		{/for}
+		{for start="1" end="6-$data['shop']['scores']['timeScore']"}
+			<img src="__STATIC__/plugins/raty/img/star-off.png">
+		{/for}
+		</div>
+	</div>
+	<div class="wst-shop-eva">
+		<p>服务评分</p>
+		<div class="wst-shop-evai">
+		{for start="0" end="$data['shop']['scores']['serviceScore']"}
+			<img src="__STATIC__/plugins/raty/img/star-on.png">
+		{/for}
+		{for start="1" end="6-$data['shop']['scores']['serviceScore']"}
+			<img src="__STATIC__/plugins/raty/img/star-off.png">
+		{/for}
+		</div>
+	</div>
+	<div class="wst-shop-con">
+		<p>电话：{$data['shop']['shopTel']}</p>
+		<p>QQ：{$data['shop']['shopQQ']}</p>
+		<p>服务时间：{php}echo date("H:i",strtotime($data['shop']['serviceStartTime']));{/php}-{php}echo date("H:i",strtotime($data['shop']['serviceEndTime']));{/php}</p>
+	</div>
+	<div class="wst-clear"></div>
+</div>
+{/block}
+{block name="js"}{/block}

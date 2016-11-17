@@ -1,0 +1,46 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+{/block}
+{block name="js"}
+<script src="__ADMIN__/accreds/accreds.js?v={$v}" type="text/javascript"></script>
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+{if WSTGrant('RZGL_01')}
+<div class="wst-toolbar">
+   <button class="btn btn-green f-right" onclick="javascript:toEdit(0)">新增</button>
+   <div style="clear:both"></div>
+</div>
+{/if}
+<div id="maingrid"></div>
+
+<div id='accredBox' style='display:none'>
+    <form id='accredForm' method="post" autocomplete="off">
+
+    <table class='wst-form wst-box-top'>
+       <tr>
+          <th width='150'>认证名称<font color='red'>*</font>：</th>
+          <td><input type='text' id='accredName' name="accredName"  class='ipt' maxLength='20'/></td>
+       </tr>
+       <tr>
+          <th>图标：</th>
+          <td>
+            <div id='adFilePicker'>上传图标</div><span id='uploadMsg'></span>
+            <input type='hidden' id='accredImg' name="accredImg" class="ipt" />
+          </td>
+       </tr>
+       <tr>
+          <th>预览图：</th>
+          <td><div style="min-height:70px;" id="preview"></div></td>
+       </tr>
+    </table>
+
+    </form>
+
+  </div>
+<script>
+  $(function(){initGrid()});
+</script>
+{/block}

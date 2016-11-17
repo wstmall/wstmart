@@ -1,0 +1,95 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}' type="text/javascript"></script>
+<script src="__ADMIN__/staffs/staffs.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<form autocomplete='off'> 
+<input type='hidden' id='staffId' class='ipt' value="{$object['staffId']}"/>
+<table class='wst-form wst-box-top'>
+  <tr>
+     <th width='150'>登录账号：</th>
+     <td width='290'>{$object['loginName']}</td>
+     <td rowspan='5'>
+       <div style='border:1px solid #ccc;width:130px;height:130px;margin-bottom:5px;'>
+           <img id='prevwPhoto' height='130' width='130' src='__ROOT__/{if $object["staffPhoto"] != '' }{$object["staffPhoto"]} {else}__ADMIN__/img/img_mrtx_gly.png{/if}'/>
+       </div>
+       <div id='photoPicker' style='margin-left:32px;'>上传头像<span id='uploadMsg'></span></div>
+       <input type='hidden' id='staffPhoto' class='ipt' value='{$object["staffPhoto"]}'/>
+     </td>
+  </tr>
+  <tr>
+     <th>职员名称<font color='red'>*</font>：</th>
+     <td><input type="text" id='staffName' class='ipt' value="{$object['staffName']}" maxLength='20' data-rule="职员名称: required;"/></td>
+  </tr>
+  <tr>
+     <th>职员编号：</th>
+     <td><input type="text" id='staffNo' class='ipt' value="{$object['staffNo']}" maxLength='20'/></td>
+  </tr>
+  <tr>
+     <th>角色：</th>
+     <td>
+     <select id='staffRoleId' class='ipt'>
+        <option value='0'>请选择</option>
+        {volist name="roles" id="vo"}
+		<option value="{$vo['roleId']}" {if condition="$object['staffRoleId'] == $vo['roleId']"}selected{/if}>{$vo.roleName}</option>
+		{/volist}
+     </select>
+     </td>
+  </tr>
+  <tr>
+     <th>工作状态：</th>
+     <td>
+       <label>
+           <input id="workStatus1" name="workStatus" value="1" class='ipt' {if condition="$object['workStatus'] == 1"}checked{/if} type="radio">在职
+       </label>
+       <label>
+           <input id="workStatus0" name="workStatus" value="0" class='ipt' {if condition="$object['workStatus'] == 0"}checked{/if} type="radio">离职
+       </label>
+             
+     </td>
+  </tr>
+  <tr>
+     <th>账号状态：</th>
+     <td colspan='2'>
+       <label>
+          <input type='radio' id='staffStatus1' class='ipt' name='staffStatus' {if condition="$object['staffStatus'] == 1"}checked{/if} value='1'>开启
+       </label>
+       <label>
+          <input type='radio' id='staffStatus0' class='ipt' name='staffStatus' {if condition="$object['staffStatus'] == 0"}checked{/if} value='0'>停用
+       </label>
+     </td>
+  </tr>
+  <tr>
+     <td colspan='3' align='center'>
+       <input type='button' value='保存' class='btn btn-blue' onclick='javascript:save()'>
+       <input type='button' value='返回' class='btn' onclick='javascript:history.go(-1)'>
+     </td>
+  </tr>
+</table>
+</form>
+<script>
+$(function(){
+	WST.upload({
+  	  pick:'#photoPicker',
+  	  formData: {dir:'staffs'},
+  	  accept: {extensions: 'gif,jpg,jpeg,bmp,png',mimeTypes: 'image/*'},
+  	  callback:function(f){
+  		  var json = WST.toAdminJson(f);
+  		  if(json.status==1){
+  			$('#uploadMsg').empty().hide();
+  			$('#prevwPhoto').attr('src',WST.conf.ROOT+'/'+json.savePath+json.name);
+  			$('#staffPhoto').val(json.savePath+json.name);
+  		  }
+	  },
+	  progress:function(rate){
+	      $('#uploadMsg').show().html('已上传'+rate+"%");
+	  }
+    });
+});
+</script>
+{/block}

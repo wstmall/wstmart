@@ -1,0 +1,125 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/settlements/shopsettlements.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div id="wst-tabs" style="width:100%; height:99%;overflow: hidden; border: 1px solid #D3D3d3;" class="liger-tab">
+
+   <div id="wst-tab-1" tabId="wst-tab-1"  title="结算详情" class='wst-tab'  style="height: 99%"> 
+      <form autocomplete='off'>
+      <input type='hidden' id='settlementId' class='ipt' value="{$object['settlementId']}"/>
+      <table class='wst-form wst-box-top'>
+        
+        <tr>
+           <td colspan='2' class='head-ititle'>店铺信息</td>
+        </tr>
+        <tr>
+           <th>店铺：</th>
+           <td>{$object['shopName']}</td>
+        </tr>
+        <tr>
+           <th>所属银行：</th>
+           <td>
+             {$object['accName']}
+           </td>
+        </tr>
+        <tr>
+           <th>卡号：</th>
+           <td>
+             {$object['accNo']}
+           </td>
+        </tr>
+        <tr>
+           <th>开卡地区：</th>
+           <td>
+             {$object['areaName']}
+           </td>
+        </tr>
+        <tr>
+           <th>账号持有人：</th>
+           <td>
+             {$object['accUser']}
+           </td>
+        </tr>
+        <tr>
+           <td colspan='2' class='head-ititle'>结算信息</td>
+        </tr>
+        <tr>
+           <th width='150'>申请单号：</th>
+           <td>
+           {$object['settlementNo']}
+           </td>
+        </tr>
+        <tr>
+           <th>结算金额：</th>
+           <td>¥{$object['settlementMoney']}</td>
+        </tr>
+        <tr>
+           <th>结算佣金：</th>
+           <td>¥{$object['commissionFee']}</td>
+        </tr>
+        <tr>
+           <th>返还金额：</th>
+           <td>¥{$object['backMoney']}</td>
+        </tr>
+        <tr>
+           <th>申请时间：</th>
+           <td>{$object['createTime']}</td>
+        </tr>
+        <tr>
+           <td align='center' colspan='2'>
+             <table class='l-grid-header-table wst-grid-tree' width="100%" cellspacing="0" cellpadding="0" style='border:1px solid #ddd'>
+                <tr class='l-grid-hd-row wst-grid-tree-hd' height='28' >
+                  <td class='l-grid-hd-cell l-grid-hd-cell-rownumbers' style='width:35px'>序号</th>
+                  <td class='l-grid-hd-cell'>订单号</td>
+                  <td class='l-grid-hd-cell'>支付方式</td>
+                  <td class='l-grid-hd-cell'>商品金额</td>
+                  <td class='l-grid-hd-cell'>运费</td>
+                  <td class='l-grid-hd-cell'>订单总金额</td>
+                  <td class='l-grid-hd-cell'>实付金额</td>
+                  <td class='l-grid-hd-cell'>佣金</td>
+                  <td class='l-grid-hd-cell'>下单时间</td>
+                </tr>
+                {volist name='$object["list"]' id='vo'}
+                <tr class='l-grid-row wst-grid-tree-row' height='28' {if $vo['payType']==0}style='background:#eeeeee;'{/if}>
+                   <td class='l-grid-row-cell l-grid-row-cell-rownumbers'>{$key+1}</td>
+                   <td class='l-grid-row-cell'>{$vo['orderNo']}</td>
+                   <td class='l-grid-row-cell'>{:WSTLangPayType($vo['payType'])}</td>
+                   <td class='l-grid-row-cell'>¥{$vo['goodsMoney']}</td>
+                   <td class='l-grid-row-cell'>¥{$vo['deliverMoney']}</td>
+                   <td class='l-grid-row-cell'>¥{$vo['totalMoney']}</td>
+                   <td class='l-grid-row-cell'>¥{$vo['realTotalMoney']}</td>
+                   <td class='l-grid-row-cell' style='background:#ffffff;'>¥{$vo['commissionFee']}</td>
+                   <td class='l-grid-row-cell'>{$vo['createTime']}</td>
+                </tr>
+                {/volist}
+             </table>
+           </td>
+        </tr>
+        <tr >
+           <th valign='top'>结算备注：<br/>(店铺可见)&nbsp;&nbsp;</th>
+           <td>
+             <textarea id='remarks' class='ipt' style='width:70%;height:80px;'></textarea>
+           </td>
+        </tr>
+        <tr>
+           <td colspan='2' align='center'>
+             <input type='button' value='提交' class='btn btn-blue' onclick='javascript:save()'>
+             <input type='button' value='返回' class='btn' onclick='javascript:history.go(-1)'>
+           </td>
+        </tr>
+      </table>
+      </form>
+  </div>
+  <div id="wst-tab-2" tabId="wst-tab-2"  title="结算商品列表" class='wst-tab'  style="height: 99%">
+   <div id="maingrid"></div>
+  </div>
+</div>
+<script>
+$(function(){
+   h = WST.pageHeight();
+   intView('{$object["settlementId"]}');
+})
+</script>
+{/block}

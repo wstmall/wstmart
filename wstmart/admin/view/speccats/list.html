@@ -1,0 +1,75 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/speccats/speccats.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div class="wst-toolbar">
+	<div class="f-left">
+		<div id="pcat_0_box" class="f-left">
+		 所属分类：<select id="cat_0" class='ipt pgoodsCats' level="0" onchange="WST.ITGoodsCats({id:'cat_0',val:this.value,isRequire:false,className:'pgoodsCats'});">
+	      	<option value="">-请选择-</option>
+	      	{volist name=":WSTGoodsCats(0)" id="vo"}
+	        <option value="{$vo['catId']}">{$vo['catName']}</option>
+	        {/volist}
+	     </select>
+	     </div>
+	     <input type="text" id="keyName" placeholder="请输入规格名称"/>
+	     <button class="btn btn-green" onclick="loadGrid(0)">查询</button>
+     </div>
+   {if WSTGrant('SPGG_01')}
+   <button class="btn btn-green f-right" onclick="javascript:toEditCat(0);">新增</button>
+   {/if}
+   <div style="clear:both"></div>
+</div>
+<div id="maingrid"></div>
+<div id='specCatsBox' style='display:none'>
+	<form id="specCatsForm">
+	    <input type='hidden' id='catId' class='ipt'/>
+		<table class='wst-form wst-box-top'>
+		  <tr>
+		      <th width='150'>
+		    	 所属商品分类<font color='red'>*</font>：</th>
+		     	<td id="bcat_0_box">
+		            <select id="bcat_0" class='ipt goodsCats' level="0" onchange="WST.ITGoodsCats({id:'bcat_0',val:this.value,isRequire:false,className:'goodsCats'});" data-rule='所属商品分类:required;' data-target="#msg_bcat_0">
+		                <option value="">-请选择-</option>
+		                {volist name=":WSTGoodsCats(0)" id="vo"}
+				        <option value="{$vo['catId']}">{$vo['catName']}</option>
+				        {/volist}
+		           	</select>
+		           	<span class='msg-box' id='msg_bcat_0' style='color:red;'>(至少选择一个商品分类)</span>
+		          </td>
+		       </tr>
+		       <tr>
+		          <th>规格名称<font color='red'>*</font>：</th>
+		          <td>
+		              <input type="text" id="catName" name="catName" class="ipt" maxLength='20'/>
+		          </td>
+		       </tr>
+		       <tr>
+		          <th>是否允许上传图片<font color='red'>  </font>：</th>
+		          <td>
+		            <label>
+		              <input type="radio" name="isAllowImg" value="1" class="ipt"  />允许
+		            </lable>
+		            <label>
+		              <input type="radio" name="isAllowImg" value="0" class="ipt" />不允许
+		            </label>
+		            <span style='color:red;margin-left:20px;'>(*同一分类下只能设置一个上传图片的规格分类)</span>
+		          </td>
+		       </tr>
+		       <tr>
+		          <th>是否显示<font color='red'>  </font>：</th>
+		          <td>
+		            <label>
+		              <input type="radio" name="isShow" value="1" class="ipt"  />显示
+		            </label>
+		            <label>
+		              <input type="radio" name="isShow" value="0" class="ipt" />隐藏
+		            </label>
+		          </td>
+		       </tr>
+		</table>
+	</form>
+</div>
+{/block}

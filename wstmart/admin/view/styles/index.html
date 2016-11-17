@@ -1,0 +1,28 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/styles/styles.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style='display:block' id="wst-loading"></div>
+<div class="style-main">
+{volist name='$list' id='vo'}
+<div class='style-box'>
+   <div class='style-img'>
+	  <img src='__ROOT__/wstmart/home/view/{$vo["stylePath"]}/img/screenshot.png'/>
+   </div>
+   <div class='style-txt'>标题：{$vo['styleName']}</div>
+   <div class='style-author'>作者：{$vo['styleAuthor']}</div>
+   <div class='style-author'>介绍：{if $vo['styleShopSite']!=''}<a target='_blank' href='{$vo['styleShopSite']}'>访问网址</a>{else}无{/if}</div>
+   <div class='style-op'>
+   {if $vo['isUse']==1}
+   <input class='btn btn-disabled style_{$vo['id']}' dataid='{$vo['id']}' type='button' value='应用中' disabled />
+   {else}
+   <input class='btn btn-blue style_{$vo['id']}' dataid='{$vo['id']}' type='button' value='应用' />
+   {/if}
+   </div>
+</div>
+{/volist}
+</div>
+<script>
+</script>
+{/block}

@@ -1,0 +1,34 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/ordercomplains/ordercomplains.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div class="wst-toolbar">
+商家所在地：
+<select id="areaId1" class='ipt j-ipt' level="0" onchange="WST.ITAreas({id:'areaId1',val:this.value,className:'j-ipt'});">
+  <option value="-1">-请选择-</option>
+  {volist name="areaList" id="vo"}
+  <option value="{$vo['areaId']}">{$vo['areaName']}</option>
+  {/volist}
+</select>
+    <br/>
+订单编号：<input type="text" name="orderNo"  placeholder='订单编号' id="orderNo" class='j-ipt'/>
+
+
+投诉处理状态：<select id='complainStatus' class='j-ipt'>
+		         <option value='-1'>请选择</option>
+		         <option value='0'>新投诉</option>
+		         <option value='1'>转给应诉人</option>
+		         <option value='2'>应诉人回应</option>
+		         <option value='3'>等待仲裁</option>
+		         <option value='4'>已仲裁</option>
+		       </select>
+   <button class="btn btn-blue" onclick='javascript:loadGrid(0)'>查询</button>
+   <div style='clear:both'></div>
+</div>
+<div id="maingrid"></div>
+<script>
+$(function(){initGrid();})
+</script>
+{/block}

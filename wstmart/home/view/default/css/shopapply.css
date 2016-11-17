@@ -1,0 +1,68 @@
+@CHARSET "UTF-8";
+.wst-shopapp-but{
+	outline: none;
+	background:#eb5f43;
+ 	color: #ffffff;
+ 	border: 1px solid #d33110;
+ 	border-radius:3px;
+ 	cursor:pointer;
+}
+.wst-shopapp-but:not(.disabled):not(:disabled):active, .wst-shopapp-but.active{
+	background: #dd553a;
+	background-clip: padding-box;
+}
+.wst-shopapp{
+	width:760px;
+	height:688px;
+	display: block;
+	background:url(../img/img_openshop_bg.png) 38px 0px no-repeat;
+}
+.wst-shopapp-fo{
+	padding:180px 0px 0px 128px;
+}
+.wst-shopapp-td{
+	text-align:right;
+	font-size: 15px;
+	color:#ea563a;
+}
+input.wst-shopapp-input,input.wst-shopapp-input2{
+	padding:0px;
+	margin-left: 10px;
+	padding-left:5px;
+	font-size: 15px;
+	outline: none;
+	width:220px;
+	height:31px;
+	border-radius:2px;
+	border:1px solid #bac4c3;
+}
+.wst-shopapp-input:focus,.wst-shopapp-input2:focus{
+	border-radius:2px;
+	border:1px solid #eb654a;
+}
+input.wst-shopapp-input2{
+	width:115px;
+}
+.wst-shopapp-obtain{
+	width:100px;
+ 	background:#f0efef;
+ 	border-radius: 3px;
+ 	border: 1px solid #d3c8c7;
+ 	padding:7px 0px;
+ 	cursor:pointer;
+}
+.wst-remark{
+	width:200px;
+	height:55px;
+	margin-left: 10px;
+}
+.wst-shopapp-close{
+	 position: absolute;
+	 background: #ffffff;
+	 width: 38px;
+	 height: 38px;
+	 top: 88px;
+	 right: 112px;
+	 background:url(../img/btn_sqkd_back.png) 0px 0px no-repeat;
+	 
+}

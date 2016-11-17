@@ -1,0 +1,110 @@
+{extend name="default/users/base" /}
+{block name="title"}提现管理-买家中心{__block__}{/block}
+{block name='css'}
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="content"}
+<div class='score-head'>
+  <div class='user-logo'><img height='100' width='100'src='__ROOT__/{:session("WST_USER.userPhoto")}'></div>
+  <div class='user-info'> 
+     <div class='userName'>{:session('WST_USER.loginName')}</div>
+     <div class='userScore'>可用资金：<font color='red' id='userMoney'>¥0</font><a href='javascript:toDrawMoney()' style='margin-left:45px;'>申请提现</a></div>
+     <div class='userScore'>冻结资金：<font color='red' id='lockMoney'>¥0</font></div>
+  </div>
+</div>
+<div class='wst-user-content'>
+   <div id='tab' class="wst-tab-box">
+    <ul class="wst-tab-nav">
+       <li>提现记录</li>
+       <li>提现账号</li>
+    </ul>
+    <div class='wst-tab-content'>
+      <div class='wst-tab-item'>
+        <table class='wst-list' style="font-size:13px;">
+             <thead>
+               <tr>
+                 <th width='100'>提现单号</th>
+                 <th width='100'>提现银行</th>
+                 <th width='130'>开户地区</th>
+                 <th width='130'>银行卡号</th>
+                 <th width='130'>持卡人</th>
+                 <th width='130'>提现金额</th>
+                 <th width='130'>提现状态</th>
+               </tr>
+             </thead>
+             <script id="draw-list" type="text/html">
+             {{# for(var i = 0; i < d.length; i++){ }}
+                <tr>
+                  <td>{{d[i].cashNo}}</td>
+                  <td>{{d[i].accTargetName}}</td>
+                  <td>{{ d[i].accAreaName }}</td>
+                  <td>{{ d[i].accNo }}</td>
+                  <td>{{ d[i].accUser }}</td>
+                  <td>¥{{ d[i].money }}</td>
+                  <td>{{#if(d[i].cashSatus==1){}}已通过{{#}else{}}待处理{{#}}}</td>
+                </tr>
+             {{# } }}
+             </script>
+             <tbody id="draw-page-list"></tbody>
+             <tfoot>
+               <tr>
+                  <td colspan='5' align="center" style='padding:5px 0px 5px 0px'>
+            <div id="draw-pager"></div>
+          </td>
+               </tr>
+             </tfoot>
+          </table>
+        </div>
+        {/**提现账号**/}
+        <div class='wst-tab-item hide'>
+          <div class='wst-user-tbar'>
+            <button class='wst-sec-but u-btn wst-rfloat' onclick="toEditConfig(0)">新增</button>
+          </div>
+          <table class='wst-list' style="font-size:13px;">
+               <thead>
+                 <tr>
+                   <th width='160'>开户银行</th>
+                   <th width='*'>开户地址</th>
+                   <th width='180'>卡号</th>
+                   <th width='130'>持卡人</th>
+                   <th width='80'>操作</th>
+                 </tr>
+               </thead>
+               <tbody id="config-page-list"></tbody>
+               <tfoot>
+                 <tr>
+                    <td colspan='5' align="center" style='padding:5px 0px 5px 0px'>
+                      <div id="config-pager"></div>
+                    </td>
+                 </tr>
+               </tfoot>
+            </table>
+            <script id="config-list" type="text/html">
+               {{# for(var i = 0; i < d.length; i++){ }}
+                  <tr>
+                    <td>{{d[i].bankName}}</td>
+                    <td>{{d[i].areaName }}</td>
+                    <td>{{d[i].accNo}}</td>
+                    <td>{{d[i].accUser}}</td>
+                    <td>
+                    <a href='javascript:toEditConfig({{d[i].id}})'>编辑</a>&nbsp;&nbsp;
+                    <a href='javascript:delConfig({{d[i].id}})'>删除</a>
+                    </td>
+                  </tr>
+              {{# } }}
+           </script>
+        </div>
+      </div>
+    </div>  
+</div>
+{/block}  
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/users/cashdraws/cashdraws.js?v={$v}'></script>
+<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+  <script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+<script>
+$(function(){
+   getUserMoney();
+})
+</script>
+{/block}

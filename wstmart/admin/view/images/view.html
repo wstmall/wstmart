@@ -1,0 +1,69 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/images/images.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<style type="text/css"> 
+*{ margin:0; padding:0; list-style:none;} 
+img{ border:none;} 
+.imgbox{ width:400px; height:400px; margin:0px auto;text-align:center;vertical-align:middle;display:block;position:relative;padding:5px;} 
+.imgbox a{display:table-cell;vertical-align:middle;width:400px; height:400px; } 
+.imgbox a img{max-width:400px;max-height:400px; }
+.imgthumbbox{ width:100px; height:100px;text-align:center;vertical-align:middle;display:block;position:relative;border:1px solid #ddd;margin-bottom:10px;} 
+.imgthumbbox a{display:table-cell;vertical-align:middle;width:100px; height:100px; } 
+.imgthumbbox a img{max-width:100px;max-height:100px; }
+.mimgbox{ width:100px; height:100px; text-align:center;vertical-align:middle;display:block;position:relative;border:1px solid #ddd;margin-bottom:10px;} 
+.mimgbox a{display:table-cell;vertical-align:middle;width:100px; height:100px; } 
+.mimgbox a img{max-width:100px;max-height:100px; }
+.mimgthumbbox{ width:100px; height:100px; text-align:center;vertical-align:middle;display:block;position:relative;border:1px solid #ddd} 
+.mimgthumbbox a{display:table-cell;vertical-align:middle;width:100px; height:100px; } 
+.mimgthumbbox a img{max-width:100px;max-height:100px; }
+.head{line-height:25px;height:25px;}    
+</style> 
+</head> 
+<body> 
+<table width='100%'>
+  <tr>
+    <td>
+	  <div class='imgbox'>
+	    {if $img}
+	    <a href='__ROOT__/{$imgpath}' target="_blank">
+	    <img id='img' src='__ROOT__/{$imgpath}'/>
+	    </a>
+	    {else}
+	     图片不存在!
+	    {/if}
+	  </div>
+	</td>
+    <td width='150'>
+    {if $thumb}
+    <div><div class='head'>缩略图：</div>
+	    <div class='imgthumbbox'>
+	      <a href='__ROOT__/{$thumbpath}' target="_blank">
+		    <img src='__ROOT__/{$thumbpath}'/>
+		  </a>
+	    </div>
+    </div>
+    {/if}
+    {if $mimgpath !=''}
+    <div><div class='head'>移动端图片：</div>
+	    <div class='mimgbox'>
+	      <a href='__ROOT__/{$mimgpath}' target="_blank">
+		    <img src='__ROOT__/{$mimgpath}'/>
+		  </a>
+	    </div>
+    </div>
+    {/if}
+    {if $mthumbpath !=''}
+    <div><div class='head'>移动端缩略图：</div>
+	    <div class='mimgthumbbox'>
+	      <a href='__ROOT__/{$mthumbpath}' target="_blank">
+		    <img src='__ROOT__/{$mthumbpath}'/>
+		  </a>
+	    </div>
+    </div>
+    {/if}
+  </td>
+  </tr>
+</table>
+{/block}

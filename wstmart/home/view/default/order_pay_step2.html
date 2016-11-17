@@ -1,0 +1,52 @@
+{extend name="default/base" /}
+{block name="title"}我的购物车 - {:WSTConf('CONF.mallName')}{__block__}{/block}
+{block name="css"}
+<link href="__STYLE__/css/carts.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="main"}
+<div class="wst-container">
+	
+    <div class="pay-sbox-head">
+    	<a href='{$Request.root.true}'>首页</a>&nbsp;&gt;&nbsp;支付
+    </div>
+    <div>
+    	<div class="pay-tip2"></div>
+    </div>
+    <div class='pay-sbox' >
+    	<div class="qrcode-box">
+		    <div class="pbox">
+	        	请您扫描以下二维码，支付订单总额：<span class="wst-fred">￥{$needPay}</span>
+	        </div>
+	        <div style="" class="wst-qrcode"></div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/js/carts.js?v={$v}'></script>
+<script type='text/javascript' src='__STYLE__/js/qrcode.js?v={$v}'></script>
+<script>
+	{if condition="$out_trade_no != '' and $code_url!=''"}
+		var qr = qrcode(10, 'M');
+			qr.addData("{$code_url}");
+			qr.make();
+		$(".wst-qrcode").html(qr.createImgTag());
+	
+	{/if}
+	setInterval(function(){
+		var params = {};
+			params.trade_no = "{$out_trade_no}";
+		$.ajax({
+			url:"{:url('home/weixinpays/getPayStatus')}",
+			data:params,
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){
+					location.href = "{:url('home/weixinpays/paySuccess')}";
+				}
+			}
+		});
+	},1500);
+</script>
+{/block}

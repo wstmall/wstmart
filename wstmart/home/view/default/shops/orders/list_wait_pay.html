@@ -1,0 +1,146 @@
+{extend name="default/shops/base" /}
+{block name="title"}待付款订单 - 卖家中心{__block__}{/block}
+{block name="css"}
+{/block}
+{block name="content"}
+  <div class="wst-shop-head"><span>待付款订单</span></div>
+  <div class='wst-shop-tbar'>
+     订单号：<input type='text' class="s-ipt" id='orderNo'/> 
+     支付方式：<select name="payType" id="payType" class="s-ipt">
+                <option value="-1">请选择</option>
+                <option value="0">货到付款</option>
+                <option value="1">在线支付</option>
+               </select>
+
+     配送方式：<select name="deliverType" id="deliverType" class="s-ipt">
+                <option value="-1">请选择</option>
+                <option value="0">送货上门</option>
+                <option value="1">自提</option>
+               </select>
+
+     <button class="s-btn" onclick="waituserPayByPage()">查询</button>
+  </div>
+  <div class='wst-shop-content'>
+    <table class='wst-order-list'>
+       <thead>
+	      <tr class='head'>
+	         <th>订单详情</th>
+	         <th>支付方式/配送信息</th>
+	         <th>金额</th>
+	         <th>操作</th>
+	      </tr>
+	   </thead>
+	   <tbody id='loadingBdy'>
+	       <tr id='loading' class='empty-row' style='display:none'>
+	            <td colspan='4'><img src="__STYLE__/img/loading.gif">正在加载数据...</td>
+	       </tr>
+       </tbody>
+       <script id="tblist" type="text/html">
+       {{# for(var i = 0; i < d.length; i++){ }}
+       <tbody class="j-order-row">
+         <tr class='empty-row'>
+            <td colspan='4'>&nbsp;</td>
+         </tr>
+         <tr class='order-head'>
+            <td colspan='4' align='right'>
+              <div class='time'>{{d[i].createTime}}</div>
+              <div class='orderno'>订单号：{{d[i].orderNo}}</div>
+              <div>
+              {{#if(d[i].payType==1){}}
+              	{{# if(d[i].isPay==1){}}已支付
+              	{{# }else{ }}
+                                                等待支付
+                {{# } }}
+              {{#}else{}}
+                                                等待发货
+              {{#} }}
+              </div>
+            </td>
+         </tr>
+         {{# 
+          var tmp = null,rows = d[i]['list'].length;
+          for(var j = 0; j < d[i]['list'].length; j++){
+             tmp = d[i]['list'][j]; 
+         }}
+         <tr class='goods-box'>
+            <td>
+
+               <div class='goods-img'>
+                <a href="{{WST.U('home/goods/detail','id='+tmp.goodsId)}}" target='_blank'>
+                <img data-original='__ROOT__/{{tmp.goodsImg}}'  title='{{tmp.goodsName}}' class="gImg">
+                </a>
+               </div>
+
+               <div class='goods-name'>
+                 <div>{{tmp.goodsName}}</div>
+                 <div>{{tmp.goodsSpecNames}}</div>
+               </div>
+               <div class='goods-extra'>{{tmp.goodsPrice}} x {{tmp.goodsNum}}</div>
+
+            </td>
+            {{# if(j==0){ }}
+            <td rowspan="{{rows}}">
+                <div>{{d[i].payTypeName}}</div>
+                <div>{{d[i].deliverType}}</div>
+            </td>
+            <td rowspan="{{rows}}">
+                <div>商品金额：¥{{d[i].goodsMoney}}</div>
+                <div class='line'>运费：¥{{d[i].deliverMoney}}</div>
+                <div>实付金额：¥{{d[i].realTotalMoney}}</div>
+            </td>
+            <td rowspan="{{rows}}">
+                {{#if(d[i].payType==1 && d[i].isPay==0){}}
+                <div><a href='#none' onclick='editOrderMoney({{d[i].orderId}})'>【修改价格】</a></div>
+                {{#}}}
+                <div><a href='#none' onclick='view({{d[i].orderId}})'>【订单详情】</a></div>
+            </td>
+            {{#}}}
+         </tr>
+         {{# } }}
+       </tbody>
+       {{# } }}
+       </script>
+       <tr class='empty-row'>
+            <td colspan='4' id='pager' align="center" style='padding:5px 0px 5px 0px'>&nbsp;</td>
+       </tr>
+    </table>
+    <div id='editMoneyBox' style='display:none'>
+       <form id='newOrderForm' autocomplete='off'>
+       <table class='wst-form wst-box-top'>
+          <tr>
+            <th width='120'>订单号：</th>
+            <td><span id='m_orderNo'></span></td>
+          </tr>
+          <tr>
+            <th>商品总价格：</th>
+            <td>¥<span id='m_goodsMoney'></span></td>
+          </tr>
+          <tr>
+            <th>运费：</th>
+            <td>¥<span id='m_deliverMoney'></span></td>
+          </tr>
+          <tr>
+            <th>商品总价格：</th>
+            <td>¥<span id='m_totalMoney'></span></td>
+          </tr>
+           <tr>
+            <th>实际支付价格：</th>
+            <td>¥<span id='m_realTotalMoney' class='j-warn-order-money'></span></td>
+          </tr>
+          <tr>
+            <th>新价格：</th>
+            <td><input type='text' id='m_newOrderMoney' maxLength='10' style='width:150px' onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberdoteKey(event,true)" onblur='javascript:WST.limitDecimal(this,2)'></td>
+          </tr>
+       </table>
+       </form>
+    </div>
+  </div>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/shops/orders/orders.js?v={$v}'></script>
+<script>
+$(function(){
+	waituserPayByPage();
+})
+</script>
+{/block}

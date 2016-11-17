@@ -1,0 +1,214 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+{/block}
+{block name="main"}
+<style>
+.goodsCat{display:inline-block;width:150px}
+.accreds{display:inline-block;width:150px}
+</style>
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<form id='editFrom' autocomplete='off'>
+<input type='hidden' id='shopId' class='ipt' value="{$object['shopId']}"/>
+<input type='hidden' id='applyId' class='ipt' value="{$object['applyId']}"/>
+<table class='wst-form wst-box-top'>
+  <tr>
+     <td colspan='2' class='head-ititle'>基础信息</td>
+  </tr>
+ {if $object['shopId']==0 || $object['userId']==0 }
+  <tr>
+     <th width='150'>登录账号<font color='red'>*</font>：</th>
+     <td><input type="text" id='loginName' name='loginName' class='ipt' value="{$object['loginName']}" maxLength='20' data-rule="登录账号: required;length[6~20];remote(post:{:url('admin/users/checkLoginKey')})" onkeyup="javascript:WST.isChinese(this,1)"/></td>
+  </tr>
+  <tr>
+     <th>登录密码<font color='red'>*</font>：</th>
+     <td><input type="password" id='loginPwd' class='ipt' maxLength='20' value='88888888' data-rule="登录密码: required;length[6~20];" data-target="#msg_loginPwd"/>
+     <span class='msg-box' id='msg_loginPwd'>(默认为88888888)</span>
+     </td>
+  </tr>
+ {/if}
+  <tr>
+     <th width='150'>店铺编号{if $object['shopId']>0}<font color='red'>*</font>{/if}：</th>
+     <td><input type="text" id='shopSn' name='shopSn' class='ipt' value="{$object['shopSn']}" maxLength='20' data-rule="店铺编号:{if $object['shopId']>0}required;length[1~20];{else /}ignoreBlank;{/if}remote(post:{:url('admin/shops/checkShopSn',array('shopId'=>$object['shopId']))})" data-target="#msg_shopSn"/><span class='msg-box' id='msg_shopSn'>{if $object['shopId']==0}(为空则自动生成'S000000001'类型号码){/if}</span></td>
+  </tr>
+  <tr>
+     <th>店铺名称<font color='red'>*</font>：</th>
+     <td><input type="text" id='shopName' class='ipt' value="{$object['shopName']}" maxLength='20' data-rule="店铺名称: required;"/></td>
+  </tr>
+  <tr>
+     <th>店主姓名<font color='red'>*</font>：</th>
+     <td><input type="text" id='shopkeeper' class='ipt' value="{$object['shopkeeper']}" maxLength='20' data-rule="店主姓名: required;"/></td>
+  </tr>
+  <tr>
+     <th>店主联系手机<font color='red'>*</font>：</th>
+     <td><input type="text" id='telephone' class='ipt' value="{$object['telephone']}" maxLength='11' data-rule="店主联系手机: required;mobile" data-rule-mobile="[/^1[3458]\d{9}$/, '请检查手机号格式']"/></td>
+  </tr>
+  <tr>
+     <th>公司名称<font color='red'>*</font>：</th>
+     <td><input type="text" id='shopCompany' class='ipt' value="{$object['shopCompany']}"  style='width:400px;' maxLength='50' data-rule="公司名称: required;"/></td>
+  </tr>
+  <tr>
+     <th>店铺联系电话<font color='red'>*</font>：</th>
+     <td><input type="text" id='shopTel' class='ipt' value="{$object['shopTel']}" maxLength='50' data-rule="店铺联系电话: required;"/></td>
+  </tr>
+  
+  <tr>
+     <th>经营范围<font color='red'>*</font>：</th>
+     <td>
+       {volist name="goodsCatList" id="vo"}
+       <label class='goodsCat'>
+          <input type='checkbox' class='ipt' name='goodsCatIds' value='{$vo["catId"]}' {if $i == 1}data-rule="经营范围:checked"{/if} {if array_key_exists($vo['catId'],$object['catshops'])}checked{/if}/>{$vo["catName"]}
+       </label>
+       {/volist}
+     </td>
+  </tr>
+  <tr>
+     <th>认证类型：</th>
+     <td>
+       {volist name="accredList" id="vo"}
+       <label class='accreds'>
+          <input type='checkbox' class='ipt' name='accredIds' value='{$vo["accredId"]}' {if array_key_exists($vo['accredId'],$object['accreds'])}checked{/if}/>{$vo["accredName"]}
+       </label>
+       {/volist}
+     </td>
+  </tr>
+  <tr>
+     <th>店铺图标<font color='red'>*</font>：</th>
+     <td>
+     <div id='shopImgPicker'>上传店铺图标</div><span id='uploadMsg'></span><span class='msg-box' id='msg_shopImg'></span>
+     {if $object["shopImg"]!=''}
+     <img id='preview' width='150' height='150' src='__ROOT__/{$object["shopImg"]}'/>
+     {else}
+     <img id='preview' width='150' height='150' src="__ROOT__/{:WSTConf('CONF.shopLogo')}"/>
+     {/if}
+     <input type="hidden" id='shopImg' class='ipt' value="{$object['shopImg']}" data-rule="店铺图标: required;" data-target='#msg_shopImg'/>
+     </td>
+  </tr>
+  <tr>
+     <th>客服QQ：</th>
+     <td><input type="text" id='shopQQ' class='ipt' value="{$object['shopQQ']}" maxLength='200'/></td>
+  </tr>
+  <tr>
+     <th>阿里旺旺：</th>
+     <td><input type="text" id='shopWangWang' class='ipt' value="{$object['shopWangWang']}" maxLength='200'/></td>
+  </tr>
+  <tr>
+     <th>所属区域<font color='red'>*</font>：</th>
+     <td>
+        <select id="area_0" class='ipt j-areas' level="0" onchange="WST.ITAreas({id:'area_0',val:this.value,isRequire:true,className:'j-areas'});">
+	      	<option value="">-请选择-</option>
+	      	{volist name="areaList" id="vo"}
+	        <option value="{$vo['areaId']}">{$vo['areaName']}</option>
+	        {/volist}
+	     </select>
+     </td>
+  </tr>
+  <tr>
+     <th>店铺详细地址<font color='red'>*</font>：</th>
+     <td><input type="text" id='shopAddress' class='ipt' style='width:500px;' value="{$object['shopAddress']}" maxLength='50' data-rule="店铺详细地址: required;"/></td>
+  </tr>
+  <tr>
+     <th>是否提供开发票<font color='red'>*</font>：</th>
+     <td>
+        <label>
+           <input type='radio' class='ipt' name='isInvoice' id='isInvoice1' value='1' {if $object['isInvoice']==1}checked{/if} onclick='javascript:WST.showHide(1,"#trInvoice")'>是
+        </label>
+        <label>
+           <input type='radio' class='ipt' name='isInvoice' value='0' {if $object['isInvoice']==0}checked{/if} onclick='javascript:WST.showHide(0,"#trInvoice")'>否
+        </label>
+     </td>
+  </tr>
+  <tr id='trInvoice' {if $object['isInvoice']==0}style='display:none'{/if}>
+     <th>发票说明<font color='red'>*</font>：</th>
+     <td><input type="text" id='invoiceRemarks' class='ipt' value="{$object['invoiceRemarks']}" style='width:500px;' maxLength='100' data-rule="发票说明:required(#isInvoice1:checked)"/></td>
+  </tr>
+  <tr>
+     <th>营业状态<font color='red'>*</font>：</th>
+     <td>
+        <label>
+           <input type='radio' class='ipt' name='shopAtive' value='1' {if $object['shopAtive']==1}checked{/if}>营业中
+        </label>
+        <label>
+           <input type='radio' class='ipt' name='shopAtive' value='0' {if $object['shopAtive']==0}checked{/if}>休息中
+        </label>
+     </td>
+  </tr>
+  <tr>
+     <th>默认运费：</th>
+     <td><input type="text" id='freight' class='ipt' value="{$object['freight']}" maxLength='8' data-rule="默认运费: required;" onkeypress='return WST.isNumberdoteKey(event);' onkeyup="javascript:WST.isChinese(this,1)"/></td>
+  </tr>
+  <tr>
+     <th>服务时间<font color='red'>*</font>：</th>
+     <td>
+        <select class='ipt' id='serviceStartTime'></select>
+        至
+        <select class='ipt' id='serviceEndTime'></select>
+     </td>
+  </tr>
+  <tr>
+     <td colspan='2' class='head-ititle'>结算信息</td>
+  </tr>
+  <tr>
+     <th>所属银行<font color='red'>*</font>：</th>
+     <td>
+       <select class='ipt' id='bankId' data-rule="所属银行: required;">
+          <option value=''>请选择</option>
+          {volist name="bankList" id="vo"}
+          <option value='{$vo["bankId"]}' {if $object['bankId']==$vo['bankId']}selected{/if}>{$vo["bankName"]}</option>
+          {/volist}
+       </select>
+     </td>
+  </tr>
+  <tr>
+    <th>开户地区<font color='red'>*</font>：</th>
+    <td>
+      <select id="barea_0" class='ipt j-bareas' level="0" onchange="WST.ITAreas({id:'barea_0',val:this.value,isRequire:true,className:'j-bareas'});">
+          <option value="">-请选择-</option>
+          {volist name="areaList" id="vo"}
+          <option value="{$vo['areaId']}">{$vo['areaName']}</option>
+          {/volist}
+       </select>
+    </td>
+  </tr>
+  <tr>
+     <th>银行卡账号<font color='red'>*</font>：</th>
+     <td><input type="text" id='bankNo' class='ipt' value="{$object['bankNo']}" maxLength='20'  style='width:300px;' data-rule="银行卡账号: required;"/></td>
+  </tr>
+  <tr>
+     <th>持卡人<font color='red'>*</font>：</th>
+     <td><input type="text" id='bankUserName' class='ipt' value="{$object['bankUserName']}" maxLength='50' data-rule="持卡人: required;"/></td>
+  </tr>
+  <tr>
+     <td colspan='2' class='head-ititle'>审核状态</td>
+  </tr>
+  <tr>
+     <th>店铺状态<font color='red'>*</font>：</th>
+     <td>
+        <label>
+           <input type='radio' class='ipt' name='shopStatus' id='shopStatus-1' value='-1' {if $object['shopStatus']==-1}checked{/if} onclick='javascript:WST.showHide(1,"#trStatusDesc")'>停止
+        </label>
+        <label>
+           <input type='radio' class='ipt' name='shopStatus' value='1' {if $object['shopStatus']==1}checked{/if} onclick='javascript:WST.showHide(0,"#trStatusDesc")'>正常
+        </label>
+     </td>
+  </tr>
+  <tr id='trStatusDesc' {if $object['shopStatus']==1}style='display:none'{/if}>
+     <th>停止原因<font color='red'>*</font>：</th>
+     <td><textarea id='statusDesc' class='ipt' style='width:500px;height:100px;' maxLength='100' data-rule="停止原因:required(#shopStatus-1:checked);">{$object['statusDesc']}</textarea></td>
+  </tr>
+  <tr>
+     <td colspan='2' align='center'>
+       <input type='button' value='保存' class='btn btn-blue' onclick='javascript:save()'>
+       <input type='button' value='返回' class='btn' onclick='javascript:history.go(-1)'>
+     </td>
+  </tr>
+</table>
+</form>
+<script>
+$(function(){initEdit({serviceStartTime:'{:date("H:i",strtotime($object["serviceStartTime"]))}',serviceEndTime:'{:date("H:i",strtotime($object["serviceEndTime"]))}',areaId:'{$object["areaId"]}',areaIdPath:'{$object["areaIdPath"]}',bankAreaId:'{$object["bankAreaId"]}',bankAreaIdPath:'{$object["bankAreaIdPath"]}'});})
+</script>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script src="__ADMIN__/shops/shops.js?v={$v}" type="text/javascript"></script>
+{/block}

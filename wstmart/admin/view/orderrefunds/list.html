@@ -1,0 +1,35 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/orderrefunds/orderrefunds.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div class="wst-toolbar">
+商家所在地：
+<select id="areaId1" class='ipt j-ipt' level="0" onchange="WST.ITAreas({id:'areaId1',val:this.value,className:'j-ipt'});">
+  <option value="-1">-请选择-</option>
+  {volist name="areaList" id="vo"}
+  <option value="{$vo['areaId']}">{$vo['areaName']}</option>
+  {/volist}
+</select>
+    <br/>
+订单编号：<input type="text" name="orderNo"  placeholder='订单编号' id="orderNo" class='j-ipt'/>
+店铺：<input type="text" name="shopName"  placeholder='店铺名称/店铺编号' id="shopName" class='j-ipt'/>
+配送方式：<select id='deliverType' class='j-ipt'>
+         <option value='-1'>全部</option>
+         <option value='1'>自提</option>
+         <option value='0'>送货上门</option>
+       </select>
+退款状态：<select id='isRefund' class='j-ipt'>
+         <option value='-1'>全部</option>
+         <option value='1'>已退款</option>
+         <option value='0'>未退款</option>
+       </select>
+   <button class="btn btn-blue" onclick='javascript:loadRefundGrid(0)'>查询</button>
+   <div style='clear:both'></div>
+</div>
+<div id="maingrid"></div>
+<script>
+$(function(){initRefundGrid();})
+</script>
+{/block}

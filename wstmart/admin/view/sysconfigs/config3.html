@@ -1,0 +1,56 @@
+<div id="wst-tab-3" title="第三方登录设置" class='wst-tab'>
+     <table class='wst-form wst-box-top'>
+      <tr>
+	     <td colspan='2'  class='head-ititle'>QQ登录</td>
+	  </tr>
+	  <tr>
+	     <th width='150'>开启QQ登录：</th>
+	     <td>
+	     <label>
+	         <input type='radio' id='isOpenQQLogin1' name='isOpenQQLogin' value='1' {if $object['isOpenQQLogin']==1}checked{/if}>是
+	     </label>
+	     <label>
+	         <input type='radio' id='isOpenQQLogin0' name='isOpenQQLogin' value='0' {if $object['isOpenQQLogin']==0}checked{/if}>否
+	     </label>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th width='120'>QQ APP ID：</th>
+	     <td><input type="text" id='qqAppId' class='ipt' value="{$object['qqAppId']}" maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	     <th >QQ APP KEY：</th>
+	     <td><input type="text" id='qqAppKey' class='ipt' value="{$object['qqAppKey']}" maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	     <td colspan='2'  class='head-ititle'>微信登录</td>
+	  </tr>
+	  <tr>
+	     <th>开启微信登录：</th>
+	     <td>
+	     <label>
+	         <input type='radio' id='isOpenWxLogin1' name='isOpenWxLogin' value='1' {if $object['isOpenWxLogin']==1}checked{/if}>是
+	     </label>
+	     <label>
+	         <input type='radio' id='isOpenWxLogin0' name='isOpenWxLogin' value='0' {if $object['isOpenWxLogin']==0}checked{/if}>否
+	     </label>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th>微信 APP ID：</th>
+	     <td><input type="text" id='wxAppId' class='ipt' value="{$object['wxAppId']}" maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	     <th>微信 APP KEY：</th>
+	     <td><input type="text" id='wxAppKey' class='ipt' value="{$object['wxAppKey']}" maxLength='100'/></td>
+	  </tr>
+	  <tr>
+	  	{if ($grant)}
+	     <td colspan='2' align='center'>
+	        <input type="button" value="保存" class='btn btn-blue' onclick='javascript:edit()'/>
+            <input type="reset" class='btn' value="重置" />
+	     </td>
+	     {/if}
+	  </tr>
+	 </table>
+</div>

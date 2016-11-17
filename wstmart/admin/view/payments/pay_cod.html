@@ -1,0 +1,48 @@
+
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/payments/payments.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+
+<form id="payForm" autocomplete="off">
+<table class='wst-form wst-box-top'>
+  <tr>
+      <th width='150'>支付名称<font color='red'>*</font>：</th>
+          <td>
+            <input type="text" id="payName" name="payName" value="{$object['payName']}" class="ipt" maxLength='20' />
+          </td>
+       </tr>
+       <tr>
+          <th>支付方式描述<font color='red'>*</font>：</th>
+          <td>
+              <textarea id="payDesc" name="payDesc" class="ipt"  style="width:200px;height:100px;" >{$object['payDesc']}</textarea>
+          </td>
+       </tr>
+       <tr>
+          <th>排序号<font color='red'>*</font>：</th>
+          <td> 
+              <input type="text" id="payOrder" name="payOrder" value="{$object['payOrder']}" class="ipt" maxLength='20' />
+          </td>
+       </tr>
+       <tr>
+          <th>是否在线支付：</th>
+          <td> 
+              否
+          </td>
+       </tr>
+  
+  <tr>
+     <td colspan='2' align='center'>
+       <input type="hidden" id="id" value="{$object['id']}" />
+       <input type="submit" value="提交" class='btn btn-blue' />
+       <input type="button" onclick="javascript:history.go(-1)" class='btn' value="返回" />
+     </td>
+  </tr>
+</table>
+</form>
+
+
+{/block}
+

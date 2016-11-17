@@ -1,0 +1,70 @@
+<?php $grant = WSTGrant('SCPZ_02');  ?>
+<div id="wst-tab-0" title="基础设置" class='wst-tab' lselected="true">
+     <table class='wst-form wst-box-top'>
+	  <tr>
+	     <th width='150'>商城名称：</th>
+	     <td><input type="text" id='mallName' class='ipt' value="{$object['mallName']}" maxLength='100' placeholder='对外的简称'/></td>
+	  </tr>
+	  <tr>
+	     <th width='150'>商城特色介绍：</th>
+	     <td><input type="text" id='mallSlogan' class='ipt' value="{$object['mallSlogan']}" maxLength='50' placeholder='商城特色短语介绍'/></td>
+	  </tr>
+	  <tr>
+	     <th>商品是否需要审核：</th>
+	     <td>
+	     <label>
+	       <input type='radio' id='isGoodsVerify1' name='isGoodsVerify' class='ipt' value='1' {if $object['isGoodsVerify']==1}checked{/if}>是
+	     </label>
+	     <label>
+	       <input type='radio' id='isGoodsVerify0' name='isGoodsVerify' class='ipt' value='0' {if $object['isGoodsVerify']==0}checked{/if}>否
+	     </label>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th>底部设置：</th>
+	     <td>
+	       <textarea id='mallFooter' class='ipt' placeholder='显示在网站最底部的内容'>{$object['mallFooter']}</textarea>
+	     </td>
+	  </tr>
+	  <tr>
+	     <th>访问统计：</th>
+	     <td><textarea id='visitStatistics' class='ipt' placeholder='用于统计网站访问信息的代码'>{$object['visitStatistics']}</textarea></td>
+	  </tr>
+	  <tr>
+	     <th>客服QQ设置：</th>
+	     <td><input type="text" id='serviceQQ' class='ipt' value="{$object['serviceQQ']}" maxLength='200' placeholder='显示在网站的客服QQ好，多个QQ以，号分割'/></td>
+	  </tr>
+	  <tr>
+	     <th>联系电话：</th>
+	     <td><input type="text" id='serviceTel' class='ipt' value="{$object['serviceTel']}" maxLength='200' placeholder="显示在网站的联系电话"/></td>
+	  </tr>
+	  <tr>
+	     <th>联系邮箱：</th>
+	     <td><input type="text" id='serviceEmail' class='ipt' value="{$object['serviceEmail']}" maxLength='200' placeholder="显示在网站的联系邮箱"/></td>
+	  </tr>
+	  <tr>
+	     <th>热搜关键词：</th>
+	     <td><input type="text" id='hotWordsSearch' class='ipt' value="{$object['hotWordsSearch']}" maxLength='100' placeholder='商城搜索栏下的引导搜索词'/></td>
+	  </tr>
+	  <tr>
+	     <th>热搜广告词（商品）：</th>
+	     <td><input type="text" id='adsGoodsWordsSearch' class='ipt' value="{$object['adsGoodsWordsSearch']}" maxLength='100' placeholder='商城搜索栏里的搜索词'/></td>
+	  </tr>
+	  <tr>
+	     <th>热搜广告词（店铺）：</th>
+	     <td><input type="text" id='adsShopWordsSearch' class='ipt' value="{$object['adsShopWordsSearch']}" maxLength='100' placeholder='商城搜索栏里的搜索词'/></td>
+	  </tr>
+	  <tr>
+	     <th>账号禁用关键字：</th>
+	     <td><textarea id='registerLimitWords' class='ipt' placeholder='禁止用户注册时的账号内容'>{$object['registerLimitWords']}</textarea></td>
+	  </tr>
+	  <tr>
+	  	 {if ($grant)}
+	     <td colspan='2' align='center'>
+	        <input type="button" value="保存" class='btn btn-blue' onclick='javascript:edit()'/>
+            <input type="reset" class='btn' value="重置" />
+	     </td>
+	     {/if}
+	  </tr>
+	 </table>
+</div>

@@ -1,0 +1,60 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/cashdraws/cashdraws.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<form autocomplete='off'>
+    <input type='hidden' id='cashId' class='ipt' value="{$object['cashId']}"/>
+    <table class='wst-form wst-box-top'>
+        <tr>
+           <th width='150'>提现单号：</th>
+           <td>
+           {$object['cashNo']}
+           </td>
+        </tr>
+        <tr>
+           <th>提现金额：</th>
+           <td>¥{$object['money']}</td>
+        </tr>
+        <tr>
+           <th>提现银行：</th>
+           <td>{$object['accTargetName']}</td>
+        </tr>
+        <tr>
+           <th>开卡地区：</th>
+           <td>
+             {$object['accAreaName']}
+           </td>
+        </tr>
+        <tr>
+           <th>卡号：</th>
+           <td>
+             {$object['accNo']}
+           </td>
+        </tr>
+        <tr>
+           <th>持卡人：</th>
+           <td>
+             {$object['accUser']}
+           </td>
+        </tr>
+        <tr>
+           <th>申请时间：</th>
+           <td>{$object['createTime']}</td>
+        </tr>
+        <tr >
+           <th valign='top'>提现备注：<br/>(用户可见)&nbsp;&nbsp;</th>
+           <td>
+             <textarea id='cashRemarks' class='ipt' style='width:70%;height:80px;'></textarea>
+           </td>
+        </tr>
+        <tr>
+           <td colspan='2' align='center'>
+             <input type='button' value='提交' class='btn btn-blue' onclick='javascript:save()'>
+             <input type='button' value='返回' class='btn' onclick='javascript:history.go(-1)'>
+           </td>
+        </tr>
+    </table>
+</form>
+{/block}

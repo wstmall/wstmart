@@ -1,0 +1,131 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/goodsappraises/goodsappraises.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+
+<script type="text/javascript" src="__STATIC__/plugins/raty/jquery.raty.min.js"></script>
+<script>
+$(function(){
+var options = {
+      hints         : ['很不满意', '不满意', '一般', '满意', '非常满意'],
+      width:200,
+      targetKeep: true,
+      starHalf:'__STATIC__/plugins/raty/img/star-half-big.png',
+      starOff:'__STATIC__/plugins/raty/img/star-off-big.png',
+      starOn:'__STATIC__/plugins/raty/img/star-on-big.png',
+      cancelOff: '__STATIC__/plugins/raty/img/cancel-off-big.png',
+        cancelOn: '__STATIC__/plugins/raty/img/cancel-on-big.png'
+    }
+  options.target='#goodsScore_hint';
+  options.score='{$data['goodsScore']}';
+  $('.goodsScore').raty(options);
+
+  options.target='#timeScore_hint';
+  options.score='{$data['timeScore']}';
+  $('.timeScore').raty(options);
+
+  options.target='#serviceScore_hint';
+  options.score='{$data['serviceScore']}';
+  $('.serviceScore').raty(options);
+
+  editInit();
+      
+
+});
+</script>
+<form id="goodsAppraisesForm" autocomplete="off">
+<table class='wst-form wst-box-top'>
+  <tr>
+      <th width='150'>商品：</th>
+          <td>
+            <img src='__ROOT__/{:str_replace(".","_thumb.",$data["goodsImg"])}' width='50' style="float:left;" />&nbsp;
+            <p style="float:left;height:50px;line-height:25px;width:245px;overflow:hidden;margin-left:5px;">{$data['goodsName']}</p>
+          </td>
+       </tr>
+       <tr>
+          <th>所属订单：</th>
+          <td>
+              {$data['orderNo']}
+          </td>
+       </tr>
+       <tr>
+          <th>用户：</th>
+          <td>
+              {$data['loginName']}
+          </td>
+       </tr>
+       <tr>
+          <th>评价：</th>
+          <td>
+                <div style='width:500px;'>
+                  <div style='float:left;width:70px;'>商品评分：</div>
+                  <div style='float:left;width:430px;'>
+                    <div class="goodsScore" class="ipt" style='float:left'></div>
+                    <div id="goodsScore_hint"  style='float:left'></div>
+                  </div>
+                </div>
+                <div id="score_error"></div>
+
+               <div style='width:500px;'>
+                    <div style='float:left;width:70px;'> 时效评分：</div>
+                    <div style='float:left;width:430px;'>
+                      <div class="timeScore" class="ipt" style='float:left'></div>
+                      <div id="timeScore_hint" style='float:left'></div>
+                    </div>
+               </div>
+
+               <div style='width:500px;'>
+                  <div style='float:left;width:70px;'>服务评分：</div>
+                  <div style='float:left;width:430px;'>
+                      <div class="serviceScore" class="ipt" style='float:left'></div>
+                      <div id="serviceScore_hint"  style='float:left'></div>
+                  </div>
+               </div>
+          </td>
+
+       </tr>
+       <tr>
+          <th>状态：</th>
+          <td>
+            <label><input type="radio" class="ipt" id="isShow" name="isShow" value="1" <?=$data['isShow']==1?'checked':'';?>  />显示</label>
+            <label><input type="radio" class="ipt" id="isShow" name="isShow" value="0" <?=$data['isShow']==0?'checked':'';?>  />隐藏</label>
+          </td>
+       </tr>
+       <tr>
+          <th>评语：</th>
+          <td>
+              <textarea style="width:300px;height:100px" id="content" name="content" class="ipt">{$data['content']}</textarea>
+          </td>
+       </tr>
+       <tr>
+          <th>附件：</th>
+          <td>
+              <div id="appraise-img">
+              {if !empty($data['images'])}
+                {volist name="$data['images']" id="img"}
+                <img src="__ROOT__/{$img}" layer-src="__ROOT__/{:str_replace('_thumb.','.',$img)}" width="50" />
+                {/volist}
+              {/if}
+            </div>
+          </td>
+       </tr>
+  
+  <tr>
+     <td colspan='2' align='center'>
+
+       <input type="hidden" name="id" id="id" class="ipt" value="{$data['id']+0}" />
+       <input type="submit" value="提交" class='btn btn-blue' />
+       <input type="button" onclick="javascript:history.go(-1)" class='btn' value="返回" />
+     </td>
+  </tr>
+</table>
+</form>
+<script>
+$(function(){
+  parent.showImg({photos: $('#appraise-img')});
+});
+
+</script>
+{/block}

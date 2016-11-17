@@ -1,0 +1,19 @@
+{extend name="default/base" /}
+{block name="title"}系统提示  - {:WSTConf('CONF.mallName')}{__block__}{/block}
+{block name="css"}{/block}
+{block name="main"}
+<div class="wst-container">
+	<div class="wst-empty empty1">
+		<div class="prompt">
+			<p>{$message}</p>
+		</div>
+		<div class="button">
+			<a href="javascript:history.go(-1)" class="wst-empty-btn wst-empty-btn1">返回上一页</a>
+		   <a href="{$Request.root.true}" class="wst-empty-btn wst-empty-btn1">返回首页</a>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="js"}{/block}
+{block name="footer"}{__block__}
+{/block}

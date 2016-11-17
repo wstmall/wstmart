@@ -1,0 +1,80 @@
+{extend name="default/users/base" /}
+{block name="title"}首页-买家中心{__block__}{/block}
+{block name="css"}
+{/block}
+{block name="content"}
+<div class="wst-user-head"><span>用户信息</span></div>
+<div class="wst-clear"></div>
+<div class="u-menu">
+   <a href="javascript:void(0)" onclick="batchRead()">标记为已读</a> |
+   <a href='javascript:void(0);' onclick="batchDel()" >删除</a>
+</div>
+
+  <div class="wst-body"> 
+       <div class='wst-page-content'>        
+        <table class='wst-list'>
+           <thead>
+             <tr>
+               <th width='25'>
+                <div class="checkbox-box-s">
+                   <input class="wst-checkbox-s" onclick="javascript:WST.checkChks(this,'.chk')" type='checkbox' id="all"/>
+                   <label for="all"></label>
+                 </div>
+              </th>
+               <th width='45'>状态</th>
+               <th>消息</th>
+               <th width='100'>操作</th>
+             </tr>
+           </thead>
+           <script id="msg" type="text/html">
+            {{# for(var i = 0, len = d.length; i < len; i++){ }}
+             <tr>
+               <td>
+                  <div class="checkbox-box-s">
+                    <input type='checkbox'  class='chk wst-checkbox-s' id="chk-{{i}}" value='{{ d[i].id }}' /><label class='mt-1' for="chk-{{i}}"></label>
+                  </div>
+               </td>
+               <td>
+
+               {{# if(d[i].msgStatus ==1) { }}
+                <div class='readMsg'></div>
+               {{# }else{ }}
+                <div class='newMsg'></div>
+               {{# } }}
+               </td>
+               <td>{{ d[i].msgContent }}</td>
+               <td>
+               <a class="s-handle" href="javascript:showMsg({{ d[i].id }})">[查看]</a>
+               <a class="s-handle" href="javascript:delMsg(this,{{ d[i].id }})">[删除]</a>
+               &nbsp;
+               </td>
+             </tr>
+            {{# } }}
+            </script>
+           <tbody id="msg_box">
+
+           	
+
+
+
+             <tfoot>
+             <tr>
+                <td colspan='12' align='center'>
+
+                <div id="wst-page" class='wst-page' style="padding-bottom:10px;">
+                </div>
+
+                </td>
+             </tr>
+             </tfoot>
+           </tbody>
+        </table>
+
+       
+
+        </div>
+    </div>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/users/messages/message.js?v={$v}'></script>
+{/block}

@@ -1,0 +1,67 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script src="__ADMIN__/userranks/userranks.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<form id="userRankForm" autocomplete="off">
+<table class='wst-form wst-box-top'>
+      <tr>
+      <th width='150'>会员等级名称<font color='red'>*</font>：</th>
+          <td>
+            <input type="text" class="ipt" id="rankName" name="rankName" value="{$data['rankName']}" />
+          </td>
+       </tr>
+       <tr>
+          <th width='100'>会员等级图标：</th>
+          <td><div id='userranksPicker'>上传图标</div><span id='uploadMsg'></span></td>
+       </tr>
+       <tr>
+          <th width='100'>预览图：</th>
+          <td>
+            <div style="min-height:30px;" id="preview">
+              {if (isset($data['userrankImg']))}
+                <img src="__ROOT__/{$data['userrankImg']}" height="25" />
+              {/if}
+            </div>
+            <input type="hidden" name="userrankImg" id="userrankImg" value="{$data['userrankImg']}" class="ipt" />
+
+          </td>
+       </tr>
+
+       <tr>
+          <th>积分下限(大于或等于)<font color='red'>*</font>：</th>
+          <td>
+              <input type="text" class="ipt" id="startScore" name="startScore" value="{$data['startScore']}" />
+          </td>
+       </tr>
+       <tr>
+          <th>积分上限(小于)<font color='red'>*</font>：</th>
+          <td>
+              <input type="text" class="ipt" id="endScore" name="endScore" value="{$data['endScore']}" />
+          </td>
+       </tr>
+       <tr>
+          <th>折扣率<font color='red'>*</font>：</th>
+          <td><input type="text" class="ipt" id="rebate" name="rebate" value="{$data['rebate']}" maxLength="3" /></td>
+       </tr>
+  
+  <tr>
+     <td colspan='2' align='center'>
+       <input type="hidden" name="id" id="rankId" class="ipt" value="{$data['rankId']+0}" />
+       <input type="submit" value="提交" class='btn btn-blue' />
+       <input type="button" onclick="javascript:history.go(-1)" class='btn' value="返回" />
+     </td>
+  </tr>
+</table>
+</form>
+<script>
+$(function(){editInit()});
+</script>
+
+{/block}
+

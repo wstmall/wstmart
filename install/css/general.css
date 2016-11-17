@@ -1,0 +1,134 @@
+body,p,td,th,div {
+  line-height:130%;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+body,p,td,th,div {
+  color: #192E32;
+}
+
+html {
+  overflow-y:scroll;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    text-align:center;
+    font:15px 宋体, Arial, Helvetica, sans-serif;
+    background: -webkit-linear-gradient(#ffffff, #189cd4); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#ffffff, #189cd4); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#ffffff, #189cd4); /* Firefox 3.6 - 15 */
+    background: linear-gradient(#ffffff, #189cd4); /* 标准的语法 */
+    background-size:100% 1000px;
+    background-repeat:no-repeat;
+}
+p{margin:2px;font-size:15px;line-height:25px;}
+.bold{font-weight: bold;}
+.comment {
+  color: #888;
+}
+.main{margin:0 auto;background:#179ed8;overflow:hidden;width:860px;min-height:500px;border-radius:10px;margin-top:10px;padding-top:10px;}
+.content{border: 1px solid #ccc;
+    line-height: 25px;
+    margin: 0 auto 16px;
+    overflow-y: auto;
+    padding: 18px;
+    text-align: left;
+    width: 800px;
+    border-radius: 5px;
+    background:#ade7ff;
+    height:420px;
+    overflow-y:auto;
+    }
+.bottom{margin:16px}
+.btn{
+	color: #234960;
+    font-size: 16px;
+    font-weight: bold;
+    cursor:pointer;
+    height: 38px;
+    width: 100px;
+    background:#efefef;
+    border:1px solid #eae8e8;
+    border-radius: 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    }
+.btn:hover {
+    background-color: #0bb1f8;
+    color: white;
+}
+.btn2{
+	float: left;
+	width: 130px;
+	display: inline-block;
+	color: #ffffff;
+	font-size: 14px;
+	padding:5px 10px;
+    background:#178cdc;
+    border:1px solid #ffffff;
+    transition: all 0.5s;
+    outline:1px solid #178cdc;
+	outline-offset:1px;
+	margin-left:15px;
+}
+.btn2 span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+.btn2 span:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -10px;
+  transition: 0.5s;
+}
+.btn2:hover span {
+  padding-right: 10px;
+}
+.btn2:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+input, textarea, select {
+  font:12px 宋体, Arial, Helvetica, sans-serif;
+}
+a { text-decoration:none; }
+input.p, label {
+  cursor:pointer;
+}
+.ipt {
+  color: black;
+  width: 150px;
+  height: 28px;
+  padding-left: 2px;
+  background-color: #f0f8fb;
+  border:1px solid #7dd0f9;
+}
+
+a.install {
+  cursor: pointer;
+  display: inline-block;
+  background: ;
+  border-radius: 5px;
+  text-decoration: none;
+  padding: 5px 5px;
+}
+a.install:hover {
+  background: white;
+  color: #0EAAE7;
+}
+.tips {
+  display:none;
+  color: white;
+  font-size: 13px;
+}
+.check-env {width: 98%;margin: 0 auto;text-align: left;}
+.check-env .left{width: 350px;}
+.red{color:red}
+.check-1{background:url('../images/fail.gif') no-repeat;width:16px;height:16px;display: inline-block;margin-right:5px;}
+.check1{background:url('../images/ok.gif') no-repeat;width:16px;height:16px;display: inline-block;margin-right:5px;}
+.check0{background:url('../images/unkown.gif') no-repeat;width:16px;height:16px;display: inline-block;margin-right:5px;}

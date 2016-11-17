@@ -1,0 +1,272 @@
+{extend name="default/base" /}
+{block name="title"}{:WSTConf('CONF.mallName')}-{:WSTConf('CONF.mallSlogan')}{__block__}{/block}
+{block name="meta"}
+<meta name="description" content="{:WSTConf('CONF.seoMallDesc')}">
+<meta name="Keywords" content="{:WSTConf('CONF.seoMallKeywords')}">
+{/block}
+{block name="css"}
+<link href="__STYLE__/css/index.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="main"}
+{/* 横栏广告  */}
+<div class="wst-ads" >
+	<div class="wst-slide" id="wst-slide">
+		<ul class="wst-slide-items">
+			{wst:ads code="ads-index" cache='86400'}
+				<a href="{$vo.adURL}" {if ($vo['isOpen'])}target='_blank'{/if} {if ($vo['adURL']!='')}onclick="WST.recordClick({$vo['adId']})"{/if}><li style="background: url(__ROOT__/{$vo.adFile}) no-repeat  scroll center top;background-size:cover;" ></li></a>
+			{/wst:ads}
+		</ul>
+		<div class="wst-slide-numbox">
+			<div class="wst-slide-controls">
+			  	{wst:ads code="ads-index" cache='86400' key='k'}
+				  	{if condition="$k+1 eq 1"}
+				  		 <span class="curr">{$k+1}</span>
+				  	{else/}
+				  		 <span class="">{$k+1}</span>
+				  	{/if}
+				{/wst:ads}
+			</div>
+		</div>
+	</div>
+</div>
+<div class='wst-main'>
+   {/* 横栏商品-推荐/最新/精品/热销 */}
+	<div class='wst-container'>
+	<div class="buy-new-best-hot">
+		<ul class="rec">
+				<li class="rec-item j-rec-selected" id="fl_f_0" onmouseover="gpanelOver1(this);">
+					<em></em>
+					<a href="javascript:void(0)">商品推荐</a>
+				</li>
+				<li class="rec-item" id="fl_f_1" onmouseover="gpanelOver1(this);"><em></em><a href="javascript:void(0)">最新上架</a></li>
+				<li class="rec-item" id="fl_f_2" onmouseover="gpanelOver1(this);"><em></em><a href="javascript:void(0)">精品促销</a></li>
+				<li class="rec-item" id="fl_f_3" onmouseover="gpanelOver1(this);"><em></em><a href="javascript:void(0)">热销商品</a></li>
+		</ul>
+		{/* 推荐商品  */}
+		<div class="rec-goods-list" id="fl_f_0_pl">
+			<ul class="rec-goods-list">
+			    {wst:goods type='recom' cache="86400" num='5'}
+				<li>
+				    <a href='{:Url("home/goods/detail","id=".$vo["goodsId"])}' target='_blank'>
+					  <img class='goodsImg' data-original="__ROOT__/{:WSTImg($vo['goodsImg'])}"  title="{$vo['goodsName']}"/>
+					</a>
+					<p class="rec-goods-desc"><a href='{:Url("home/goods/detail","id=".$vo["goodsId"])}' target='_blank'>{$vo['goodsName']}</a></p>
+					<div class="rec-goods-bottom">
+					   <p class="rec-goods-price">价格:<span>￥{$vo['shopPrice']}</span></p>
+					   <a href="javascript:WST.addCart({$vo['goodsId']});">加入购物车</a>
+					</div>
+				</li>
+				{/wst:goods}
+			</ul>
+			<div class="wst-clear"></div>
+		</div> 
+		{/* 最新上架  */}
+		<div class="rec-goods-list hide" id="fl_f_1_pl">
+			<ul class="rec-goods-list">
+				{wst:goods type='new' cache="86400" num='5'}
+				<li>
+				    <a href='{:Url("home/goods/detail","id=".$vo["goodsId"])}' target='_blank'>
+					  <img class='goodsImg' data-original="__ROOT__/{:WSTImg($vo['goodsImg'])}" title="{$vo['goodsName']}" />
+					</a>
+					<p class="rec-goods-desc"><a href='{:Url("home/goods/detail","id=".$vo["goodsId"])}' target='_blank'>{$vo['goodsName']}</a></p>
+					<div class="rec-goods-bottom">
+					  <p class="rec-goods-price">价格:<span>￥{$vo['shopPrice']}</span></p>
+					  <a href="javascript:WST.addCart({$vo['goodsId']});">加入购物车</a>
+					</div>
+				</li>
+				{/wst:goods}
+			</ul>
+			<div class="wst-clear"></div>
+		</div>
+		{/* 精品促销  */}
+		<div class="rec-goods-list hide" id="fl_f_2_pl">
+			<ul class="rec-goods-list">
+				{wst:goods type='best' cache="86400" num='5'}
+				<li>
+				    <a href='{:Url("home/goods/detail","id=".$vo["goodsId"])}' target='_blank'>
+					   <img class='goodsImg' data-original="__ROOT__/{:WSTImg($vo['goodsImg'])}" title="{$vo['goodsName']}"/>
+					</a>
+					<p class="rec-goods-desc"><a href='{:Url("home/goods/detail","id=".$vo["goodsId"])}' target='_blank'>{$vo['goodsName']}</a></p>
+					<div class="rec-goods-bottom">
+					   <p class="rec-goods-price">价格:<span>￥{$vo['shopPrice']}</span></p>
+					   <a href="javascript:WST.addCart({$vo['goodsId']});">加入购物车</a>
+				    </div>
+				</li>
+				{/wst:goods}
+			</ul>
+			<div class="wst-clear"></div>
+		</div>
+		{/* 热销商品 */}
+		<div class="rec-goods-list hide" id="fl_f_3_pl">
+			<ul class="rec-goods-list">
+				{wst:goods type='hot' cache="86400" num='5'}
+				<li>
+				    <a href='{:Url("home/goods/detail","id=".$vo["goodsId"])}' target='_blank'>
+					  <img class='goodsImg' data-original="__ROOT__/{:WSTImg($vo['goodsImg'])}" title="{$vo['goodsName']}"/>
+					</a>
+					<p class="rec-goods-desc"><a href='{:Url("home/goods/detail","id=".$vo["goodsId"])}' target='_blank'>{$vo['goodsName']}</a></p>
+					<div class="rec-goods-bottom">
+					   <p class="rec-goods-price">价格:<span>￥{$vo['shopPrice']}</span></p>
+					   <a href="javascript:WST.addCart({$vo['goodsId']});">加入购物车</a>
+					</div>
+				</li>
+				{/wst:goods}
+			</ul>
+			<div class="wst-clear"></div>
+		</div>
+	</div>
+    {/* 楼层商品 */}
+	{volist name="$floors" id="vo" key="l" length="10"}
+	{/* 楼层顶部广告 */}
+	{php}$adsCode = "ads-".$l."-1";{/php}
+	{wst:ads code="$adsCode" num="1" cache='86400' id="tad"}
+	<div class="floor-top-ads">
+		<a href="{$tad['adURL']}" {if ($tad['adURL']!='')}onclick="WST.recordClick({$tad['adId']})"{/if} ><img class='goodsImg' data-original="__ROOT__/{$tad['adFile']}"></a>
+	</div>
+	{/wst:ads}
+
+	<div class="floor-box">
+		<div class="floor-header c{$l}" id="c{$l}">
+			<div class="floor-header-f{$l}">
+				<p class="floor-left-title"><a name="{$l}F"></a>{$l}F</p>
+				<p class="floor-right-title">{:str_replace('、','<br>',$vo['catName'])}</p>
+			</div>
+
+			<ul class="tab">
+				<li class="tab-item{$l} j-tab-selected{$l}" id="fl_{$l}_0" onmouseover="gpanelOver(this);" c={$l}>
+					<a href="{:Url('home/goods/lists','cat='.$vo['catId'])}">热门</a>
+				</li>
+				{/* 楼层二级分类 */}
+				{volist name="vo['children']" id="vo1" key="l2" length="7"}
+				<li class="tab-item{$l}" id="fl_{$l}_{$l2}" onmouseover="gpanelOver(this);" c={$l}><a href="{:Url('home/goods/lists','cat='.$vo1['catId'])}">{$vo1['catName']}</a></li>
+				{/volist}
+			</ul>
+		</div>
+
+		<div class="floor-left">
+		    {/* 楼层左侧广告 */}
+			<div class="floor-left-ads">
+			    {php}$adsCode = "ads-".$l."-2";{/php}
+			    {wst:ads code="$adsCode" num="1" cache='86400' id='lad'}
+					<a href="{$lad['adURL']}" {if ($lad['adURL']!='')}onclick="WST.recordClick({$lad['adId']})"{/if}><img style="width:240px;height:418px;" class='goodsImg' data-original="__ROOT__/{$lad['adFile']}"> </a>
+				{/wst:ads}
+			</div>
+			<div class="floor-left-goods">
+			    {/* 楼层左侧推荐商品 */}
+				{wst:goods type='recom' cat="vo['catId']" cache="86400" num='8' id="gvo"}
+				<div class='item'>
+				{$key+1}.&nbsp;<a href="{:Url('home/goods/detail','id='.$gvo['goodsId'])}" title="{$gvo['goodsName']}">{$gvo['goodsName']}</a>
+				</div>
+				{/wst:goods}
+			</div>
+		</div>
+		{/* 热门下的商品,含右侧广告 */}
+		<div class="floor-right" id="fl_{$l}_0_pl">
+			<div class="floor-right-ads">
+				<div class="wst-floor-slide-{$l}" id="wst-floor-slide-{$l}">
+					<ul class="wst-floor-slide-items">
+					    {php}$adsCode = "ads-".$l."-3";{/php}
+					    {wst:ads code="$adsCode" cache='86400' id='rad'}
+							<li style="z-index: 1;">
+								<a href="{$rad.adURL}" {if ($rad['adURL']!='')}onclick="WST.recordClick({$rad['adId']})"{/if}><img class='goodsImg' data-original="__ROOT__/{$rad.adFile}"></a>
+							</li>
+						{/wst:ads}
+					</ul>
+					<div class="wst-floor-slide-numbox">
+						<div id="wst-floor-slide-controls-{$l}">
+						 {php}$adsCode = "ads-".$l."-3";{/php}
+						 {wst:ads code="$adsCode" cache='86400' key='k' id='rad'}
+							 {if condition="$k eq 1"}
+							  		 <span class="curr"> </span>
+							 {else/}
+							  		 <span class=""> </span>
+							 {/if}
+						 {/wst:ads}
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="goods-list">
+		     {/* 楼层分类下的商品 */}
+			  {wst:goods type='hot' cat="vo['catId']" cache="86400" num='6' id='cs'}
+		      <div class="goods goods-f{$l}">
+		      	<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goodsId'])}" title="{$cs['goodsName']}"><img title="{$cs['goodsName']}" class='goodsImg' data-original="__ROOT__/{$cs['goodsImg']}"/></a></div>
+		      	<div class="p-name"><a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goodsId'])}" class="wst-redlink" title="{$cs['goodsName']}">{:WSTMSubstr($cs['goodsName'],0,33)}</a></div>
+		      	<div>
+		      		<div class="p-price">￥{$cs['shopPrice']}</div>
+		      		<div class="p-hsale">
+		      			<div class="sale-num">成交数：<span class="wst-fred">{$cs['saleNum']}</span></div>
+		      			<a class="f-add-cart" style="display:none;" href="javascript:WST.addCart({$cs['goodsId']});">加入购物车</a>
+		      		</div>
+		      		<div class='wst-clear'></div>
+		      	</div>
+		      </div>
+		      {/wst:goods}
+		     <div class='wst-clear'></div>
+		   	</div>
+			<div class="wst-clear"></div>
+		</div> 
+
+		{/* 二级分类下的商品,不含右侧广告  */}
+		{volist name="vo['children']" id="vo1" key="l2"}
+		<div class="floor-right" id="fl_{$l}_{$l2}_pl" style="display:none;">
+			<div class="goods-list">
+		     {/* 楼层分类下的商品 */}
+			 {wst:goods type='recom' cat="vo1['catId']" cache="86400" num='8' id='vo2'}
+		      <div class="goods goods-f{$l}">
+		      	<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo2['goodsId'])}" title="{$vo2['goodsName']}"><img title="{$vo2['goodsName']}" class='goodsImg' data-original="__ROOT__/{$vo2['goodsImg']}"/></a></div>
+		      	<div class="p-name"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo2['goodsId'])}" class="wst-redlink" title="{$vo2['goodsName']}">{:WSTMSubstr($vo2['goodsName'],0,33)}</a></div>
+		      	<div>
+		      		<div class="p-price">￥{$vo2['shopPrice']}</div>
+		      		<div class="p-hsale">
+		      			<div class="sale-num">成交数：<span class="wst-fred">{$vo2['saleNum']}</span></div>
+		      			<a class="f-add-cart" style="display:none;" href="javascript:WST.addCart({$vo2['goodsId']});">加入购物车</a>
+		      		</div>
+		      		<div class='wst-clear'></div>
+		      	</div>
+		      </div>
+		      {/wst:goods}
+		     <div class='wst-clear'></div>
+		   	</div>
+		</div>
+		{/volist}
+		<div class="wst-clear"></div>
+		{/* 商品排行 */}
+		<div class="floor-bottom">
+			<p>商品排行</p>
+				<ul class="floor-bottom-goods style-main" id="styleMain{$l}">
+				  {wst:goods type='recom' cat="vo['catId']" cache="86400" num='10' id='gr'}
+				  <li>
+				    <a href="{:url('home/goods/detail',['id'=>$gr['goodsId']])}"><img class='fImg' data-original="__ROOT__/{$gr['goodsImg']}"></a>
+				    <div>
+					   <p class="floor-goods-title"><a href="{:url('home/goods/detail',['id'=>$gr['goodsId']])}">{:WSTMSubstr($gr['goodsName'],0,13)}</a></p>
+					   <span>￥{:sprintf('%.1f',$gr['shopPrice'])}&nbsp;&nbsp;<em>￥{:sprintf('%.1f',$gr['marketPrice'])}</em></span>
+					   <br />
+					   <a class="floor-buy" href="javascript:WST.addCart({$gr['goodsId']})">加入购物车</a>
+					</div>
+				  </li>
+				  {/wst:goods}
+				</ul>
+		</div>
+	</div>
+	{/volist}
+	</div>
+</div>
+<div id="screen-left-nav" style="display:none;">
+	<ul>
+		{for start="1" end="$l+1"}
+		{php} if ($i>10)break; {/php}
+		<li class="lnav" id="F{$i}" ><a href="javascript:;" onfocus="this.blur();" >{$i}F</a></li>
+		{/for}
+	</ul>
+</div>
+{/* 右侧菜单栏  */}
+{include file="default/right_cart"/}
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__ROOT__/static/plugins/lazyload/jquery.lazyload.min.js?v={$v}'></script>
+<script type='text/javascript' src='__STYLE__/js/index.js?v={$v}'></script>
+{/block}
+{/block}

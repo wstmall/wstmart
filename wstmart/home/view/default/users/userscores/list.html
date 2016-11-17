@@ -1,0 +1,57 @@
+{extend name="default/users/base" /}
+{block name="title"}积分管理-买家中心{__block__}{/block}
+{block name="content"}
+<div class='score-head'>
+  <div class='user-logo'><img height='100' width='100'src='__ROOT__/{:session("WST_USER.userPhoto")}'></div>
+  <div class='user-info'> 
+     <div class='userName'>{:session('WST_USER.loginName')}</div>
+     <div class='userScore'>可用积分：<font color='red'>{$object['userScore']}</font>个</div>
+  </div>
+</div>
+<div class='wst-user-content'>
+   <div id='tab' class="wst-tab-box">
+		<ul class="wst-tab-nav">
+		   <li>积分明细</li>
+		   <li>积分收入</li>
+		   <li>积分支出</li>
+		</ul>
+	    <table class='wst-list' style="font-size:13px;">
+           <thead>
+             <tr>
+               <th width='*'>来源/用途</th>
+               <th width='120'>积分变化</th>
+               <th width='160'>日期</th>
+               <th width='260'>备注</th>
+             </tr>
+           </thead>
+           <script id="tblist" type="text/html">
+			{{# for(var i = 0; i < d.length; i++){ }}
+            <tr>
+               <td width='160'>{{d[i].dataSrc}}</td>
+               <td width='120'>
+				{{# if(d[i].scoreType==1){ }}
+					<span class="score-add">+ {{ d[i].score }}</span>
+				{{# }else{ }}
+					<span class='score-reduce'> - {{ d[i].score }}</span>
+				{{# } }}
+				</td>
+			   <td width='160'>{{ d[i].createTime }}</td>
+               <td width='*'>{{ d[i].dataRemarks }}</td>
+             </tr>
+			{{# } }}
+			</script>
+           <tbody id="page-list"></tbody>
+           <tfoot>
+             <tr>
+                <td colspan='4' align="center" style='padding:5px 0px 5px 0px'>
+					<div id="pager"></div>
+				</td>
+             </tr>
+           </tfoot>
+        </table>
+    </div>  
+</div>
+{/block}  
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/users/userscores/userscores.js?v={$v}'></script>
+{/block}

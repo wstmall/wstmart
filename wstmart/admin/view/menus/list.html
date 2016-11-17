@@ -1,0 +1,79 @@
+{extend name="base" /}
+{block name="css"}
+<link href="__ADMIN__/js/ztree/css/zTreeStyle/zTreeStyle.css?v={$v}" rel="stylesheet" type="text/css" />
+<style>
+body{padding:5px;}
+</style> 
+{/block}
+{block name="js"}
+<script src="__ADMIN__/js/ztree/jquery.ztree.all-3.5.js?v={$v}"></script>
+<script src="__ADMIN__/menus/menu.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div id="layout">
+    <div  position="left" title="菜单管理" showClose='true' style='overflow:auto'>
+        <ul id="menuTree" class="ztree"></ul>
+    </div>
+    <div position="center" title="权限管理">
+      {if WSTGrant('QXGL_01')}
+      <div class="wst-toolbar" style='display:none'>
+          <button class="btn btn-green f-right" onclick='javascript:toEdit(0)'>新增</button>
+          <div style='clear:both'></div>
+      </div>
+      {/if}
+      <div id="maingrid"  style='display:none'></div>
+    </div>
+</div>
+<div id='menuBox' style='display:none'>
+<form id='menuForm'>
+  <input type='hidden' id='parentId' class='ipt2' maxLength='20'/>
+  <table class='wst-form wst-box-top'>
+     <tr>
+        <th width='100'>菜单名称<font color='red'>*</font>：</th>
+        <td><input type='text' id='menuName' class='ipt2' maxLength='20' data-rule="菜单名称: required;"/></td>
+     </tr>
+     <tr>
+        <th width='100'>菜单排序<font color='red'>*</font>：</th>
+        <td><input type='text' id='menuSort' class='ipt2' maxLength='5'/></td>
+     </tr>
+  </table>
+</form>
+</div>
+<div id='privilegeBox' style='display:none'>
+  <form id='privilegeForm' autocomplete='off'>
+  <table class='wst-form wst-box-top'>
+     <tr>
+        <th width='100'>权限名称<font color='red'>*</font>：</th>
+        <td><input type='text' id='privilegeName' class='ipt' maxLength='20' data-rule="权限名称: required;"/></td>
+     </tr>
+     <tr>
+        <th>权限代码<font color='red'>*</font>：</th>
+        <td><input type='text' id='privilegeCode' class='ipt' maxLength='10' onblur='javascript:checkPrivilegeCode(this)' data-rule="权限代码: required;"/></td>
+     </tr>
+     <tr>
+        <th>是否菜单权限<font color='red'>*</font>：</th>
+        <td height='24'>
+           <label>
+              <input type="radio" id="isMenuPrivilege1" name="isMenuPrivilege" class="ipt" value="1">是
+           </label>
+           <label>
+              <input type="radio" id="isMenuPrivilege1" name="isMenuPrivilege" class="ipt" value="0" checked>否
+           </label>
+        </td>
+     </tr>
+     <tr>
+        <th>权限资源：</th>
+        <td><input type='text' id='privilegeUrl' class='ipt' maxLength='100' style='width:90%'/></td>
+     </tr>
+     <tr>
+        <th>关联资源：<br/>(以,号分隔)&nbsp;&nbsp;&nbsp;</th>
+        <td>
+        <textarea id='otherPrivilegeUrl' class='ipt' maxLength='100' style='width:90%;height:60px;'></textarea>
+        </td>
+     </tr>
+     
+  </table>
+  </form>
+</div>
+{/block}

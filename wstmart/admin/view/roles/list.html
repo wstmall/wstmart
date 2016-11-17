@@ -1,0 +1,17 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/roles/roles.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+{if WSTGrant('JSGL_01')}
+<div class="wst-toolbar">
+   <button class="btn btn-green f-right" onclick='javascript:toEdit(0)'>新增</button>
+   <div style='clear:both'></div>
+</div>
+{/if}
+<div id="maingrid"></div>
+<script>
+$(function(){initGrid();})
+</script>
+{/block}

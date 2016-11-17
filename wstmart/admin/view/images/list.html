@@ -1,0 +1,25 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/images/images.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style='display:block' id="wst-loading"></div>
+<div class="wst-toolbar">
+目录：<select id='key' class='ipt'>
+    {volist name="$datas" key="i" id='vo'}
+    <option value="{$vo['dataVal']}" {if $keyword==$vo['dataVal']}selected{/if}>{$vo['dataName']}</option>
+    {/volist}
+</select>
+状态：<select id='isUse' class='ipt'>
+    <option value='-1'>全部</option>
+    <option value='1'>有效</option>
+    <option value='0'>失效</option>
+</select>
+<button class="btn btn-blue" onclick='javascript:loadGrid(0)'>查询</button> 
+<button class="btn f-right" onclick="javascript:history.go(-1)">返回</button> 
+</div>
+<div id="maingrid"></div>
+<script>
+$(function(){initGrid();})
+</script>
+{/block}

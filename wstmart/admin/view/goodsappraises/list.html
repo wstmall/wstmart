@@ -1,0 +1,33 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/goodsappraises/goodsappraises.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div class="wst-toolbar">
+
+	<div id="query" style="float:left;">
+		<p style="float:left;height:25px;line-height:25px;">地区:</p>
+
+		<select id="areaId1" class='query' level="0" onchange="WST.ITAreas({id:'areaId1',val:this.value,className:'query'});" >
+		  <option value="-1">-请选择-</option>
+		  {foreach $area1 as $v}
+        	<option value="<?=$v['areaId']?>"><?=$v['areaName']?></option>
+          {/foreach}
+		</select>
+		<br />
+		所属店铺:<input type="text" name="shopName" placeholder='店铺名称' id="shopName" class="query" />
+		商品:<input type="text" name="goodsName" placeholder='商品名称' id="goodsName" class="query" />
+		<input type="button" class="btn btn-blue" onclick="javascript:loadGrid1()" value="查询">
+	</div>
+   <div style="clear:both"></div>
+</div>
+<div id="maingrid"></div>
+
+<script>
+$(function(){
+	initGrid();
+});
+</script>
+
+{/block}

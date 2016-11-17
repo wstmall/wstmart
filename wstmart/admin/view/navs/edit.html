@@ -1,0 +1,94 @@
+
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/navs/navs.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<form id="navForm">
+<table class='wst-form wst-box-top'>
+       <tr>
+          <th width='120'>导航位置<font color='red'>  </font>：</th>
+          <td>
+            <select id="navType" class='ipt' maxLength='20'>
+              <option value="0">顶部</option>
+              <option value="1">底部</option>
+            </select>
+          </td>
+       </tr>
+       <tr>
+          <th>导航名称<font color='red'>*</font>：</th>
+          <td>
+              <input type="text" id="navTitle" name="navTitle" class="ipt" maxLength='50' style='width:300px;'/>
+          </td>
+       </tr>
+       <tr>
+          <th>链接来自<font color='red'>*</font>：</th>
+          <td>
+            <select id="linkfrom" onchange="changeFlink(this);">
+                <option value="1">外部链接</option>
+                <option value="2">系统文章</option>
+            </select>
+          </td>
+       </tr>
+       <tr>
+          <th>导航链接<font color='red'>*</font>：</th>
+          <td>
+              <select id="articles" style="display:none;" onchange="changeArticles(this)">
+                <volist name="articles" id="vo" key="kv"> 
+                  <option value="0">-请选择-</option>
+                  <option value="1">-请选择1-</option>
+                  <option value="2">-请选择2-</option>
+                </volist>
+              </select>
+            <input type='text' id='navUrl' name="navUrl"  class='ipt' style='width:500px;'/>
+          </td>
+       </tr>
+       <tr>
+          <th>是否显示<font color='red'>  </font>：</th>
+          <td>
+            <lable>
+              <input type="radio" name="isShow" value="1" id="isShow" class="ipt" <?=($data['isShow']!==0)?'checked="checked"':'';?> />显示
+            </lable>
+            <lable>
+              <input type="radio" name="isShow" value="0" id="isShow" class="ipt" <?=($data['isShow']===0)?'checked="checked"':'';?> />隐藏
+            </lable>
+          </td>
+       </tr>
+       <tr>
+          <th>打开方式<font color='red'>*</font>：</th>
+          <td>
+
+            <lable>
+              <input type="radio" name="isOpen" value="1" id="isOpen" class="ipt" <?=($data['isOpen']!==0)?'checked="checked"':'';?> />新窗口打开
+            </lable>
+            <lable>
+              <input type="radio" name="isOpen" value="0" id="isOpen" class="ipt" <?=($data['isOpen']===0)?'checked="checked"':'';?> />页面跳转
+            </lable>
+          </td>
+       </tr>
+       <tr>
+          <th>导航排序号<font color='red'>*</font>：</th>
+          <td>
+            <input type="text" id="navSort" class="ipt" maxLength="20"  />
+          </td>
+       </tr>
+       
+    <tr>
+     <td colspan='2' align='center'>
+       <input type="hidden" id="id" value="{$data['id']+0}" />
+       <input type="submit" value="提交" class='btn btn-blue'/>
+       <input type="button" onclick="javascript:history.go(-1)" class='btn' value="返回" />
+     </td>
+  </tr>
+</table>
+</form>
+
+
+<script>
+$(function(){
+    WST.setValues(<?=json_encode($data)?>);
+});
+</script>
+{/block}
+

@@ -1,0 +1,127 @@
+{extend name="default/shops/base" /}
+{block name="title"}仓库中的商品-会员中心{__block__}{/block}
+{block name="content"}
+<div class="wst-shop-head"><span>仓库中的商品</span></div>
+<div class="wst-shop-tbar">
+<label>
+  商品分类：
+  <select name="cat1" id="cat1" onchange="getCat(this.value)" class="s-query">
+      <option value="">-请选择-</option>
+    {volist name=":WSTShopCats(0)" id="vo"}
+          <option value="{$vo['catId']}" >{$vo['catName']}</option>
+    {/volist}
+  </select>
+  <select name="cat2" id="cat2" class="s-query"><option value="">-请选择-</option></select>
+</label>
+<label>
+  商品名称：<input type="text" name="goodsName" id="goodsName" class="s-query" /><button class="s-btn" id="store-query" onclick="storeByPage()">查询</button>
+</label>
+</div>
+<div class="wst-clear"></div>
+<form id='editform' autocomplete='off'>
+<div class="wst-body"> 
+        <div class="s-menu">
+            <a href='javascript:;' onclick="changeSale(1,'store')" class="s-sale-up"><span>上架</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('isRecom','store')" class="s-rec"><span>推荐</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('isNew','store')" class="s-new"><span>新品</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('isBest','store')" class="s-best"><span>精品</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('isHot','store')" class="s-hot"><span>热销</span></a>
+            <a href='javascript:void(0);' onclick="benchDel('store')" class="s-del"><span>删除</span></a>
+            <a href='{:url("home/goods/add")}' class="s-add"><span>新增</span></a>
+         </div>
+
+        <table class='wst-list'>
+		   <thead>
+		   <tr>
+		     <th width='10'>
+          <div class="checkbox-box-s checkbox-box-s-all">
+           <input style="margin-left:2px;" class="wst-checkbox-s" onclick="javascript:WST.checkChks(this,'.chk')" type='checkbox' id="all"/>
+           <label for="all"></label>
+          </div>
+        </th>
+		     <th>商品名称</th>
+		     <th>商品编号</th>
+		     <th>价格</th>
+		     <th>推荐</th>
+		     <th>精品</th>
+		     <th>新品</th>
+		     <th>热销</th>
+		     <th>销量</th>
+		     <th>库存</th>
+		     <th width="150">操作</th>
+		   </tr>
+		   </thead>
+		   <tbody id='list1'></tbody>
+		   <tfoot>
+		     <tr align="center"><td colspan='10' id='pager1'></td></tr>
+		   </tfoot>
+		   <script id="tblist1" type="text/html">
+           {{# for(var i = 0; i < d.length; i++){ }}
+           <tr>
+             <td>
+             <div class="checkbox-box-s">
+              <input type='checkbox'  class='chk wst-checkbox-s' id="chk-{{i}}" value='{{d[i]['goodsId']}}' /><label for="chk-{{i}}"></label>
+             </div>
+             </td>
+             <td>
+                <div class="goods-img">
+                <a href="{{WST.U("home/goods/detail","id="+d[i]['goodsId']+"&key="+d[i]['verfiycode'])}}">
+                  <img class='j-lazyGoodsImg'  data-original='__ROOT__/{{d[i].goodsImg}}'/>
+                </a>
+              </div>
+              <p class="goodsName">
+                {{WST.cutStr(d[i]['goodsName'],43)}}
+              </p>
+             </td>
+             <td>{{d[i]['goodsSn']}}</td>
+
+             {{# if(d[i]['isSpec']==1) { }}
+              <td>￥{{d[i]['shopPrice']}}</td>
+             {{# }else{ }}
+              <td width="40" ondblclick="javascript:toEditGoodsBase(2,{{d[i]['goodsId']}},'')">
+                  <input id="ipt_2_{{d[i]['goodsId']}}" onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberdoteKey(event)" onblur="javascript:editGoodsBase(2,{{d[i]['goodsId']}})" style="display:none;width:100%;border:1px solid red;width:40px;" maxlength="10"/>
+                  <span id="span_2_{{d[i]['goodsId']}}" style="display: inline;cursor:pointer;color:green;">{{d[i]['shopPrice']}}</span>
+              </td>
+             {{# } }}
+
+             <td><div status="{{d[i]['isRecom']}}" title='双击可修改' ondblclick='changSaleStatus("r",this,{{d[i]["goodsId"]}})' class="w-r {{((d[i]['isRecom']==1)?'right':'wrong')}}"></div></td>
+              <td><div status="{{d[i]['isBest']}}" title='双击可修改' ondblclick='changSaleStatus("b",this,{{d[i]["goodsId"]}})' class="w-r {{((d[i]['isBest']==1)?'right':'wrong')}}"></div></td>
+              <td><div status="{{d[i]['isNew']}}" title='双击可修改' ondblclick='changSaleStatus("n",this,{{d[i]["goodsId"]}})' class="w-r {{((d[i]['isNew']==1)?'right':'wrong')}}"></div></td>
+              <td><div status="{{d[i]['isHot']}}" title='双击可修改' ondblclick='changSaleStatus("h",this,{{d[i]["goodsId"]}})' class="w-r {{((d[i]['isHot']==1)?'right':'wrong')}}"></div></td>
+
+             <td>{{d[i]['saleNum']}}</td>
+             {{# if(d[i]['isSpec']==1) { }}
+             <td>{{d[i]['goodsStock']}}</td>
+              {{# }else{ }}
+                <td width="40" ondblclick="javascript:toEditGoodsBase(3,{{d[i]['goodsId']}},'')">
+                <input id="ipt_3_{{d[i]['goodsId']}}" onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberKey(event)" onblur="javascript:editGoodsBase(3,{{d[i]['goodsId']}})" style="display:none;width:100%;border:1px solid red;width:40px;" maxlength="6"/>
+                <span id="span_3_{{d[i]['goodsId']}}" style="display: inline;">{{d[i]['goodsStock']}}</span>
+             </td>
+              {{# } }}
+             <td>
+                <a class="g-handle" target='_blank' href='{{WST.U("home/goods/detail","id="+d[i]['goodsId']+"&key="+d[i]['verfiycode'])}}'>[查看]</a>
+                <a class="g-handle" href='javascript:toEdit({{d[i]['goodsId']}},"store")'>[编辑]</a>
+                <a class="g-handle" href='javascript:del({{d[i]['goodsId']}},"store")'>[删除]</a>
+             </td>
+          </tr>
+          {{# } }}
+          </script>
+		</table>
+		    <div class="s-menu">
+            <a href='javascript:;' onclick="changeSale(1,'store')" class="s-sale-up"><span>上架</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('isRecom','store')" class="s-rec"><span>推荐</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('isNew','store')" class="s-new"><span>新品</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('isBest','store')" class="s-best"><span>精品</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('isHot','store')" class="s-hot"><span>热销</span></a>
+            <a href='javascript:void(0);' onclick="benchDel('store')" class="s-del"><span>删除</span></a>
+            <a href='{:url("home/goods/add")}' class="s-add"><span>新增</span></a>
+         </div>
+        </div>
+     </form>
+{/block}  
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/shops/goods/goods.js?v={$v}'></script>
+<script>
+$(function(){storeByPage(0);})
+</script>
+{/block}

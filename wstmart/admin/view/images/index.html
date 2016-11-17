@@ -1,0 +1,22 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/images/images.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style='display:block' id="wst-loading"></div>
+<div id="main">
+<table width='100%' cellspacing='0' cellpadding='0' class="l-grid-header-table wst-grid-tree">
+   <tr class='l-grid-hd-row wst-grid-tree-hd'>
+       <td width='30' class='l-grid-hd-cell l-grid-hd-cell-rownumbers' height='28' style="width:26px;">&nbsp;</td>
+       <td width='150' class='l-grid-hd-cell' height='28'>目录</td>
+       <td class='l-grid-hd-cell' height='28'>有效图片/无效图片</td>
+       <td width='80' class='l-grid-hd-cell' height='28'>M</td>
+       <td width='80' class='l-grid-hd-cell' height='28'>操作</td>
+   </tr>
+   <tbody id='list'></tbody>
+</table>
+</div>
+<script>
+$(function(){initSummary();});
+</script>
+{/block}

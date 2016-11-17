@@ -1,0 +1,88 @@
+{extend name="default/users/base" /}
+{block name="title"}投诉订单 - 买家中心{__block__}{/block}
+{block name="css"}
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+{/block}
+{block name="content"}
+  <div class="wst-user-head"><span>投诉订单</span></div>
+  <div class='wst-user-content'>
+      <form id="complainForm" method="post" >
+      {if condition="$data['complainStatus'] eq 0"}
+            <input type='hidden' id='orderId' class='ipt' value="{$data['order']['orderId']}"/>
+          <div class='wst-complain-left'>
+             <div class='wst-complain-order-head'>订单商品</div>
+             <div class='wst-complain-order-goods'>
+             {volist name="$data['order']['goodsList']" id="goods" key='key2'}
+              <a target='_blank' href="{:Url('Home/Goods/detail',array('id'=>$goods['goodsId']))}" title="{$goods['goodsName']}">
+
+              <img data-original="__ROOT__/{$goods['goodsImg']}"  height="55" width="55" class='goodsImg'/>
+              </a>
+            {/volist}
+             </div>
+             <div class='wst-complain-order-head'>订单信息</div>
+             <div class='wst-complain-order-info'>
+               <dl>
+                   <dt>订单编号：</dt>
+                   <dd>{$data['order']['orderNo']}</dd>
+                   <dt>订单金额：</dt>
+                   <dd>{$data['order']['realTotalMoney']}</dd>
+                   <dt>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费：</dt>
+                   <dd>{$data['order']['deliverMoney']}</dd>
+                   <dt>下单时间：</dt>
+                   <dd>{$data['order']['createTime']}</dd>
+                   <dt>商&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;家：</dt>
+                   <dd>{$data['order']['shopName']}</dd>
+                </dl>
+              </div>
+          </div>
+          <div class='wst-complain-main'>
+              <div class='wst-complain-order-head' style='width:732px;'>投诉信息</div>
+              <div class='wst-complain-box'>
+              <table>
+                <tr>
+                  <td>投诉类型：</td>
+                  <td>
+                    <label><input type='radio' name='complainType' class='ipt' autocomplete="off" value='1' checked>承诺的没有做到</label>
+                    <label><input type='radio' name='complainType' class='ipt' autocomplete="off" value='2'>未按约定时间发货</label>
+                    <label><input type='radio' name='complainType' class='ipt' autocomplete="off" value='3'>未按成交价格进行交易</label>
+                    <label><input type='radio' name='complainType' class='ipt' autocomplete="off" value='4'>恶意骚扰</label>
+                  </td>
+                </tr>
+                <tr>
+                   <td colspan='2'>
+                      <textarea id='complainContent' name="complainContent" class='ipt' autocomplete="off" style='width:700px;height:155px;' placeholder='请输入投诉内容'></textarea>
+                   </td>
+                </tr>
+                <tr>
+                   <td colspan='2'>
+                       <div id="filePicker" style='margin-left:0px;width:250px;overflow:hidden;height:25px;'>上传附件(最多5张)</div>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td colspan='2'>
+                       <div id='picBox' style='height:120px;width:732px;padding:5px;'>
+                   </td>
+                 </tr>
+              </table>
+              </div>
+          </div>
+          <div class='wst-complain-footer'>
+             <button onclick="javascript:saveComplain()" class="wst-sec-but u-btn">提交</button>
+             <button onclick="javascript:history.go(-1)" class="wst-sec-but u-btn">返回</button>
+          </div>
+          {/if}
+        </form>
+  </div>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/users/orders/orders.js?v={$v}'></script>
+<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script>
+$(function(){
+  userComplainInit();
+})
+</script>
+{/block}

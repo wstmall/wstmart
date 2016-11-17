@@ -1,0 +1,134 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+<style>
+.goodsCat{display:inline-block;width:150px}
+</style>
+{/block}
+{block name="js"}
+<script src="__STATIC__/plugins/webuploader/webuploader.js?v={$v}" type="text/javascript" ></script>
+<script src="__STATIC__/plugins//kindeditor/kindeditor.js?v={$v}" type="text/javascript" ></script>
+<script src="__ADMIN__/brands/brands.js?v={$v}" type="text/javascript"></script>
+<script>
+$(function () {
+	   {if condition="$object['brandId'] !=0 "}
+		WST.setValues({$object});
+	   {/if}
+		$('#brandForm').validator({
+		    fields: {
+		    	brandName: {
+		    		tip: "请输入品牌名称",
+		    		rule: '品牌名称:required;length[~16];'
+		    	},
+		    	catId: {
+		    		tip: "请选择分类",
+		    		rule: 'checked(1~);length[~16];'
+		    	},
+		    	brandDesc: {
+		    		tip: "请输入品牌介绍",
+		    		rule: '品牌介绍:required;'
+		    	}
+		    },
+		    valid: function(form){
+		    	var brandId = $('#brandId').val();
+		    	toEdits(brandId);
+		    }
+		})
+});
+</script>
+{/block}
+{block name="main"}
+<input type='hidden' id='brandId' value='{$object["brandId"]}'/>
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<form id="brandForm" autocomplete="off">
+<table class='wst-form wst-box-top'>
+  <tr>
+     <th width='150'>品牌名称<font color='red'>*</font>：</th>
+     <td><input type="text" id='brandName' name='brandName' maxLength='20' style='width:300px;' class='ipt'/></td>
+  </tr>
+   <tr>
+     <th width='150' align='right'>所属分类<font color='red'>*</font>：</th>
+     <td>
+     {volist name="gcatList" id="vo"}
+	     <label class='goodsCat'>
+	     <input type='checkbox' id='catId' name='catId' class="ipt" value='{$vo["catId"]}'
+       {if condition="$object['brandId'] !=0 "}
+       {if in_array($vo["catId"],$object['catIds'])==1}checked{/if}
+       {/if}
+       >&nbsp;{$vo["catName"]}&nbsp;
+	     </label>
+	 {/volist}
+     </td>
+   </tr>
+   <tr width='150'>
+     <th align='right'>品牌图标<font color='red'>*</font>：</th>
+     <td>
+     	<div>
+    	<div id="filePicker" style='margin-left:0px;float:left; width: 100px'>上传图片</div>
+     	    <div style='margin-left:5px;float:left'>图片大小:400 x 200 (px)，格式为 gif, jpg, jpeg,bmp, png</div>
+     	    <input id="brandImg" name="brandImg" class="text ipt" autocomplete="off" type="hidden" value="{$object.brandImg}"/>
+     	    <div style="clear:both;"></div>
+     	</div>
+     </td>
+   </tr>
+   <tr >
+     <th align='right' height='152'>预览图：</th>
+     <td >
+     	<div id="preview" >
+     	{if $object['brandId']!=0}
+       	<img src="__ROOT__/{$object['brandImg']}" class="ipt" height='152'/>
+       	{/if}
+       	</div>
+     </td>
+   </tr>
+   <tr>
+       <th width='150'>品牌介绍<font color='red'>*</font>：</th>
+       <td>
+       	<textarea id='brandDesc' name='brandDesc' class="form-control ipt" style='width:80%;height:400px'></textarea>
+       </td>
+    </tr>
+     <tr>
+       <td colspan='2' align='center'>
+           <button type="submit" class="btn btn-blue">保&nbsp;存</button>
+           <button type="button" class="btn" onclick="javascript:history.go(-1)">返&nbsp;回</button>
+       </td>
+     </tr>
+</table>
+ </form>
+ <script>
+$(function(){
+  //文件上传
+	WST.upload({
+  	  pick:'#filePicker',
+  	  formData: {dir:'brands',mWidth:500,mHeight:250},
+  	  accept: {extensions: 'gif,jpg,jpeg,bmp,png',mimeTypes: 'image/*'},
+  	  callback:function(f){
+  		  var json = WST.toAdminJson(f);
+  		  if(json.status==1){
+        	$('#preview').html('<img src="'+WST.conf.ROOT+"/"+json.savePath+json.thumb+'" height="200" />');
+        	$('#brandImg').val(json.savePath+json.thumb);
+  		  }
+	  }
+    });
+  //编辑器
+    KindEditor.ready(function(K) {
+		editor1 = K.create('textarea[name="brandDesc"]', {
+			height:'350px',
+			uploadJson : WST.conf.ROOT+'/admin/brands/editorUpload',
+			allowFileManager : false,
+			allowImageUpload : true,
+			items:[
+			        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+			        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+			        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+			        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+			        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+			        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|','image','table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+			        'anchor', 'link', 'unlink', '|', 'about'
+			],
+			afterBlur: function(){ this.sync(); }
+		});
+	});
+});
+</script>
+{/block}

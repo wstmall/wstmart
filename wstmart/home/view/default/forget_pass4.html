@@ -1,0 +1,41 @@
+{extend name="default/base" /}
+{block name="title"}忘记密码 - {__block__}{/block}
+{block name="css"}
+<link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/login.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="nav"}
+    {php}$liteTitle = "找回密码"{/php}
+	{include file="default/header_lite" /}
+{/block}
+{block name="main"}
+	<div class="wst-container">
+           <div id="stepflex" class="stepflex">
+               <dl class="first doing">
+                   <dt class="s-num">1</dt>
+                   <dd class="s-text">填写账户名</dd>
+                   <dd></dd>
+               </dl>
+               <dl class="first doing">
+                   <dt class="s-num">2</dt>
+                   <dd class="s-text">验证身份</dd>
+               </dl>
+               <dl class="first doing">
+                   <dt class="s-num">3</dt>
+                   <dd class="s-text">重置密码</dd>
+               </dl>
+               <dl class="first doing">
+                   <dt class="s-num">4</dt>
+                   <dd class="s-text">完成</dd>
+               </dl>
+           </div>
+         <div class="wst-clear"></div>
+         <div class="forget-pwd">
+           <div class="wst-forget-c" style="margin-top:30px;"><img src="__STYLE__/img/icon_success.png"/></div>
+           <div class="wst-forget-c wst-forget-ct" style="margin:12px 0px;">密码修改成功!</div>
+           <div class="wst-forget-c" style="margin-bottom:16px;">
+           	<a href="{:url('home/users/login')}"><input type="submit" class="wst-regist-but" value="立即登录" style="width:180px;height:36px;font-size: 15px;"/></a>
+           </div>
+         </div>
+	</div>
+{/block}

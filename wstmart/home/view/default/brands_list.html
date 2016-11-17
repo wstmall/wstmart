@@ -1,0 +1,81 @@
+{extend name="default/base" /}
+{block name="title"}品牌街 - {:WSTConf('CONF.mallName')}{__block__}{/block}
+{block name="meta"}
+<meta name="description" content="{:WSTConf('CONF.seoMallDesc')},品牌街">
+<meta name="Keywords" content="{:WSTConf('CONF.seoMallKeywords')}">
+{/block}
+{block name="css"}
+<link href="__STATIC__/plugins/lazyload/skin/laypage.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/brandslist.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="main"}
+<script>
+//筛选分类
+function screenCat(id){
+	location.href=WST.U('home/brands/index','id='+id);
+}
+</script>
+<input type="hidden" id="catId" value="" autocomplete="off">
+<div class="wst-container">
+	<div class="wst-route"><a href="{:url('home/index/index')}" ><img style="float:left;margin-right:10px" src="__STYLE__/img/icon_dianpujie_09.png"/>首页</a> > <a href="{:url('home/brands/index')}">品牌街</a></div>
+	<div class="wst-brand-cat">
+		<div class="wst-brand-catt">品牌行业</div>
+		{volist name="goodscats" id="ca" key="k"}
+		<span class="{if($selectedId==$ca['catId'])}js-selected{/if}" onclick="javascript:screenCat({$ca['catId']});">{$ca['catName']}</span>
+		{/volist}
+		<div class="wst-clear"></div>
+	</div>
+
+	<ul class="wst-brands-list">
+		{volist name="list.Rows" id="vo"}
+		<li class="wst-brands">
+			<div class="wst-brand-img"><a target='_blank' href="{:Url('home/goods/lists',['cat'=>$vo['catId'],'brand'=>$vo['brandId']])}"><img class="goodsImg" data-original="__ROOT__/{$vo['brandImg']}" title="{$vo['brandName']}"/></a></div>
+			<div class="wst-brand-name">{:WSTMSubstr($vo['brandName'],0,15)}</div>
+			<div class='info'>
+				<span><img src="__STYLE__/img/img_jrpp.png"/></span>
+		        <p>欢迎进入{$vo['brandName']}</p>
+		    </div>
+		</li>
+		{/volist}
+		<div class="wst-clear"></div>
+	</ul>
+	<div class="brandsPaging">
+	<div id="brandsPaging"></div>
+	</div>
+</div>
+{include file="default/right_cart"/}
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/js/brandslist.js?v={$v}'></script>
+<script>
+$(function(){
+	if({$list['TotalPage']}>1){
+	laypage({
+	    cont: 'brandsPaging',
+	    pages: {$list['TotalPage']}, //总页数
+	    curr: {$list['CurrentPage']},
+	    skip: true, //是否开启跳页
+	    skin: '#fd6148',
+	    groups: 3, //连续显示分页数
+	   	prev: '<<',
+		next: '>>',
+	    jump: function(e, first){ //触发分页后的回调
+	        if(!first){ //一定要加此判断，否则初始时会无限刷新
+	        	var nuewurl = WST.splitURL("page");
+	        	var ulist = nuewurl.split("?");
+	        	if(ulist.length>1){
+	        		location.href = nuewurl+'&page='+e.curr;
+	        	}else{
+	        		location.href = '?page='+e.curr;
+	        	}
+	            
+	        }
+	    }
+	});
+	}
+});
+</script>
+{/block}
+{block name="footer"}{__block__}
+{/block}

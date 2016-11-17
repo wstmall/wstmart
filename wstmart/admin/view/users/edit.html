@@ -1,0 +1,110 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script src="__ADMIN__/users/users.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<form id="userForm" autocomplete="off" >
+<table class='wst-form wst-box-top'>
+  <tr>
+      <th width='150'>账号<font color='red'>*</font>：</th>
+          <td width='370'>
+            {if ($data['userId']>0)}
+              {$data['loginName']}
+            {else /}
+              <input type="text" class="ipt" id="loginName" name="loginName"  />
+            {/if}
+              
+          </td>
+          <td rowspan="5">
+            <div id="preview" >
+                <img src="__ROOT__/{if $data['userPhoto']==''}{:WSTConf('CONF.userLogo')}{else}{$data['userPhoto']}{/if}"  height="150" />
+            </div>
+            <div id='adFilePicker' style="margin-left:40px;">上传头像</div>
+            <input type="hidden" id="userPhoto" class="ipt" />
+            <span id='uploadMsg'></span>
+
+          </td>
+       </tr>
+       {if ((int)$data['userId']==0)}
+         <tr>
+            <th>密码<font color='red'>*</font>：</th>
+            <td><input type="password" id='loginPwd' class='ipt' maxLength='20' value='66666666' data-rule="登录密码: required;length[6~20]" data-target="#msg_loginPwd"/>
+               <span id='msg_loginPwd'>(默认为66666666)</span>
+             </td>
+         </tr>
+       {/if}
+       <tr>
+          <th>用户名<font color='red'>*</font>：</th>
+          <td>
+              <input type="text" class="ipt" id="userName" name="userName" value="{$data['userName']}" />
+          </td>
+       </tr>
+       <tr>
+          <th>性别<font color='red'>*</font>：</th>
+          <td>
+            <label><input type="radio" class="ipt" id="userSex" name="userSex" <?=($data['userSex']==1)?'checked':'';?> value="1" />男</label>
+            <label><input type="radio" class="ipt" id="userSex" name="userSex" <?=($data['userSex']==2)?'checked':'';?> value="2" />女</label>
+            <label><input type="radio" class="ipt" id="userSex" name="userSex" <?=($data['userSex']==0)?'checked':'';?> value="0" />保密</label>
+          </td>
+       </tr>
+       <tr>
+          <th>手机号码<font color='red'>*</font>：</th>
+          <td>
+              <input type="text" class="ipt" id="userPhone" name="userPhone" value="{$data['userPhone']}" />
+          </td>
+       </tr>
+       <tr>
+          <th>电子邮箱<font color='red'>*</font>：</th>
+          <td>
+              <input type="text" class="ipt" id="userEmail" name="userEmail" value="{$data['userEmail']}" />
+          </td>
+       </tr>
+       <tr>
+          <th>会员积分<font color='red'>*</font>：</th>
+          <td>
+              <input type="text" class="ipt" id="userScore" name="userScore" value="{$data['userScore']}" />
+          </td>
+       </tr>
+       <tr>
+          <th>会员历史积分<font color='red'>*</font>：</th>
+          <td>
+              <input type="text" class="ipt" id="userTotalScore" name="userTotalScore" value="{$data['userTotalScore']}" />
+          </td>
+       </tr>
+       <tr>
+          <th>QQ<font color='red'>*</font>：</th>
+          <td>
+              <input type="text" class="ipt" id="userQQ" name="userQQ" value="{$data['userQQ']}" />
+          </td>
+       </tr>
+       
+       {if ((int)$data['userId']==0)}
+         <tr>
+            <th>会员状态<font color='red'>*</font>：</th>
+            <td>
+                <label><input type="radio" class="ipt" id="userStatus" name="userStatus" <?=($data['userStatus']!==0)?'checked':'';?> value="1" />启用</label>
+                <label><input type="radio" class="ipt" id="userStatus" name="userStatus" <?=($data['userStatus']===0)?'checked':'';?> value="0" />停用</label>
+            </td>
+         </tr>
+       {/if}
+  
+  <tr>
+     <td colspan='2' align='center'>
+       <input type="hidden" name="id" id="userId" class="ipt" value="<?=(int)$data['userId']?>" />
+       <input type="submit" value="提交" class='btn btn-blue' />
+       <input type="button" onclick="javascript:history.go(-1)" class='btn' value="返回" />
+     </td>
+  </tr>
+</table>
+</form>
+<script>
+$(function(){editInit()});
+</script>
+
+{/block}
+

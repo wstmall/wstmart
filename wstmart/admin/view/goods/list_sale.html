@@ -1,0 +1,32 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/goods/goods.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div class="wst-toolbar">
+商家所在地：
+<select id="areaId1" class='j-ipt j-areas' level="0" onchange="WST.ITAreas({id:'areaId1',val:this.value,className:'j-areas'});">
+  <option value="-1">-请选择-</option>
+  {volist name="areaList" id="vo"}
+  <option value="{$vo['areaId']}">{$vo['areaName']}</option>
+  {/volist}
+</select>
+店铺：<input type="text" name="shopName"  placeholder='店铺名称/店铺编号' id="shopName" class='j-ipt'/>
+<br/>
+所属分类：
+<select id="cat_0" class='ipt pgoodsCats' level="0" onchange="WST.ITGoodsCats({id:'cat_0',val:this.value,isRequire:false,className:'pgoodsCats'});">
+   <option value="">-请选择-</option>
+   {volist name=":WSTGoodsCats(0)" id="vo"}
+	<option value="{$vo['catId']}">{$vo['catName']}</option>
+	{/volist}
+</select>
+商品：<input type="text" name="goodsName"  placeholder='商品名称/商品编号' id="goodsName" class='j-ipt'/>
+<button class="btn btn-blue" onclick='javascript:loadSaleGrid(0)'>查询</button>
+<div style='clear:both'></div>
+</div>
+<div id="maingrid"></div>
+<script>
+$(function(){initSaleGrid();})
+</script>
+{/block}

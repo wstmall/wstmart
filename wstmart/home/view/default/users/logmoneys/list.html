@@ -1,0 +1,60 @@
+{extend name="default/users/base" /}
+{block name="title"}资金流水-买家中心{__block__}{/block}
+{block name="content"}
+<div class='score-head'>
+  <div class='user-logo'><img height='100' width='100'src='__ROOT__/{:session("WST_USER.userPhoto")}'></div>
+  <div class='user-info'> 
+     <div class='userName'>{:session('WST_USER.loginName')}</div>
+     <div class='userScore'>可用资金：<font color='red'>¥{$object['userMoney']}</font></div>
+     <div class='userScore'>冻结资金：<font color='red'>¥{$object['lockMoney']}</font></div>
+  </div>
+</div>
+<div class='wst-user-content'>
+   <div id='tab' class="wst-tab-box">
+    <ul class="wst-tab-nav">
+       <li>资金流水</li>
+       <li>资金收入</li>
+       <li>资金支出</li>
+    </ul>
+      <table class='wst-list' style="font-size:13px;">
+           <thead>
+             <tr>
+               <th width='80'>来源/用途</th>
+               <th width='100'>金额</th>
+               <th width='130'>日期</th>
+               <th width='130'>外部流水号</th>
+               <th width='*'>备注</th>
+             </tr>
+           </thead>
+           <script id="tblist" type="text/html">
+           {{# for(var i = 0; i < d.length; i++){ }}
+              <tr>
+                <td>{{d[i].dataSrc}}</td>
+                <td>
+                {{# if(d[i].moneyType==1){ }}
+                  <span class="money-add">+ ¥{{ d[i].money }}</span>
+                {{# }else{ }}
+                  <span class='money-reduce'> - ¥{{ d[i].money }}</span>
+                {{# } }}
+                </td>
+                <td>{{ d[i].createTime }}</td>
+                <td>{{ WST.blank(d[i].tradeNo,'-')}}</td>
+                <td style='line-height:23px'>{{ d[i].remark }}</td>
+              </tr>
+           {{# } }}
+           </script>
+           <tbody id="page-list"></tbody>
+           <tfoot>
+             <tr>
+                <td colspan='5' align="center" style='padding:5px 0px 5px 0px'>
+          <div id="pager"></div>
+        </td>
+             </tr>
+           </tfoot>
+        </table>
+    </div>  
+</div>
+{/block}  
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/users/logmoneys/logmoneys.js?v={$v}'></script>
+{/block}

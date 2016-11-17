@@ -1,0 +1,96 @@
+{extend name="default/users/base" /}
+{block name="title"}首页-买家中心{__block__}{/block}
+{block name="css"}
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+{/block}
+
+{block name="content"}
+<style>
+.wst-form tr>td>input[type='text']{
+	width:339px;
+	height:20px;
+}
+</style>
+<div class="wst-user-head" style="margin-bottom:3px;"><span>管理地址</span></div>
+<form id="useraddressForm" autocomplete="off" >
+	<table class='wst-form' >
+		<tr>
+	      <th><font color='red'>*</font>区域：</th>
+	      <td>
+	      	<select id="area_0" class='j-areas' level="0" onchange="WST.ITAreas({id:'area_0',val:this.value,isRequire:true,className:'j-areas'});">
+	      		<option value="">-请选择-</option>
+	      		{foreach $area1 as $v}
+	      			<option value="{$v['areaId']}">{$v['areaName']}</option>
+	      		{/foreach}
+	      	</select>
+	      </td>
+	      <td colspan="3">
+	      	<div style="width:400px;height:20px;float:left" id="errorMsg"></div>
+	      </td>
+	    </tr>
+	  <tr>
+	      <th width='110'><font color='red'>*</font>详细地址：</th>
+	          <td>
+	              <input type="text" class="ipt" id="userAddress" name="userAddress" value="{$data['userAddress']}" placeholder="您的详细地址" maxlength="30" />
+	          </td>
+	   </tr>
+
+	     <tr>
+	        <th><font color='red'>*</font>联系名称：</th>
+	        <td>
+	        	<input type="text" class="ipt" id="userName" name="userName" value="{$data['userName']}" placeholder="联系名称" maxlength="6" />
+	        </td>
+	     </tr>
+
+	        <tr>
+	          <th><font color='red'>*</font>联系电话：</th>
+	          <td>   
+	              <input type="text" class="ipt contact" id="userPhone" name="userPhone" value="{$data['userPhone']}"  placeholder="联系电话" >
+	          </td>
+	       </tr>
+	       <tr>
+	          <th><font color='red'>*</font>是否默认地址：</th>
+	          <td>
+	          	<div class="radio-box">
+	              <label><input type="radio" class="ipt wst-radio" id="isDefault-1" name="isDefault"   <?=($data['isDefault']==1)?'checked':'';?> value="1" /><label class="mt-1" for="isDefault-1"></label> 是</label>
+	              <label><input type="radio" class="ipt wst-radio" id="isDefault-0" name="isDefault"   <?=($data['isDefault']==0)?'checked':'';?> value="0" /><label class="mt-1" for="isDefault-0"></label> 否</label>
+	            </div>
+	              
+	          </td>
+	       </tr>
+	  
+	</table>
+	<div class="addr-btn-box">
+	       <input type="hidden" name="id" id="addressId" class="ipt" value="{$data['addressId']}" />
+	       <button type="submit" class="wst-sec-but u-btn">提交</button>
+	       <button type="button" onclick="javascript:history.go(-1)" class="wst-sec-but u-btn">返回</button>
+	</div>
+</form>
+<style>
+.addr-btn-box{
+	margin-left:10%;
+}
+</style>
+<script>
+$(function(){
+	//默认选中下拉框
+	if($('#addressId').val()>0){
+	    var areaIdPath = "{$data['areaIdPath']}".split("_");
+	    $('#area_0').val(areaIdPath[0]);
+	    var aopts = {id:'area_0',val:areaIdPath[0],childIds:areaIdPath,className:'j-areas'}
+	    WST.ITSetAreas(aopts);
+	}
+	userAddrEditInit();
+})
+</script>
+{/block}
+{block name="js"}
+	<script type='text/javascript' src='__STYLE__/users/useraddress/useraddress.js?v={$v}'></script>
+	<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+	<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+{/block}
+
+
+<script>
+</script>
+

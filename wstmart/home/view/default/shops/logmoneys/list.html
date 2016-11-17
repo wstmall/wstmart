@@ -1,0 +1,63 @@
+{extend name="default/shops/base" /}
+{block name="title"}资金流水-卖家中心{__block__}{/block}
+{block name="content"}
+<div class='money-head'>
+  <div class='shop-logo'><img height='100' width='100'src='__ROOT__/{:session("WST_USER.shopImg")}'></div>
+  <div class='shop-info'> 
+     <div class='shopName'>{:session('WST_USER.shopName')}</div>
+     <div class='shopMoney'>可用资金：<font color='red'>¥{$object['shopMoney']}</font></div>
+     <div class="money-rows">
+       <div class='shopMoney wst-lfloat'>冻结资金：<font color='red'>¥{$object['lockMoney']}</font></div>
+       <div class='shopMoney wst-lfloat' style='margin-left:50px;'>待缴金额：<font color='red'>¥{$object['noSettledOrderFee']+$object['paymentMoney']*-1}</font></div>
+     </div>
+  </div>
+</div>
+<div class='wst-user-content'>
+   <div id='tab' class="wst-tab-box">
+		<ul class="wst-tab-nav">
+		   <li>资金流水</li>
+		   <li>资金收入</li>
+		   <li>资金支出</li>
+		</ul>
+	    <table class='wst-list' style="font-size:13px;">
+           <thead>
+             <tr>
+               <th width='80'>来源/用途</th>
+               <th width='100'>金额</th>
+               <th width='130'>日期</th>
+               <th width='130'>外部流水号</th>
+               <th width='*'>备注</th>
+             </tr>
+           </thead>
+           <script id="tblist" type="text/html">
+    			 {{# for(var i = 0; i < d.length; i++){ }}
+              <tr>
+                <td>{{d[i].dataSrc}}</td>
+                <td>
+        				{{# if(d[i].moneyType==1){ }}
+        					<span class="money-add">+ ¥{{ d[i].money }}</span>
+        				{{# }else{ }}
+        					<span class='money-reduce'> - ¥{{ d[i].money }}</span>
+        				{{# } }}
+    				    </td>
+    			      <td>{{ d[i].createTime }}</td>
+                <td>{{ WST.blank(d[i].tradeNo,'-')}}</td>
+                <td style='line-height:23px'>{{ d[i].remark }}</td>
+              </tr>
+    			 {{# } }}
+    			 </script>
+           <tbody id="page-list"></tbody>
+           <tfoot>
+             <tr>
+                <td colspan='5' align="center" style='padding:5px 0px 5px 0px'>
+					<div id="pager"></div>
+				</td>
+             </tr>
+           </tfoot>
+        </table>
+    </div>  
+</div>
+{/block}  
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/shops/logmoneys/logmoneys.js?v={$v}'></script>
+{/block}

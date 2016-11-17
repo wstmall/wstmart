@@ -1,0 +1,136 @@
+{extend name="default/shops/base" /}
+{block name="title"}店铺信息-卖家中心{__block__}{/block}
+{block name="content"}
+<style>
+label{margin-right:10px;}
+#specsAttrBox .webuploader-container{width:80px;height:20px;overflow:hidden;}
+</style>
+<div id='tab' class="wst-tab-box">
+	<ul class="wst-tab-nav">
+	   <li>店铺信息</li>
+	   <li>银行信息</li>
+	</ul>
+    <div class="wst-tab-content" style='width:99%;margin-bottom: 10px;'>
+      <form id='editform' autocomplete='off'>
+        <div class="wst-tab-item" style="position: relative;">
+           <table class='wst-form'> 
+			  <tr>
+			     <th width='150'>店铺编号：</th>
+			     <td>{$object['shopSn']}</td>
+			  </tr>
+			  <tr>
+			     <th>店铺名称：</th>
+			     <td>{$object['shopName']}</td>
+			  </tr>
+			  <tr>
+			     <th>店主姓名：</th>
+			     <td>{$object['shopkeeper']}</td>
+			  </tr>
+			  <tr>
+			     <th>店主联系手机：</th>
+			     <td>{$object['telephone']}</td>
+			  </tr>
+			  <tr>
+			     <th>公司名称：</th>
+			     <td>{$object['shopCompany']}</td>
+			  </tr>
+			  <tr>
+			     <th>店铺联系电话：</th>
+			     <td>{$object['shopTel']}</td>
+			  </tr>
+			  <tr>
+			     <th>经营范围：</th>
+			     <td>{$object['catshopNames']}</td>
+			  </tr>
+			  <tr>
+			     <th>认证类型：</th>
+			     <td>
+			       {php}$accredLen = count($object['accreds']);{/php}
+			       {volist name="$object['accreds']" id="vo"}
+			       {$vo["accredName"]}{if $i < $accredLen }、{/if}
+			       {/volist}
+			     </td>
+			  </tr>
+			  <tr>
+			     <th>店铺图标：</th>
+			     <td>
+			     <img id='preview' width='150' height='150' src='__ROOT__/{$object["shopImg"]}'/>
+			     </td>
+			  </tr>
+			  <tr>
+			     <th>客服QQ：</th>
+			     <td>{$object['shopQQ']}</td>
+			  </tr>
+			  <tr>
+			     <th>阿里旺旺：</th>
+			     <td>{$object['shopWangWang']}</td>
+			  </tr>
+			  <tr>
+			     <th>店铺地址：</th>
+			     <td>
+			       {$object['areaName']}
+			     </td>
+			  </tr>
+			  <tr>
+			     <th>店铺详细地址：</th>
+			     <td>{$object['shopAddress']}</td>
+			  </tr>
+			  <tr>
+			     <th>是否提供开发票：</th>
+			     <td>
+			        {if $object['isInvoice']==1}提供发票{/if}
+			        {if $object['isInvoice']==0}不提供发票{/if}  
+			     </td>
+			  </tr>
+			  <tr id='trInvoice' {if $object['isInvoice']==0}style='display:none'{/if}>
+			     <th>发票说明：</th>
+			     <td>{$object['invoiceRemarks']}</td>
+			  </tr>
+			  <tr>
+			     <th>默认运费：</th>
+			     <td>¥{$object['freight']}</td>
+			  </tr>
+			  <tr>
+			     <th>服务时间：</th>
+			     <td>{$object['serviceStartTime']}至{$object['serviceEndTime']}
+			     </td>
+			  </tr>
+           </table>
+        </div>
+        <div class="wst-tab-item" style="display:none;">
+           <table class='wst-form'>
+              <tr>
+			     <th width='150'>开卡银行：</th>
+			     <td>{$object['bankName']}</td>
+			  </tr>
+			  <tr>
+			     <th width='150'>开卡地区：</th>
+			     <td>{$object['bankAreaName']}</td>
+			  </tr>
+              <tr>
+			     <th>卡号：</th>
+			     <td>{$object['bankNo']}</td>
+			  </tr>
+			  <tr>
+			     <th>持卡人：</th>
+			     <td>{$object['bankUserName']}</td>
+			  </tr>
+           </table>
+        </div>
+     </form>
+    </div>
+</div>
+{/block}  
+{block name="js"}
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script src="__STATIC__/plugins/kindeditor/kindeditor.js?v={$v}" type="text/javascript" ></script>
+<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/batchupload.js?v={$v}'></script>
+<script type='text/javascript' src='__STYLE__/shops/goods/goods.js?v={$v}'></script>
+<script>
+$(function(){
+	$('#tab').TabPanel({tab:0,callback:function(no){}});
+})
+</script>
+{/block}

@@ -1,0 +1,49 @@
+{extend name="default/users/base" /}
+{block name="title"}安全设置 - 买家中心{__block__}{/block}
+{block name="css"}
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/security.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="content"}
+<div class="wst-user-head"><span>设置密码</span><a href="{:url('home/users/security')}">返回</a></div>
+	<form method="post" id="myorm" autocomplete="off">
+        <table class='wst-form'>
+        {if ($data['loginPwd'])}
+           <tr>
+             <th align='right'> <font color='red'>*</font>原始密码：</th>
+             <td>
+             <input type='password' class="ipt" id='oldPass' name='oldPass' {if ($data['loginPwd'])}data-rule="原始密码: required;" data-msg-required="请填写原始密码" data-tip="请输入原始密码"{/if} style='width:250px;' maxLength='16'/>
+             </td>
+           </tr>
+        {/if}
+           <tr>
+             <th align='right'> <font color='red'>*</font>新密码：</th>
+             <td>
+             <input type='password' class="ipt" id='newPass' name='newPass' style='width:250px;' maxLength='16'/>
+             </td>
+           </tr>
+           <tr>
+             <th align='right'> <font color='red'>*</font>确认密码：</th>
+             <td>
+             <input type='password' class="ipt" id='reNewPass' name='reNewPass' style='width:250px;' maxLength='16'/>
+             </td>
+           </tr>
+           <tr>
+             <td colspan='2' style='padding-left:75px;height:60px;'>
+                 <button class='wst-sec-but wst-lfloat' type="submit" style="width:100px;height: 30px;">保&nbsp;存</button>
+                 <button class='wst-sec-but2 wst-lfloat' type="reset" style="width:100px;height: 30px;margin-left:16px;">重&nbsp;置</button>
+                 
+             </td>
+           </tr>
+        </table>
+       </form>
+
+{/block}
+{block name="js"}
+	<script type='text/javascript' src='__STYLE__/users/security/security.js?v={$v}'></script>
+	<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+	<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+	<script>
+	$(function(){veMyorm();})
+	</script>
+{/block}

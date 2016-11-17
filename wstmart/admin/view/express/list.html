@@ -1,0 +1,28 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/express/express.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+{if WSTGrant('KDGL_01')}
+<div class="wst-toolbar">
+   <button class="btn btn-green f-right" onclick='javascript:toEdit(0)'>新增</button>
+   <div style="clear:both"></div>
+{/if}
+</div>
+<div id="maingrid"></div>
+
+<div id='expressBox' style='display:none'>
+    <form id='expressForm' autocomplete="off">
+    <table class='wst-form wst-box-top'>
+       <tr>
+          <th width='100'>快递名称<font color='red'>*</font>：</th>
+          <td><input type='text' id='expressName' name="expressName"  class='ipt' maxLength='20'/></td>
+       </tr>
+    </table>
+    </form>
+ </div>
+<script>
+  $(function(){initGrid()});
+</script>
+{/block}

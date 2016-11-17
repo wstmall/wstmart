@@ -1,0 +1,31 @@
+{extend name="default/base" /}
+{block name="title"}我的购物车 - {:WSTConf('CONF.mallName')}{__block__}{/block}
+{block name="css"}
+<link href="__STYLE__/css/carts.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="main"}
+<div class="wst-container">
+	<div class="pay-sbox-head">
+    	<a href='{$Request.root.true}'>首页</a>&nbsp;&gt;&nbsp;支付
+    </div>
+    <div>
+    	<div class="pay-tip3"></div>
+    </div>
+    
+    <div class='pay-sbox'>
+    	<div class='succ-box'>
+	         <div class="imgs"><img src="__STYLE__/img/icon_success.png"/></div>
+	         <div class='wst-clear'></div>
+	         <div class="info" style="line-height:35px;">
+	          <span>支付完成!</span>
+	         </div>
+	         <div class="go">
+	         	<a href='__ROOT__/index.php' class="wst-order-success wst-cart-reda" style="margin: 0 auto;">继续购物</a>
+	         </div>
+         </div>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/js/carts.js?v={$v}'></script>
+{/block}

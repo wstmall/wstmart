@@ -1,0 +1,70 @@
+{extend name="default/base" /}
+{block name="title"}商家登录-{:WSTConf('CONF.mallName')}{__block__}{/block}
+{block name="css"}
+<link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/login.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="nav"}
+    {php}$liteTitle = "欢迎登录".WSTConf('CONF.mallName');{/php}
+	{include file="default/header_lite" /}
+{/block}
+{block name="main"}
+	<div class="wst-container">
+	<div class="wst-login">
+	<div class="wst-login_l">
+		<img src="__STYLE__/img/img_userlogin_left.png"/>
+	</div>
+	<div class="wst-login_r">
+		<form method="post" autocomplete="off">
+		<span class="wst-login-u">商家登陆</span>
+		<table class="wst-table">
+			<tr class="wst-login-tr">
+				<td><img style='margin-right:10px' src="__STYLE__/img/icon_name.png"/></td>
+				<td><input id="loginName" name="loginName" class="ipt wst-login-input"  tabindex="1" value="{$loginName}" autocomplete="off" type="text" data-rule="用户名: required;" data-msg-required="请填写用户名" data-tip="请输入用户名" placeholder="邮箱/用户名/手机号"/></td>
+			</tr>
+			<tr class="wst-login-tr">
+				<td><img style='margin-right:10px' src="__STYLE__/img/icon_passard.png"/></td>
+				<td><input id="loginPwd" name="loginPwd" class="ipt wst-login-input" tabindex="2" autocomplete="off" type="password" data-rule="密码: required;" data-msg-required="请填写密码" data-tip="请输入密码" placeholder="密码"/> </td>
+			</tr>
+			<tr class="wst-login-tr">
+				<td><img style='margin-right:10px' src="__STYLE__/img/icon_yanzhengma.png"/></td>
+				<td>
+					<div class="wst-login-code">
+					<input id="verifyCode" style="ime-mode:disabled" name="verifyCode"  class="ipt wst-login-codein" tabindex="6" autocomplete="off" maxlength="6" type="text" data-rule="验证码: required;" data-msg-required="请输入验证码" data-tip="请输入验证码" data-target="#verify"placeholder="验证码"/>
+					<img id='verifyImg' class="wst-login-codeim" src="{:url('home/users/getVerify')}" onclick="javascript:WST.getVerify('#verifyImg')" style="width:116px;"><span id="verify"></span>    	
+				   	</div>
+				</td>
+			</tr>
+			<tr class="wst-login-tr">
+				<td colspan="2" style="padding-left:43px;">
+					<input id="rememberPwd" name="rememberPwd" class="ipt wst-login-ch" checked="checked" type="checkbox"/>
+			     	<label>记住密码</label>                                      
+					<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;看不清？<a style="color:#69b7b5;" href="javascript:WST.getVerify('#verifyImg')">换一张</a></label>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" style="padding-left:43px;">
+					<div style="width: 100px;height:32px;line-height:32px;float:left;"><a class="wst-login-but" href="javascript:void(0);" onclick='javascript:login(2)'>登录</a></div>
+					<label><a style="color:#b2b1b1;line-height:32px;float:right;" href="javascript:shopApply();">开店申请</a></label>
+					<label><a style="color:#b2b1b1;line-height:32px;float:right;" href="{:url('Users/forgetPass')}">忘记密码? | </a></label>
+				</td>
+			</tr>
+			</table>
+		</form>
+		 <span class="wst-login-three" style='display:none'>您还可以使用以下方式登录：</span>
+		 <a href="#" style='display:none'><img style='margin-right:10px' src="__STYLE__/img/btn_QQ.png"/></a>
+		 <a href="#" style='display:none'><img src="__STYLE__/img/btn_wechat.png"/></a>
+	</div>
+	<div class="wst-clear"></div>
+	</div>
+	</div>
+{/block}
+{block name="js"}
+	<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+	<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+	<script type='text/javascript' src='__STYLE__/js/login.js?v={$v}'></script>
+{/block}
+{block name="footer"}
+	{__block__}@WSTMart 版权所有
+{/block}
