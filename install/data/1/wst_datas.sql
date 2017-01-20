@@ -9,7 +9,7 @@ CREATE TABLE `wst_datas` (
   `dataSort` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `catId` (`catId`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 INSERT INTO `wst_datas` VALUES ('1', '1', '下错单', '1', '0'),
 ('2', '1', '配送地址有误', '2', '0'),
@@ -41,4 +41,5 @@ INSERT INTO `wst_datas` VALUES ('1', '1', '下错单', '1', '0'),
 ('28', '4', '空包裹', '4', '0'),
 ('29', '4', '快递/物流一直未送达', '5', '0'),
 ('30', '4', '快递/物流无跟踪记录', '6', '0'),
-('31', '4', '其他', '10000', '0');
+('31', '4', '其他', '10000', '0'),
+('32', '5', 'PC版', '1', '0');

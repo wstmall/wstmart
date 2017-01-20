@@ -202,7 +202,7 @@ class Orders extends Base{
 	 */
 	public function userOrdersByPage($orderStatus,$isAppraise = -1){
 		$userId = (int)session('WST_USER.userId');
-		$orderNo = (int)input('post.orderNo');
+		$orderNo = input('post.orderNo');
 		$shopName = input('post.shopName');
 		$isRefund = (int)input('post.isRefund',-1);
 		$where = ['o.userId'=>$userId,'o.dataFlag'=>1];
@@ -212,7 +212,7 @@ class Orders extends Base{
 			$where['orderStatus'] = $orderStatus;
 		}
 		if($isAppraise!=-1)$where['isAppraise'] = $isAppraise;
-		if($orderNo>0){
+		if($orderNo!=''){
 			$where['o.orderNo'] = ['like',"%$orderNo%"];
 		}
 		if($shopName != ''){
@@ -227,7 +227,7 @@ class Orders extends Base{
 		             ->join('__ORDER_REFUNDS__ orf','orf.orderId=o.orderId and orf.refundStatus!=-1','left')
 		             ->where($where)
 		             ->field('o.orderId,o.orderNo,s.shopName,s.shopId,s.shopQQ,s.shopWangWang,o.goodsMoney,o.totalMoney,o.realTotalMoney,
-		              o.orderStatus,o.deliverType,deliverMoney,payType,payFrom,o.orderStatus,needPay,isAppraise,isRefund,orderSrc,o.createTime,oc.complainId,orf.id refundId')
+		              o.orderStatus,o.deliverType,deliverMoney,isPay,payType,payFrom,o.orderStatus,needPay,isAppraise,isRefund,orderSrc,o.createTime,oc.complainId,orf.id refundId')
 			         ->order('o.createTime', 'desc')
 			         ->paginate(input('pagesize/d'))->toArray();
 	    if(count($page['Rows'])>0){
@@ -259,7 +259,7 @@ class Orders extends Base{
 	 * 获取商家订单
 	 */
 	public function shopOrdersByPage($orderStatus){
-		$orderNo = (int)input('post.orderNo');
+		$orderNo = input('post.orderNo');
 		$shopName = input('post.shopName');
 		$payType = (int)input('post.payType');
 		$deliverType = (int)input('post.deliverType');
@@ -271,7 +271,7 @@ class Orders extends Base{
 		}else{
 			$where['orderStatus'] = $orderStatus;
 		}
-		if($orderNo>0){
+		if($orderNo!=''){
 			$where['orderNo'] = ['like',"%$orderNo%"];
 		}
 		if($shopName!=''){
@@ -315,7 +315,7 @@ class Orders extends Base{
 	public function deliver(){
 		$orderId = (int)input('post.id');
 		$expressId = (int)input('post.expressId');
-		$expressNo = (int)input('post.expressNo');
+		$expressNo = input('post.expressNo');
 		$shopId = (int)session('WST_USER.shopId');
 		$userId = (int)session('WST_USER.userId');
 		$order = $this->where(['shopId'=>$shopId,'orderId'=>$orderId,'orderStatus'=>0])->field('orderId,orderNo,userId')->find();
@@ -551,7 +551,7 @@ class Orders extends Base{
 		               ->join('__SHOPS__ s','o.shopId=s.shopId','left')
 		               ->join('__ORDER_REFUNDS__ orf ','o.orderId=orf.orderId and orf.refundStatus=2','left')
 		               ->where('o.dataFlag=1 and o.orderId='.$orderId.' and ( o.userId='.$userId.' or o.shopId='.$shopId.')')
-		               ->field('o.*,e.expressName,s.shopName,s.shopQQ,s.shopWangWang,orf.refundRemark,orf.refundTime,orf.backMoney')->find();
+		               ->field('o.*,e.expressName,s.shopTel,s.shopName,s.shopQQ,s.shopWangWang,orf.refundRemark,orf.refundTime,orf.backMoney')->find();
 		if(empty($orders))return WSTReturn("无效的订单信息");
 		
 		//获取订单信息

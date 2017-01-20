@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>订单打印 - {:WSTConf('CONF.mallName')}</title>
+</head>
+<style>
+body{font-size:13px;}
+td,th{padding:2px;}
+</style>
+<body>
+<table width='100%' border='0'>
+  <tr>
+    <td colspan='8' style='text-align:center;font-weight:bold;font-size:26px'>订单信息</td>
+  </tr>
+  <tr>
+    <td width='100' align="right">下单时间：</td>
+    <td width='250'>{$object['createTime']}</td>
+    <td width='100' align="right">支付方式：</td>
+    <td width='250'>{:WSTLangPayType($object['payType'])}</td>
+    <td width='100' align="right">订单编号：</td>
+    <td width='250'>{$object['orderNo']}</td>
+  </tr>
+  <tr>
+    <td width='100' align="right">发货时间：</td>
+    <td>{$object['deliveryTime']}</td>
+    <td width='100' align="right">配送方式：</td>
+    <td>{:WSTLangDeliverType($object['deliverType'])}</td>
+    <td width='100' align="right">快递单号：</td>
+    <td>{$object['expressNo']}</td>
+  </tr>
+  {if $object['invoiceClient'] !=''}
+  <tr>
+    <td width='100' align="right">发票抬头：</td>
+    <td colspan="6">{$object['invoiceClient']}</td>
+  </tr>
+  {/if}
+  <tr>
+    <td width='100' align="right">收货地址：</td>
+    <td colspan="6">{$object['userName']}&nbsp;|&nbsp;{$object['userPhone']}&nbsp;|&nbsp;{$object['userAddress']}</td>
+  </tr>
+  {if $object['orderRemarks']!=''}
+  <tr>
+    <td width='100' align="right">订单备注：</td>
+    <td colspan="6">{$object['orderRemarks']}</td>
+  </tr>
+  {/if}
+</table>
+<table width='100%' border='1' style='border-collapse:collapse;border-color:#000;'>
+  <tr style='background:#cccccc;'>
+    <th align="left">商品名称</th>
+    <th align="left">商品规格</th>
+    <th align="left" align="left">商品价格</th>
+    <th align="left">商品数量</th>
+    <th align="left">小计</th>
+  </tr>
+  {volist name='$object["goods"]' id='vo2'}
+  <tr>
+    <td>{$vo2["goodsName"]}</td>
+    <td>{:str_replace('@@_@@',';',$vo2["goodsSpecNames"])}&nbsp;</td>
+    <td>¥{$vo2['goodsPrice']}</td>
+    <td>{$vo2['goodsNum']}</td>
+    <td>¥{$vo2['goodsPrice']*$vo2['goodsNum']}</td>
+  </tr>
+  {/volist}
+  </table>
+  <table width='100%' border='0'>
+  <tr>
+    <td colspan='6' align="right">商品总金额：¥{$object['goodsMoney']}</td>
+  </tr>
+  <tr>
+    <td colspan='6' align="right">运费：¥{$object['deliverMoney']}</td>
+  </tr>
+  <tr>
+    <td colspan='6' align="right">应付金额：¥{$object['totalMoney']}</td>
+  </tr>
+  <tr>
+    <td colspan='6' align="right">实付金额：¥{$object['realTotalMoney']}</td>
+  </tr>
+</table>
+<br/>
+<table width='100%'>
+   <tr>
+     <td>商家：{$object['shopName']}&nbsp;&nbsp;&nbsp;电话：{$object['shopTel']}</td>
+     <td align="right">打印时间：{:date('Y-m-d H:i:s')}</td>
+   </tr>
+</table>
+</body>
+<script>
+window.print();
+</script>
+</html>

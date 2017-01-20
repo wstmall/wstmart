@@ -73,7 +73,7 @@
                 <div>实付金额：¥{{d[i].realTotalMoney}}</div>
             </td>
             <td rowspan="{{rows}}">
-                {{# if(d[i].payType==1 && WST.blank(d[i].refundId)==''){ }}
+                {{# if(d[i].payType==1 && d[i].isPay==1 && WST.blank(d[i].refundId)==''){ }}
                 <div><a href='javascript:void(0)' onclick='refund({{d[i].orderId}})'>【申请退款】</a></div>
                 {{# } }}
                 <div><a href='#none' onclick='view({{d[i].orderId}})'>【订单详情】</a></div>

@@ -1,0 +1,212 @@
+{extend name="default/base" /}
+{block name="title"}{:WSTConf('CONF.mallName')}-{:WSTConf('CONF.mallSlogan')}{__block__}{/block}
+{block name="css"}
+<link href="__STYLE__/css/self_shop.css" rel="stylesheet">
+{/block}
+{block name="main"}
+<input type="hidden" id="shopId" value="{$data['shop']['shopId']}">
+<input type="hidden" id="goodsName" value="{$goodsName}">
+
+<div class="s-banner">
+	{/*  本店分类  */}
+	<div class="s-cat">
+		 {volist name="$data['shopcats']" id="cat1" length="6"}
+		  <div class="shop-cat1" cid="{$key}" id="ct1-{$key}">
+
+		  	<div class="shop-cat1-title">
+		  	<em class="em{$key+1}"></em>
+		  	<h3>
+	  		 <a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId']])}">{:WSTMSubstr($cat1['catName'],0,4)}</a>
+	  		</h3>
+	  		</div>
+
+	  		<p class="shop-ct1-ct2">
+	  			<?php foreach($cat1['children'] as $k1=>$v1){?>
+	  			<a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId'],'ct2'=>$v1['catId']])}">{$v1['catName']}</a> 
+	  			<?php }?>
+	  		</p>
+		 </div>
+
+	      <ul class="shop-cat2 cid{$key}" cid="{$key}">
+	      	{volist name="$cat1['children']" id="cat2" length="20"}
+	      		<li><a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId'],'ct2'=>$cat2['catId']])}">{$cat2['catName']}</a></li>
+	      	{/volist}
+	      </ul>
+	     {/volist}
+	</div>
+
+		{/* 横栏广告  */}
+		<div class="s-wst-slide" id="s-wst-slide" style="width:100%;float:right;height:400px;overflow:hidden;">
+			{if($data['shop']['shopAds'])}
+			<ul class="s-wst-slide-items">
+				{volist name="$data['shop']['shopAds']" id="vo"}
+					<a href="{$vo.adUrl}" {if ($vo['isOpen'])}target='_blank'{/if} {if ($vo['adUrl']!='')}onclick="WST.recordClick({$vo['adId']})"{/if}><li style="background: url(__ROOT__/{$vo.adImg}) no-repeat  scroll center center;background-size:1200px 400px;" ></li></a>
+				{/volist}
+			</ul>
+			<div class="s-wst-slide-numbox">
+				<div class="s-wst-slide-controls">
+				  	{volist name="$data['shop']['shopAds']" id="vo" key="k"}
+					  	{if condition="$k+1 eq 1"}
+					  		 <span class="curr"> </span>
+					  	{else/}
+					  		 <span class=""> </span>
+					  	{/if}
+					{/volist}
+				</div>
+			</div>
+			{/if}
+
+		</div>
+</div>
+<div class='wst-container'>
+	<div class="s-buy-new-best-hot">
+		<ul class="s-rec">
+				<li class="s-rec-item j-s-rec-selected" id="fl_f_0" onmouseover="gpanelOver2(this);"><a href="javascript:void(0)">店长推荐</a></li>
+				<li class="s-rec-item" id="fl_f_1" onmouseover="gpanelOver2(this);"><a href="javascript:void(0)">热卖商品</a></li>
+		</ul>
+		{/* 店长推荐  */}
+		<div class="s-rec-goods-list" id="fl_f_0_pl">
+			<ul class="s-rec-goods-list">
+			    {volist name="$data['rec']" id="vo" }
+				<li>
+				    <a href='{:Url("home/goods/detail","id=".$vo["goodsId"])}' target='_blank'>
+					  <img class='goodsImg' data-original="__ROOT__/{:WSTImg($vo['goodsImg'])}"  title="{$vo['goodsName']}"/>
+					</a>
+					<p class="s-rec-goods-desc"><a href='{:Url("home/goods/detail","id=".$vo["goodsId"])}' target='_blank'>{$vo['goodsName']}</a></p>
+					<div class="s-rec-goods-bottom">
+					   <p class="s-rec-goods-price">价格:<span>￥{$vo['shopPrice']}</span></p>
+					   <a href="javascript:WST.addCart({$vo['goodsId']});">加入购物车</a>
+					</div>
+				</li>
+				{/volist}
+			</ul>
+			<div class="wst-clear"></div>
+		</div> 
+
+		<div class="s-rec-goods-list" id="fl_f_1_pl" style="display:none;">
+			<ul class="s-rec-goods-list">
+			    {volist name="$data['hot']" id="hot"}
+				<li>
+				    <a href='{:Url("home/goods/detail","id=".$hot["goodsId"])}' target='_blank'>
+					  <img class='goodsImg' data-original="__ROOT__/{:WSTImg($hot['goodsImg'])}"  title="{$hot['goodsName']}"/>
+					</a>
+					<p class="s-rec-goods-desc"><a href='{:Url("home/goods/detail","id=".$hot["goodsId"])}' target='_blank'>{$hot['goodsName']}</a></p>
+					<div class="s-rec-goods-bottom">
+					   <p class="s-rec-goods-price">价格:<span>￥{$hot['shopPrice']}</span></p>
+					   <a href="javascript:WST.addCart({$hot['goodsId']});">加入购物车</a>
+					</div>
+				</li>
+				{/volist}
+			</ul>
+			<div class="wst-clear"></div>
+		</div>
+
+	</div>
+
+	{volist name="$data['shopcats']" id="cat1" key="l" length="5"}
+	<div class="s-floor-box" >
+		<div class="s-floor-header c{$l}">
+			<div class="s-floor-header-f{$l}">
+				<p class="s-floor-right-title"><a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId']])}">{$cat1['catName']}</a></p>
+			</div>
+
+			<ul class="tab">
+				{/* 楼层二级分类 */}
+				{volist name="$cat1['children']" id="cat2" key="l2" length="8"}
+				<li class="tab-item{$l}" id="fl_{$l}_{$l2}" onmouseover="gpanelOver(this);" c="{$l}">
+					<a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId'],'ct2'=>$cat2['catId']])}">{$cat2['catName']}</a>
+				</li>
+				{/volist}
+				<li class="more"><a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId']])}">>></a></li>
+			</ul>
+			
+		</div>
+
+
+		{volist name="$cat1['children']" id="cat2" key="l2" length="8"}
+
+		<div class="" id="fl_{$l}_{$l2}_pl" style="{if ($l2 > 1)}display:none;{/if}" >
+
+			<div class="s-goods-list">
+
+				{/* 楼层分类下的商品 */}
+			 	{wst:shopfloorgoods shop="data['shop']['shopId']"  cat="cat2['catId']" cache="86400" num='10' id='sgf'}
+
+			 	<div class="s-goods s-goods-f{$l}">
+		      	<div class="img">
+		      		<a target="_blank" href="{:Url('home/goods/detail','id='.$sgf['goodsId'])}" title="{$sgf['goodsName']}">
+		      		<img class='goodsImg' data-original="__ROOT__/{:WSTImg($sgf['goodsImg'])}" alt="{$sgf['goodsName']}" title="{$sgf['goodsName']}"/></a>
+		      		<span class="s-add-cart" onclick="WST.addCart({$sgf['goodsId']})">加入购物车</span>
+		      	</div>
+		      	<div class="p-name"><a target="_blank" href="{:Url('home/goods/detail','id='.$sgf['goodsId'])}" class="wst-redlink" title="{$sgf['goodsName']}">
+		      		{:WSTMSubstr($sgf['goodsName'],0,13)}</a></div>
+		      	<div>
+		      		<div class="p-price">￥{:sprintf('%.1f',$sgf['shopPrice'])}</div>
+		      		<div class="p-hsale">
+		      			<div class="sale-num" style="display: block;">成交数：<span class="wst-fred">{$sgf['saleNum']}</span></div>
+		      		</div>
+
+		      		<div class="p-market">市场价￥{:sprintf('%.1f',$sgf['marketPrice'])}</div>
+		      		<div class="p-appraise">
+		      			<div class="sale-num" style="display: block;">已有<span class="wst-fred">{$sgf['appraiseNum']}</span>人评价</div>
+		      		</div>
+		      		<div class="wst-clear"></div>
+		      	</div>
+		      </div>
+
+		      {/wst:shopfloorgoods}
+	      <div class="wst-clear"></div>
+		   </div>
+		</div>
+		{/volist}
+
+
+	</div>
+	{/volist}
+
+		
+	</div>
+
+	{/* 您最近浏览的商品 */}
+	{if cookie("history_goods")!=''}
+	<div class="history-box">
+		<div class="history-title">
+		<p>您最近浏览了以下商品</p> 
+		</div>
+		<div class="history-goods-list">
+			{wst:goods type='history'  num='5'}
+		      <div class="s-goods s-goods-h">
+		      	<div class="img">
+		      		<a target="_blank" href="{:Url('home/goods/detail','id='.$vo['goodsId'])}" title="{$vo['goodsName']}"><img class='goodsImg' data-original="__ROOT__/{:WSTImg($vo['goodsImg'])}" alt="{$vo['goodsName']}" title="{$vo['goodsName']}"/></a>
+		      		<span class="s-add-cart" onclick="WST.addCart({$vo['goodsId']})">加入购物车</a>
+		      	</div>
+		      	<div class="p-name"><a target="_blank" href="{:Url('home/goods/detail','id='.$vo['goodsId'])}" class="wst-redlink" title="{$vo['goodsName']}">
+		      		{:WSTMSubstr($vo['goodsName'],0,13)}</a></div>
+		      	<div>
+		      		<div class="p-price">￥{:sprintf('%.1f',$vo['shopPrice'])}</div>
+		      		<div class="p-hsale">
+		      			<div class="sale-num" style="display: block;">成交数：<span class="wst-fred">{$vo['saleNum']}</span></div>
+		      		</div>
+
+		      		<div class="p-market">市场价￥{:sprintf('%.1f',$vo['marketPrice'])}</div>
+		      		<div class="p-appraise">
+		      			<div class="sale-num" style="display: block;">已有<span class="wst-fred">{$vo['appraiseNum']}</span>人评价</div>
+		      		</div>
+		      		<div class="wst-clear"></div>
+		      	</div>
+		      </div>
+		    {/wst:goods}
+
+		</div>
+		<div class="wst-clear"></div>
+	</div>
+	{/if}
+</div>
+{include file="default/right_cart"/}
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/js/self_shop.js?v={$v}'></script>
+<script type='text/javascript' src='__STYLE__/js/qrcode.js?v={$v}'></script>
+{/block}
+{block name="footer"}{__block__}
+{/block}

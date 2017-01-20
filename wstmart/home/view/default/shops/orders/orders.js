@@ -8,7 +8,7 @@ function waituserPayByPage(p){
 		$('#loading').hide();
 	    var json = WST.toJson(data);
 	    $('.j-order-row').remove();
-	    if(json.status==1 && json.data.Rows.length){
+	    if(json.status==1){
 	    	json = json.data;
 	       	var gettpl = document.getElementById('tblist').innerHTML;
 	       	laytpl(gettpl).render(json.Rows, function(html){
@@ -29,6 +29,7 @@ function waituserPayByPage(p){
 		        	 } 
 		        });
 	       	}else{
+
 	       		$('#pager').empty();
 	       	}
        	} 
@@ -44,7 +45,7 @@ function waitDivleryByPage(p){
 		$('#loading').hide();
 	    var json = WST.toJson(data);
 	    $('.j-order-row').remove();
-	    if(json.status==1 && json.data.Rows.length){
+	    if(json.status==1){
 	    	json = json.data;
 	       	var gettpl = document.getElementById('tblist').innerHTML;
 	       	laytpl(gettpl).render(json.Rows, function(html){
@@ -80,7 +81,7 @@ function deliveredByPage(p){
     $('#loading').hide();
       var json = WST.toJson(data);
       $('.j-order-row').remove();
-      if(json.status==1 && json.data.Rows.length){
+      if(json.status==1){
         json = json.data;
           var gettpl = document.getElementById('tblist').innerHTML;
           laytpl(gettpl).render(json.Rows, function(html){
@@ -148,7 +149,7 @@ function deliver(id){
 		content: $('#deliverBox'),area: ['350px', '180px'],btn: ['确定发货','取消'],
 		yes:function(index, layero){
 			var ll = WST.load({msg:'正在提交信息，请稍候...'});
-			$.post(WST.U('home/orders/deliver'),{id:id},function(data){
+			$.post(WST.U('home/orders/deliver'),{id:id,expressId:$('#expressId').val(),expressNo:$('#expressNo').val()},function(data){
 				var json = WST.toJson(data);
 				if(json.status>0){
 					$('#deliverForm')[0].reset();
@@ -173,7 +174,7 @@ function finisedByPage(p){
 		$('#loading').hide();
 	    var json = WST.toJson(data);
 	    $('.j-order-row').remove();
-	    if(json.status==1 && json.data.Rows.length){
+	    if(json.status==1){
 	    	json = json.data;
 	       	var gettpl = document.getElementById('tblist').innerHTML;
 	       	laytpl(gettpl).render(json.Rows, function(html){
@@ -209,7 +210,7 @@ function failureByPage(p){
 		$('#loading').hide();
 	    var json = WST.toJson(data);
 	    $('.j-order-row').remove();
-	    if(json.status==1 && json.data.Rows.length){
+	    if(json.status==1){
 	    	json = json.data;
 	       	var gettpl = document.getElementById('tblist').innerHTML;
 	       	laytpl(gettpl).render(json.Rows, function(html){

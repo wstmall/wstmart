@@ -212,7 +212,7 @@ class Orders extends Base{
 	 */
 	public function deliveredByPage(){
 		$m = new M();
-		$rs = $m->shopOrdersByPage([1]);
+		$rs = $m->shopOrdersByPage([1,2]);
 		return WSTReturn("", 1,$rs);
 	}
 
@@ -286,6 +286,15 @@ class Orders extends Base{
 		$this->assign('object',$rs);
 		return $this->fetch('shops/orders/view');
 	}
+	/**
+	 * 订单打印
+	 */
+	public function orderPrint(){
+        $m = new M();
+		$rs = $m->getByView((int)input('id'));
+		$this->assign('object',$rs);
+		return $this->fetch('shops/orders/print');
+	}
 
     /**
 	 * 用户-订单详情
@@ -296,6 +305,7 @@ class Orders extends Base{
 		$this->assign('object',$rs);
 		return $this->fetch('users/orders/view');
 	}
+	
    /**
 	* 用户-评价页
 	*/

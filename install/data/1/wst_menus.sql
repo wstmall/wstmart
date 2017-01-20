@@ -1,4 +1,5 @@
 SET FOREIGN_KEY_CHECKS=0;
+
 DROP TABLE IF EXISTS `wst_menus`;
 CREATE TABLE `wst_menus` (
   `menuId` int(11) NOT NULL AUTO_INCREMENT,
@@ -63,6 +64,7 @@ INSERT INTO `wst_menus` VALUES ('1', '0', '首页', '0', '1'),
 ('58', '57', '商品推荐', '0', '1'),
 ('59', '57', '店铺推荐', '1', '1'),
 ('60', '57', '品牌推荐', '2', '1'),
+('61', '2', '风格管理', '10', '1'),
 ('62', '56', '财务管理', '0', '1'),
 ('63', '62', '提现申请', '0', '1'),
 ('64', '62', '结算申请', '2', '1'),

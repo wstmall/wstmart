@@ -1,4 +1,5 @@
 SET FOREIGN_KEY_CHECKS=0;
+
 DROP TABLE IF EXISTS `wst_home_menus`;
 CREATE TABLE `wst_home_menus` (
   `menuId` int(11) NOT NULL AUTO_INCREMENT,
@@ -35,7 +36,7 @@ INSERT INTO `wst_home_menus` VALUES ('1', '0', '买家中心', 'home/users/index
 ('20', '19', '投诉管理', 'home/ordercomplains/index', 'home/ordercomplains/queryUserComplainByPage,home/ordercomplains/getUserComplainDetail', '0', '1', '0', '1', '2016-08-14 18:37:18'),
 ('22', '0', '卖家中心', 'home/shops/index', null, '1', '1', '0', '1', '2016-08-14 18:37:18'),
 ('23', '22', '交易管理', '#', null, '1', '1', '0', '1', '2016-08-14 18:37:18'),
-('24', '23', '待发货订单', 'home/orders/waitdelivery', 'home/orders/waitDeliveryByPage,home/orders/deliver,home/orders/view,home/orders/getMoneyByOrder', '1', '1', '2', '1', '2016-08-14 18:37:18'),
+('24', '23', '待发货订单', 'home/orders/waitdelivery', 'home/orders/waitDeliveryByPage,home/orders/deliver,home/orders/view,home/orders/getMoneyByOrder,home/orders/orderPrint', '1', '1', '2', '1', '2016-08-14 18:37:18'),
 ('25', '23', '投诉订单', 'home/ordercomplains/shopComplain', 'home/ordercomplains/queryShopComplainByPage,home/ordercomplains/getShopComplainDetail,home/ordercomplains/respond', '1', '1', '5', '1', '2016-08-14 18:37:18'),
 ('29', '22', '商品管理', '#', null, '1', '1', '0', '1', '2016-08-14 18:37:18'),
 ('30', '29', '商品分类', 'home/shopcats/index', 'home/shopcats/batchSaveCats,home/shopcats/del,home/shopcats/editName,home/shopcats/editSort,home/shopcats/changeCatStatus', '1', '1', '0', '1', '2016-08-14 18:37:18'),
@@ -51,12 +52,12 @@ INSERT INTO `wst_home_menus` VALUES ('1', '0', '买家中心', 'home/users/index
 ('41', '10', '我关注的商品', 'home/favorites/goods', 'home/favorites/listGoodsQuery,home/favorites/cancel', '0', '1', '0', '1', '2016-08-14 18:37:18'),
 ('42', '38', '运费设置', 'home/Shopfreights/index', 'home/shopfreights/listProvince,home/shopfreights/index', '1', '1', '0', '1', '2016-08-24 15:29:21'),
 ('43', '0', '资金管理', 'home/users/index', '', '0', '1', '0', '1', '2016-09-18 10:24:47'),
-('44', '23', '已收货订单', 'home/orders/finished', 'home/orders/finishedByPage,home/orders/view', '0', '1', '1', '1', '2016-09-18 10:30:29'),
-('45', '23', '取消/拒收订单', 'home/orders/failure', 'home/orders/failureByPage,home/orders/view,home/orders/confer,home/orders/confer', '1', '1', '4', '1', '2016-09-18 10:31:01'),
+('44', '23', '已收货订单', 'home/orders/finished', 'home/orders/finishedByPage,home/orders/view,home/orders/orderPrint', '1', '1', '1', '1', '2016-09-18 10:30:29'),
+('45', '23', '取消/拒收订单', 'home/orders/failure', 'home/orders/failureByPage,home/orders/view,home/orders/confer,home/orders/confer,home/orders/orderPrint', '1', '1', '4', '1', '2016-09-18 10:31:01'),
 ('46', '10', '我关注的商家', 'home/favorites/shops', 'home/favorites/listShopQuery,home/favorites/cancel', '0', '1', '2', '1', '2016-09-24 00:09:34'),
 ('48', '2', '已完成订单', 'home/orders/finish', 'home/orders/finishByPage,home/orders/detail,home/orders/orderAppraise,home/ordercomplains/complain', '0', '1', '3', '1', '2016-09-22 10:18:16'),
 ('49', '19', '用户信息', 'home/messages/index', 'home/messages/queryByList,home/messages/showMsg,home/messages/batchRead,home/messages/del,home/messages/batchDel', '0', '1', '3', '1', '2016-09-22 10:54:49'),
-('53', '23', '已发货订单', 'home/orders/delivered', 'home/orders/deliveredByPage,home/orders/view', '1', '1', '3', '1', '2016-10-10 16:11:39'),
+('53', '23', '已发货订单', 'home/orders/delivered', 'home/orders/deliveredByPage,home/orders/view,home/orders/orderPrint', '1', '1', '3', '1', '2016-10-10 16:11:39'),
 ('54', '29', '库存预警', 'home/goods/stockWarnByPage', '', '1', '1', '5', '1', '2016-10-11 11:50:56'),
 ('55', '23', '待付款订单', 'home/orders/waituserPay', 'home/orders/waituserPayByPage,home/orders/editOrderMoney,home/orders/view', '1', '1', '1', '1', '2016-10-14 14:58:59'),
 ('56', '29', '违规商品', 'home/goods/illegal', '', '1', '1', '6', '1', '2016-10-14 22:13:33'),

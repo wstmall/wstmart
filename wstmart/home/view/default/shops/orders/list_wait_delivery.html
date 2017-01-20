@@ -92,6 +92,7 @@
                 {{#if((d[i].payType==1 && d[i].isPay==1) || d[i].payType==0){}}
                 <div><a href='#none' onclick='javascript:deliver({{d[i].orderId}})'>【发货】</a></div>
                 {{#}}}
+                <div><a target='blank' href='{{WST.U("home/orders/orderPrint","id="+d[i].orderId)}}'>【打印订单】</a></div>
                 <div><a href='#none' onclick='view({{d[i].orderId}})'>【订单详情】</a></div>
             </td>
             {{#}}}
@@ -113,7 +114,7 @@
                <select id='expressId'>
                   <option value=''>请选择</option>
                   {volist name="$express" id='vo'}
-                  <option value='{vo["expressId"]}'>{$vo["expressName"]}</option>
+                  <option value='{$vo["expressId"]}'>{$vo["expressName"]}</option>
                   {/volist}
                </select>
             </td>

@@ -45,16 +45,7 @@
             <td colspan='4' align='right'>
               <div class='time'>{{d[i].createTime}}</div>
               <div class='orderno'>订单号：{{d[i].orderNo}}</div>
-              <div>
-              {{#if(d[i].payType==1){}}
-              	{{# if(d[i].isPay==1){}}已支付
-              	{{# }else{ }}
-                                                等待支付
-                {{# } }}
-              {{#}else{}}
-                                                配送中
-              {{#} }}
-              </div>
+              <div>{{d[i].status}} </div>
             </td>
          </tr>
          {{# 
@@ -87,6 +78,7 @@
                 <div>实付金额：¥{{d[i].realTotalMoney}}</div>
             </td>
             <td rowspan="{{rows}}">
+                <div><a target='blank' href='{{WST.U("home/orders/orderPrint","id="+d[i].orderId)}}'>【打印订单】</a></div>
                 <div><a href='#none' onclick='view({{d[i].orderId}})'>【订单详情】</a></div>
             </td>
             {{#}}}

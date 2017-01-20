@@ -26,7 +26,7 @@ class OrderRefunds extends Base{
 		$userId = (int)session('WST_USER.userId');
 		if($money==0)return WSTReturn("退款金额不能为0");
 		$order = Db::name('orders')->alias('o')->join('__SHOPS__ s','o.shopId=s.shopId','left')
-		           ->where(['o.userId'=>$userId,'o.payType'=>1,'o.orderId'=>$orderId,'o.orderStatus'=>['in',[-3,-1]]])
+		           ->where(['o.userId'=>$userId,'o.payType'=>1,'isPay'=>1,'o.orderId'=>$orderId,'o.orderStatus'=>['in',[-3,-1]]])
 		           ->field('o.orderId,s.userId,o.orderStatus,o.orderNo,o.realTotalMoney')->find();
 		$reasonData = WSTDatas(4,$reason);
 		if(empty($reasonData))return WSTReturn("无效的退款原因");
