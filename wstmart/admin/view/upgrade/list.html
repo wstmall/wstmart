@@ -1,0 +1,12 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/upgrade/upgrade.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<div id="maingrid"></div>
+<script>
+$(function(){initGrid()});
+</script>
+
+{/block}

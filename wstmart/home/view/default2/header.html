@@ -1,0 +1,196 @@
+{include file="default2/header_top" /}
+{if !isset($_COOKIE['ads_cookie'])}
+{wst:ads code="index-top-ads" cache='86400' id="tads"}
+{if ($tads['adFile']!='')}
+<div class="index-top-ads">
+  <a href="{$tads['adURL']}" {if ($tads['isOpen'])}target='_blank'{/if} {if ($tads['adURL']!='')}onclick="WST.recordClick({$tads['adId']})"{/if} onfocus="this.blur();">
+    <img src="__ROOT__/{$tads['adFile']}"></a>
+  <a href="javascript:;" class="close-ads" onclick="WST.closeAds(this)"></a>
+</div>
+{/if}
+{/wst:ads}
+{/if}
+
+
+
+<div class='wst-search-container'>
+   <div class='wst-logo'>
+   <a href='{$Request.root.true}' title="{:WSTConf('CONF.mallName')}" >
+      <img src="__ROOT__/{:WSTConf('CONF.mallLogo')}" height="120" width='240' title="{:WSTConf('CONF.mallName')}" alt="{:WSTConf('CONF.mallName')}">
+   </a>
+   </div>
+   <div class="wst-search-box">
+      <div class='wst-search'>
+      	  <input type="hidden" id="search-type" value="{:isset($keytype)?1:0}"/>
+          <ul class="j-search-box">
+        	  <li class="j-search-type">
+              搜<span>{if isset($keytype)}店铺{else}商品{/if}</span>&nbsp;<i class="arrow"> </i>
+            </li>
+        	  <li class="j-type-list">
+        	  	{if isset($keytype)}
+              <div data="0">商品</div>
+              {else}
+        	  	<div data="1">店铺</div>
+              {/if}
+        	  </li>
+          </ul>
+	      <input type="text" id='search-ipt' class='search-ipt' placeholder='{:WSTConf("CONF.adsGoodsWordsSearch")}' value='{:isset($keyword)?$keyword:""}'/>
+	      <input type='hidden' id='adsGoodsWordsSearch' value='{:WSTConf("CONF.adsGoodsWordsSearch")}'>
+	      <input type='hidden' id='adsShopWordsSearch' value='{:WSTConf("CONF.adsShopWordsSearch")}'>
+	      <div id='search-btn' class="search-btn" onclick='javascript:WST.search(this.value)'>搜索</div>
+      </div>
+      <div class="wst-search-keys">
+      {php}$searchKeys = WSTSearchKeys();{/php}
+      {volist name="$searchKeys" id="vo"}
+       <a href='{:Url("home/goods/search","key=".$vo)}'>{$vo}</a>
+       {if $i< count($searchKeys)}&nbsp;&nbsp;|&nbsp;&nbsp;{/if}
+      {/volist}
+      </div>
+   </div>
+   <div class="wst-cart-box">
+   <a href="{:url('home/carts/index')}" target="_blank"><span class="word j-word">共 <span class="num" id="goodsTotalNum">0</span> 件商品</span></a>
+   	<div class="wst-cart-boxs hide">
+   		<div id="list-carts"></div>
+   		<div id="list-carts2"></div>
+   		<div id="list-carts3"></div>
+	   	<div class="wst-clear"></div>
+   	</div>
+   </div>
+{/* 购物车 */}
+<script id="list-cart" type="text/html">
+{{# for(var i = 0; i < d.list.length; i++){ }}
+	<div class="goods" id="j-goods{{ d.list[i].cartId }}">
+	   	<div class="imgs"><a href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}"><img class="goodsImgc" data-original="__ROOT__/{{ d.list[i].goodsImg }}" title="{{ d.list[i].goodsName }}"></a></div>
+	   	<div class="number"><p><a  href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}">{{WST.cutStr(d.list[i].goodsName,26)}}</a></p><p>数量：{{ d.list[i].cartNum }}</p></div>
+	   	<div class="price"><p>￥{{ d.list[i].shopPrice }}</p><span><a href="javascript:WST.delCheckCart({{ d.list[i].cartId }})">删除</a></span></div>
+	</div>
+{{# } }}
+</script>
+</div>
+<div class="wst-clear"></div>
+{/* 左侧菜单栏 */}
+<div class="wst-nav-menus">
+   <div class="nav-w" style="position: relative;">
+      <div class="w-spacer"></div>
+      <div class="dorpdown {if isset($hideCategory)}j-index{/if}" id="wst-categorys">
+         <div class="dt j-cate-dt">
+             <a href="{:Url('home/goods/lists')}" target="_blank">全部商品分类</a>
+         </div>
+         <div class="dd j-cate-dd" {if !isset($hideCategory)}style="display:none" {/if}>
+            <div class="dd-inner">
+                 {volist name=":WSTSideCategorys()" id="vo" key="k"}
+                 <div id="cat-icon-{$k}" class="item fore1 {if ($key>=12)}over-cat{/if}">
+                     <h3>
+                      <div class="{if ($key>=12)} over-cat-icon {else /} cat-icon-{$k} {/if}"></div>
+                      <a href="{:Url('home/goods/lists','cat='.$vo['catId'])}" target="_blank">{$vo['catName']}</a>
+                     </h3>
+                     <i>&gt;</i> 
+                 </div>
+                 {/volist}
+             </div>
+             <div style="display: none;" class="dorpdown-layer" id="index_menus_sub">
+                 {volist name=":WSTSideCategorys()" id="vo" key="k"}
+                  <div class="item-sub" i="{$k}">
+                      <div class="item-brands">
+                           <div class="brands-inner">
+                            {wst:brand cat="$vo['catId']" id="bvo" num='16' cache='86400'}
+                              <a target="_blank" class="img-link" href="{:url('home/goods/lists',['cat'=>$bvo['catId'],'brand'=>$bvo['brandId']])}">
+                                  <img width="83" height="35" class='goodsImg' data-original="__ROOT__/{$bvo['brandImg']}">
+                              </a>
+                            {/wst:brand}
+                            {wst:shop cat="$vo['catId']" id="bvo" num='16' cache='86400'}
+                              <a target="_blank" class="img-link" href="{:url('home/goods/lists',['cat'=>$bvo['catId'],'brand'=>$bvo['shopId']])}">
+                                  <img width="83" height="35" class='goodsImg' data-original="__ROOT__/{$bvo['shopImg']}">
+                              </a>
+                            {/wst:shop}
+                            </div>
+
+                       </div>
+
+                       <div class="subitems">
+                          {php}if(isset($vo['list'])){{/php}
+                          {volist name="vo['list']" id="vo2"}
+                           <dl class="fore2">
+                               <dt >
+                                  <a target="_blank" href="{:Url('home/goods/lists','cat='.$vo2['catId'])}">{$vo2['catName']}<i>&gt;</i></a>
+                               </dt>
+                               <dd>
+                                  {php}if(isset($vo2['list'])){{/php}
+                                  {volist name="vo2['list']" id="vo3"}
+                                  <a target="_blank" href="{:Url('home/goods/lists','cat='.$vo3['catId'])}">{$vo3['catName']}</a>
+                                  {/volist}
+                                  {php}}{/php}
+                               </dd>
+                            </dl>
+                           {/volist}
+                           {php}}{/php}
+                        </div>
+                  </div>
+                  {/volist}
+             </div>
+        </div>
+      </div>
+      {/* 横栏菜单 */}
+      <div id="wst-nav-items">
+           <ul>
+               {volist name=":WSTNavigations(0)" id='vo'}
+               <li class="fore1">
+                    <a href="{$vo['navUrl']}" {if $vo['isOpen']==1}target="_blank"{/if}>{$vo['navTitle']}</a>
+               </li>
+               {/volist}
+           </ul>
+      </div>
+      <div class='wst-right-panel' {if !isset($hideCategory)}style="display:none" {/if}>
+        <div class="index-user-tab">
+          <div id="wst-right-photo">
+  		  	 <a href="{:url('home/users/index')}"><img class="usersImg" data-original="__ROOT__/{:session('WST_USER.userPhoto')}"/></a>
+          </div>
+          <div id="wst-right-join">
+          {if(session('WST_USER.userId'))}
+            <p>Hello,{:session('WST_USER.userName')?session('WST_USER.userName'):session('WST_USER.loginName')}</p>
+            <p>欢迎来到{:WSTMSubstr(WSTConf('CONF.mallName'),0,13)}</p>
+          {else}
+            <p>&nbsp;</p>
+            <p>{if(!session('WST_USER.userId'))}Hello,欢迎您来到{:WSTMSubstr(WSTConf('CONF.mallName'),0,10)}{/if}</p>
+
+            <div class="visitor-login">
+            <a href="{:Url('home/users/login')}" style="border-right:1px solid #ccc;"><div class="wst-right-pic"><img src="__STYLE__/img/icon_login.png" /></div>
+              <p class="wst-right-text">登录</p>
+            </a>
+            <a href="{:Url('home/users/regist')}"><div class="wst-right-pic"><img src="__STYLE__/img/icon_register.png" /></div>
+              <p class="wst-right-text">注册</p>
+            </a> 
+            <div class="wst-clear"></div>
+            </div>
+
+          {/if}
+          </div>
+        </div>
+        <div class="wst-clear"></div>
+
+        <div id="wst-right-news" style="">
+          <p>最新资讯</p>
+          <a href="{:url('home/news/view')}">更多</a>
+        </div>
+
+        <ul id="wst-right-new-list"{if(!session('WST_USER.userId'))}class="visitor-new-list"{/if}  >
+          {wst:article cat="new" num='8' cache='86400'}
+          <li><a href="{:url('home/news/view',['id'=>$vo['articleId']])}"><img src="__STYLE__/img/icon_zixun.png" alt="喇叭">{$vo['articleTitle']}</a></li>
+          {/wst:article}
+        </ul>
+        <div id="wst-right-ads">
+          {wst:ads code="index-art-bottom" num='1' cache='86400'}
+          <a {if ($vo['isOpen'])}target='_blank'{/if} {if ($vo['adURL']!='')}onclick="WST.recordClick({$vo['adId']})"{/if} href="{$vo.adURL}" onfocus="this.blur()">
+            <img data-original="__ROOT__/{$vo.adFile}" class="goodsImg" />
+          </a>
+          {/wst:ads}
+        </div>
+      </div>
+      
+      <span class="wst-clear">
+        
+      </span>
+       
+    </div>
+</div>
+<div class="wst-clear"></div>

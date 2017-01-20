@@ -22,7 +22,7 @@
             <select id="positionType" name="positionType" class='ipt' maxLength='20' onchange="addPosition(this.value)">
               <option value=''>请选择</option>
               {volist name=":WSTDatas(5)" id='vo'}
-              <option <?=($data['positionType']===$vo['dataVal'])?'selected':'';?> value="{$vo['dataVal']}">{$vo['dataName']}</option>
+              <option {if $data['positionType'] == $vo['dataVal']}selected{/if} value="{$vo['dataVal']}">{$vo['dataName']}</option>
               {/volist}
             </select>
           </td>
@@ -99,7 +99,7 @@
 $(function(){
 editInit();
 //初始化位置类型
-if("{$data['positionType']}" == '1')addPosition("{$data['positionType']}","{$data['adPositionId']}");
+addPosition("{$data['positionType']}","{$data['adPositionId']}");
 //时间插件
 $("#adStartDate").ligerDateEditor().setValue('{$data['adStartDate']}');
 $("#adEndDate").ligerDateEditor().setValue('{$data['adEndDate']}');

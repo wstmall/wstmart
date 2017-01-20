@@ -31,13 +31,14 @@ class SysConfigs extends Base{
     /**
 	 * 编辑
 	 */
-	public function edit(){
+	public function edit($isRequire = false){
 		$list = $this->field('configId,fieldCode,fieldValue')->select();
 		Db::startTrans();
         try{
 			foreach ($list as $key =>$v){
 				$code = trim($v['fieldCode']);
 				$val = Input('post.'.trim($v['fieldCode']));
+				if($isRequire && $val=='')continue;
 			    //启用图片
 				if(substr($val,0,7)=='upload/' && strpos($val,'.')!==false){
 					WSTUseImages(1, $v['configId'],$val, 'sys_configs','fieldValue');
@@ -53,5 +54,4 @@ class SysConfigs extends Base{
 		}
 		return WSTReturn("操作失败", 1);
 	}
-	
 }

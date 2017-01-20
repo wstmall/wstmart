@@ -1,0 +1,172 @@
+{extend name="default2/users/base" /}
+{block name="title"}首页-买家中心{__block__}{/block}
+{block name="css"}
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+<link rel="stylesheet" href="__STATIC__/plugins/jcrop/css/jquery.Jcrop.css?v={$v}" type="text/css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+{/block}
+{block name="content"}
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<form id="userEditForm" autocomplete="off" >
+	<div id='tab' class="wst-tab-box">
+		<ul class="wst-tab-nav uinfo-nav">
+			<li id="wst-msg-li-0">个人资料<span style="display:none;" class="wst-order-tips-box"></span></li>
+			<li id="wst-msg-li-1">头像照片<span style="display:none;"></span></li>
+		</ul>
+		<div class="wst-tab-content" style='width:99%;border:none;'>
+			<div class='wst-tab-item'>
+		<table class='wst-form uinfo-form' >
+		<tr>
+	      <th>登录账号<font color='red'>  </font>：</th>
+	      <td width="260" class="gray">
+	          <div id='user_account'>{:session('WST_USER.loginName')}</div>
+	      </td>
+	      <td class="gray" style='padding-left:15px;'>个人头像：</td>
+	    </tr>
+	  <tr>
+	      <th width='100'><font color='red'>*</font>昵称：</th>
+	          <td class="uinfo">
+	              <input type="text" class="ipt" id="userName" name="userName" value="{$data['userName']}" />
+	          </td>
+	          <td rowspan="6" valign="top">
+	              	<div id='userPhotoPreview1' style="border:1px solid #ccc;width:151px;height:151px;margin-left:15px;">
+		              {if ($data['userPhoto'])}
+				      	<img  class="usersImg" data-original='__ROOT__/{$data['userPhoto']}' height='150'/>
+				      {else}
+				      	<img class="usersImg" src="__ROOT__/{:WSTConf('CONF.userLogo')}" height='150' width="150" />
+				      {/if}
+				      	<br/>
+			         </div>
+			         <span id="picErr"></span>
+	          </td>
+	   </tr>
+	   		<tr>
+	          <th>真实姓名<font color='red'>  </font>：</th>
+	          <td class="uinfo">
+	              <input type="text" class="ipt" id="trueName" name="trueName" value="{$data['trueName']}" />
+	          </td>
+	       </tr>
+	         <tr>
+	            <th><font color='red'>*</font>性别：</th>
+	            <td>
+	            	<div class="radio-box">
+	            	<label><input type='radio' class='ipt wst-radio' name='userSex'  id="userSex-1" <?=($data['userSex']==1)?'checked':'';?> value="1" /><label class="mt-1" for="userSex-1"></label> 男</label>
+	             	<label><input type='radio' class='ipt wst-radio' name='userSex'  id="userSex-2" <?=($data['userSex']==2)?'checked':'';?> value="2" /><label class="mt-1" for="userSex-2"></label> 女</label>
+	             	<label><input type='radio' class='ipt wst-radio' name='userSex'  id="userSex-3" <?=($data['userSex']==3)?'checked':'';?> value="3" /><label class="mt-1" for="userSex-3"></label> 保密</label>
+	             	</div>
+	            </td>
+	         </tr>
+	       <tr>
+	          <th>生日<font color='red'></font>：</th>
+	          <td class="uinfo">
+	              <input type="text" class="ipt" id="brithday" name="brithday" value="{$data['brithday']}" />
+	          </td>
+	       </tr>
+
+	        <tr>
+	          <th>QQ<font color='red'>  </font>：</th>
+	          <td class="uinfo">
+	              <input type="text" class="ipt" id="userQQ" name="userQQ" value="{$data['userQQ']}" />
+	          </td>
+	       </tr>
+
+	      
+
+	  <tr>
+	     <td colspan='2' style="text-align:center">
+	       <input type="hidden" name="id" id="userId" class="ipt" value="{$data['userId']}" />
+	       <button type="submit"  class="wst-sec-but u-btn">保存</button>
+	       <button type="reset"  class="wst-sec-but u-btn">重置</button>
+	     </td>
+	  </tr>
+	</table>
+
+			</div>
+
+
+<div class='wst-tab-item' style="display:none" >
+
+	<table class='wst-form'  id="userPhoto">
+		<tr>
+	      <th width='100'>头像预览<font color='red'> </font>：</th>
+	      <td></td>
+	   </tr>
+	   <tr>
+	   	<td></td>
+   		<td>
+          	<div id='userPhotoPreview'>
+              {if ($data['userPhoto'])}
+		      	<img  class="usersImg" data-original='__ROOT__/{$data['userPhoto']}' height='150' width="150"/>
+		      {else}
+		      	<img class="usersImg" data-original='' height='150' width="150" />
+		      {/if}
+		      	<br/>
+	         </div>
+          </td>
+	   </tr>
+	   <tr>
+	   	<td></td>
+	   	<td width="400">图片大小:150 x 150 (px)，格式为 gif, jpg, jpeg, png</td></tr>
+	   <tr>
+            <td></td>
+	   		<td width="50">
+	           	<input type='hidden' id='userPic' value='{$data['userPhoto']}' data-rule="用户头像:required" data-target="#picErr"/>
+             	<div id="userPhotoPicker" style='margin-left:0px;margin-top:5px;height:30px;overflow:hidden'>上传用户头像</div>
+            </td>
+	   </tr>
+    </table>
+
+
+
+    <div class="container"  id="userPhotoCut" style="display:none;">
+	<div class="row">
+		<div class="span12">
+			<div class="jc-demo-box">
+				<div id="img-src" style="text-align:center;max-width:500px;height:auto;">
+				  <p>裁剪区域</p>
+				</div>
+
+
+				  <div id="userPhotoCutBox" style="position:relative;height:505px;">
+					  <div id="cutArea"></div><p></p>
+				  </div>
+
+
+
+
+				 <form action="<?=url('Home/Users/editUserPhoto')?>" method="post" id="userPhotoInfo">
+						<input type="hidden" id="x" name="x" class="photo-size" />
+						<input type="hidden" id="y" name="y" class="photo-size" />
+						<input type="hidden" id="w" name="w" class="photo-size" />
+						<input type="hidden" id="h" name="h" class="photo-size" />
+						<input type="hidden" id="photoSrc" name="photoSrc" value="">
+						<div id="c-btn">
+							<input type="button" value="保存" class="cut-btn" onclick="checkCoords()">
+							<input type="button" value="返回" class="cut-btn" onclick="returnPhotoPage()">
+						</div>
+				  </form>
+
+			<div class="wst-clear"></div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+</div>
+
+		</div>
+	</div>
+
+
+	
+</form>
+
+{/block}
+{block name="js"}
+	<script type="text/javascript" src="__STATIC__/plugins/jcrop/js/jquery.Jcrop.js?v={$v}"></script>
+	<script type='text/javascript' src='__STYLE__/users/user.js?v={$v}'></script>
+	<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+	<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+{/block}

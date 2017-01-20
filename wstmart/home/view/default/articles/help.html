@@ -40,7 +40,7 @@
 		<div class="h-right-title"><div id="square"></div><h4>{$data.articleTitle}</h4></div>
 		<div class="c"><input type="hidden" value="{$data.articleId}" id="artId"></div>
 		<div class="h-content">
-			{$data.articleContent}
+			{:htmlspecialchars_decode($data.articleContent)}
 		</div>
 		<div class="c"></div>
 		<div class="h-record">

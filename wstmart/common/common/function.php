@@ -333,7 +333,7 @@ function WSTGoodsCats($parentId = 0,$isFloor = -1){
  */
 function WSTUploadPic($fromType=0){
 	$fileKey = key($_FILES);
-	$dir = Input('post.dir');
+	$dir = Input('param.dir');
 	if($dir=='')return json_encode(['msg'=>'没有指定文件目录！','status'=>-1]);
 	$dirs = WSTConf("CONF.wstUploads");
    	if(!in_array($dir, $dirs)){

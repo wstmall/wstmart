@@ -74,7 +74,7 @@ class Shops extends Base{
         $ct2 = input("param.ct2/d",0);
         $goodsName = input("param.goodsName");
         if(($data['shop']['shopId']==1 || $shopId==0) && $ct1==0 && !isset($goodsName))
-            $this->redirect('home/selfShop');
+            $this->redirect('shops/selfShop');
         
     	if(empty($data['shop']))return $this->fetch('error_lost');
     	$data['shopcats'] = $f = model('ShopCats','model')->getShopCats($shopId);

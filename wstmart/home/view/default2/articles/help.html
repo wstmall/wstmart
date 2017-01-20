@@ -1,0 +1,60 @@
+{extend name="default2/base" /}
+{block name="title"}{:WSTConf('CONF.mallName')}-{:WSTConf('CONF.mallSlogan')}{__block__}{/block}
+{block name="css"}
+<link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/articles.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="main"}
+<div class="bc-nav">
+	<p>
+		<a href="{:url('/')}">首页</a>
+		<a href="#">> 客服中心</a>
+		{volist name="$bcNav" id="bc"}
+		{if ($bc['catId']!=7)}
+	    <a href="{:url('home/helpcenter/view',['id'=>$data['articleId']])}">> {$bc['catName']}</a>
+	    {/if}
+	    {/volist}
+	    {if isset($data['articleTitle'])}
+	    	<a href="{:url('home/helpcenter/view',['id'=>$data['articleId']])}">> {$data['articleTitle']}</a>
+	    {/if}
+	</p>
+</div>
+<div class="help-box">
+	<div class="help-left">
+		<p class="h-title b-99">客服中心</p>
+		<ul id="parent">
+			{volist name="$list" id="v" }
+			<?php $cat=explode('-',$key);?>
+            <li class="h-cat {if ($cat[1]==$data['catId'])}h-show{else /}h-hide{/if}">
+                <span>{$cat[0]}<p></p></span>
+                <ul class="h-list">
+                	{volist name="$v" id="v1" key="k1"}
+                    <a href="{:url('home/Helpcenter/view',['id'=>$v1['articleId']])}"><li class="{if ($v1['articleId']==$data['articleId'])}h-curr{/if}">{:WSTMSubstr($v1['articleTitle'],0,10)}</li></a>
+                    {/volist}
+                </ul>
+            </li>
+            {/volist}
+        </ul>
+	</div>
+	<div class="help-right b">
+		<div class="h-right-title"><div id="square"></div><h4>{$data.articleTitle}</h4></div>
+		<div class="c"><input type="hidden" value="{$data.articleId}" id="artId"></div>
+		<div class="h-content">
+			{$data.articleContent}
+		</div>
+		<div class="c"></div>
+		<div class="h-record">
+			<p>以上内容是否已经解决您的问题呢？</p>
+			<input class="h-button" onclick="solve(1)" type="button" value="是，已经解决" />
+			<input class="h-button" onclick="solve(0)" type="button" value="否，咨询客服" />
+		</div>
+	</div>
+	
+	<div class="c"></div>
+</div>
+{/block}
+{block name="js"}
+<script src="__STYLE__/articles/articles.js"></script>
+{/block}
+{block name="footer"}{__block__}
+{/block}

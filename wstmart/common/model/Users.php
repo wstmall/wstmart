@@ -237,7 +237,7 @@ class Users extends Base{
             $data["payPwd"] = md5($data["payPwd"].$rs['loginSecret']);
             $rs = $this->update($data,['userId'=>$id]);
             if(false !== $rs){
-                return WSTReturn("支付密码修改成功", 1);
+                return WSTReturn("支付密码设置成功", 1);
             }else{
                 return WSTReturn("支付密码修改失败",-1);
             }

@@ -1,0 +1,158 @@
+<div class="wst-header">
+    <div class="wst-nav">
+		<ul class="headlf" style='float:left;width:500px;'>
+		{if condition="session('WST_USER.userId') >0"}
+		   <li class="drop-info">
+			  <div class="drop-infos">
+			  <a href="{:Url('home/users/index')}">欢迎您，{:session('WST_USER.userName')?session('WST_USER.userName'):session('WST_USER.loginName')}</a>
+			  </div>
+			  <div class="wst-tag dorpdown-user">
+			  	<div class="wst-tagt">
+			  	   <div class="userImg" >
+				  	<img class='usersImg' data-original="__ROOT__/{:session('WST_USER.userPhoto')}"/>
+				   </div>	
+				  <div class="wst-tagt-n">
+				    <div>
+					  	<span class="wst-tagt-na">{:session('WST_USER.userName')?session('WST_USER.userName'):session('WST_USER.loginName')}</span>
+					  	{if (int)session('WST_USER.rankId') > 0 }
+					  		<img src="__ROOT__/{:session('WST_USER.userrankImg')}" title="{:{:session('WST_USER.rankName')}"/>
+					  	{/if}
+				  	</div>
+				  	<div class='wst-tags'>
+			  	     <span class="w-lfloat"><a onclick='WST.position(15,0)' href='{:Url("home/users/edit")}'>用户资料</a></span>
+			  	     <span class="w-lfloat" style="margin-left:10px;"><a onclick='WST.position(16,0)' href='{:Url("home/users/security")}'>安全设置</a></span>
+			  	    </div>
+				  </div>
+			  	  <div class="wst-tagb" style='display:none'>
+			  		<a>待处理订单</a>
+			  		<a>我的余额</a>
+			  		<a>我的消息</a>
+			  		<a>我的积分</a>
+			  		<a>我的关注</a>
+			  		<a>咨询回复</a>
+			  	  </div>
+			  	<div class="wst-clear"></div>
+			  	</div>
+			  </div>
+			</li>
+			<li class="spacer">|</li>
+			<li class="drop-info">
+			<a href='{:Url("home/messages/index")}' target='_blank' onclick='WST.position(49,0)'>消息（<span id='wst-user-messages'>0</span>）</a>
+			</li>
+			<li class="spacer">|</li>
+			<li class="drop-info">
+			  <div><a href="javascript:WST.logout();">退出</a></div>
+			</li>
+			{else /}
+			<li class="drop-info">
+			  <div>欢迎来到{:WSTMSubstr(WSTConf('CONF.mallName'),0,13)}<a href="{:Url('home/users/login')}">&nbsp;&nbsp;请&nbsp;登录</a></div>
+			</li>
+			<li class="spacer">|</li>
+			<li class="drop-info">
+			  <div><a href="{:Url('home/users/regist')}">免费注册</a></div>
+			</li>
+			{/if}
+		</ul>
+		<ul class="headrf" style='float:right;'>
+		    <li class="j-dorpdown">
+				<div class="drop-down" style="padding-left:0px;">
+					<a href="{:Url('home/users/index')}" target="_blank">我的订单<i class="di-right"><s>◇</s></i></a>
+				</div>
+				<div class='j-dorpdown-layer order-list'>
+				   <div><a href='{:Url("home/orders/waitPay")}' onclick='WST.position(3,0)'>待付款订单</a></div>
+				   <div><a href='{:Url("home/orders/waitReceive")}' onclick='WST.position(5,0)'>待发货订单</a></div>
+				   <div><a href='{:Url("home/orders/waitAppraise")}' onclick='WST.position(6,0)'>待评价订单</a></div>
+				</div>
+			</li>	
+			
+			<li class="spacer">|</li>
+			<li class="j-dorpdown">
+				<div class="drop-down drop-down2 pdr5"><i class="di-left"></i><a href="#" target="_blank">手机商城</a></div>
+				<div class='j-dorpdown-layer sweep-list'>
+				   <div class="qrcodea">
+					   <div id='qrcodea' class="qrcodeal"></div>
+					   <div class="qrcodear">
+					   	<p>扫描二维码</p><span>下载手机客户端</span><br/><a>Android</a><br/><a>iPhone</a>
+					   </div>
+				   </div>
+				</div>
+			</li>
+			<li class="spacer">|</li>
+			<li class="j-dorpdown">
+				<div class="drop-down" style="padding:0 5px;"><a href="#" target="_blank">关注我们</a></div>
+				<div class='j-dorpdown-layer des-list' style="width:78px;">
+					<div style="height:78px;"><img src="__STYLE__/img/wst_qr_code.jpg" style="height:78px;"></div>
+					<div>关注我们</div>
+				</div>
+			</li>
+			<li class="spacer">|</li>
+			<li class="j-dorpdown">
+				<div class="drop-down drop-down4 pdr5"><a href="#" target="_blank">我的收藏</a></div>
+				<div class='j-dorpdown-layer foucs-list'>
+				   <div><a href="{:Url('home/favorites/goods')}" onclick='WST.position(41,0)'>商品收藏</a></div>
+				   <div><a href="{:Url('home/favorites/shops')}" onclick='WST.position(46,0)'>店铺收藏</a></div>
+				</div>
+			</li>
+			<li class="spacer">|</li>
+			<li class="j-dorpdown">
+				<div class="drop-down drop-down5 pdr5" ><a href="#" target="_blank">客户服务</a></div>
+				<div class='j-dorpdown-layer des-list'>
+				   <div><a href='{:Url("home/helpcenter/view","id=1")}' target='_blank'>帮助中心</a></div>
+				   <div><a href='{:Url("home/helpcenter/view","id=8")}' target='_blank'>售后服务</a></div>
+				   <div><a href='{:Url("home/helpcenter/view","id=3")}' target='_blank'>常见问题</a></div>
+				</div>
+			</li>
+			<li class="spacer">|</li>
+			{if condition="session('WST_USER.userId') gt 0"}
+				{if condition="session('WST_USER.userType') eq 0"}
+				<li class="j-dorpdown">
+				<div class="drop-down pdl5" ><a href="#" target="_blank">商家管理<i class="di-right"><s>◇</s></i></a></div>
+				<div class='j-dorpdown-layer foucs-list'>
+				   <div><a href="{:url('home/shops/login')}">商家登录</a></div>
+				   <div><a href="javascript:shopApply();" rel="nofollow">我要开店</a></div>
+				</div>
+				</li>
+				{include file="default2/shop_apply" /}
+				{else /}
+				<li class="j-dorpdown">
+				    <div class="drop-down pdl5" >
+				       <a href="{:Url('home/shops/index')}" rel="nofollow" target="_blank">卖家中心<i class="di-right"><s>◇</s></i></a>
+				    </div>
+				    <div class='j-dorpdown-layer product-list last-menu'>
+					   <div><a href='{:Url("home/orders/waitdelivery")}' onclick='WST.position(24,1)'>待发货订单</a></div>
+					   <div><a href='{:Url("home/orders/waitdelivery")}' onclick='WST.position(25,1)'>投诉订单</a></div>
+					   <div><a href='{:Url("home/home/goods/sale")}' onclick='WST.position(32,1)'>商品管理</a></div>
+					   <div><a href='{:Url("home/shopcats/index")}' onclick='WST.position(30,1)'>商品分类</a></div>
+					</div>
+				</li>
+				{/if}
+			{else /}
+				<li class="j-dorpdown">
+				<div class="drop-down pdl5" ><a href="#" target="_blank">商家管理<i class="di-right"><s>◇</s></i></a></div>
+				<div class='j-dorpdown-layer foucs-list'>
+				   <div><a href="{:url('home/shops/login')}">商家登录</a></div>
+				   <div><a href="javascript:shopApply();" rel="nofollow">我要开店</a></div>
+				</div>
+				</li>
+				{include file="default2/shop_apply" /}
+			{/if}
+			</li>
+		</ul>
+		<div class="wst-clear"></div>
+  </div>
+</div>
+<script>
+$(function(){
+	//二维码
+	//参数1表示图像大小，取值范围1-10；参数2表示质量，取值范围'L','M','Q','H'
+	var a = qrcode(8, 'M');
+	var url = window.location.host+window.conf.APP;
+	a.addData(url);
+	a.make();
+	$('#qrcodea').html(a.createImgTag());
+});
+function goShop(id){
+  location.href=WST.U('home/shops/home','shopId='+id);
+}
+</script>
+<script type='text/javascript' src='__STYLE__/js/qrcode.js?v={$v}'></script>

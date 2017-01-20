@@ -16,7 +16,7 @@
             <select id="positionType" name="positionType" class='ipt' maxLength='20'>
               <option value="">-请选择-</option>
               {volist name=":WSTDatas(5)" id='vo'}
-              <option <?=($data['positionType']===$vo['dataVal'])?'selected':'';?> value="{$vo['dataVal']}">{$vo['dataName']}</option>
+              <option <?=($data['positionType']==$vo['dataVal'])?'selected':'';?> value="{$vo['dataVal']}">{$vo['dataName']}</option>
               {/volist}
             </select>
           </td>

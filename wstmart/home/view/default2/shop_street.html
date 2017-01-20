@@ -1,0 +1,140 @@
+{extend name="default2/base" /}
+{block name="title"}店铺街 - {:WSTConf('CONF.mallName')}{__block__}{/block}
+<meta name="description" content="{:WSTConf('CONF.seoMallDesc')},店铺街">
+<meta name="Keywords" content="{:WSTConf('CONF.seoMallKeywords')}">
+{block name="css"}
+<link href="__STATIC__/plugins/lazyload/skin/laypage.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/shopstreet.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="main"}
+<input type='hidden' id='keyword' value='{:isset($keyword)?$keyword:""}'/>
+<div class="wst-container">
+	<div class="wst-route"><a href="{:url('home/index/index')}" ><img style="float:left;margin-right:10px" src="__STYLE__/img/icon_dianpujie_09.png"/>首页</a> > <a href="{:url('home/shops/shopstreet')}">店铺街</a></div>
+	{wst:ads code="shop-street" num="1" cache='86400'}
+	<div class="wst-shopstr-ads">
+		<a href="{$vo['adURL']}" {if ($vo['adURL']!='')}onclick="WST.recordClick({$vo['adId']})"{/if}><img class="goodsImg" data-original="__ROOT__/{$vo['adFile']}"/></a>
+	</div>
+	{/wst:ads}
+	<div class="wst-shopstr-cat">
+		<div class="wst-shopstr-catt">店铺行业</div>
+		{volist name="goodscats" id="ca" key="k"}
+		<span class="{if($selectedId==$ca['catId'])}js-selected{/if}" onclick="javascript:screenCat({$ca['catId']});">{$ca['catName']}</span>
+		{/volist}
+		<div class="wst-clear"></div>
+	</div>
+	{volist name="list['Rows']" id="v1" key="k"}
+	<div class="wst-shopstr-shop">
+		<div class="wst-shopstr-shopl"><a target='_blank' href="{:url('home/shops/home',array('shopId'=>$v1['shopId']))}"><img class="shopsImg" data-original="__ROOT__/{$v1['shopImg']}" title="{$v1['shopName']}" alt="{$v1['shopName']}"/></a></div>
+		<div class="wst-shopstr-shopi">
+			<div class="wst-shopstr-name">
+				<a class="name" target='_blank' href="{:url('home/shops/home',array('shopId'=>$v1['shopId']))}">{:WSTMSubstr($v1['shopName'],0,8)}</a>
+			    {if ((int)$v1['favoriteId']>0)}
+			    <a class="favorite j-fav" href='javascript:void(0);' onclick='WST.cancelFavorite(this,1,{$v1['shopId']},{$v1['favoriteId']})'>已关注</a>
+                {else}
+                <a class="favorite j-fav2" href='javascript:void(0);' onclick='WST.addFavorite(this,1,{$v1['shopId']},0)'>关注店铺</a>
+                {/if}
+				<div class="wst-clear"></div>
+			</div>
+			<div class="wst-shopstr-pr">
+				<span class="wst-lfloat" style="margin-left:3px;">卖家：<a class="company" target='_blank' href="{:url('home/shops/home',array('shopId'=>$v1['shopId']))}">{$v1['loginName']}</a></span>
+				<span class="wst-rfloat" style="margin-right:50px;">{$v1['areas']['areaName1']}&nbsp;&nbsp;{$v1['areas']['areaName2']}</span>
+			</div>
+			<div class="wst-shopstr-pr">
+				<span class="wst-lfloat" style="margin-left:3px;">电话：{$v1['shopTel']}</span>
+			</div>
+			<div class="wst-shopstr-pr">
+				{if condition="$v1['shopQQ'] neq ''"}
+				<span class="wst-lfloat" style="margin-left:3px;">
+		          <a href="tencent://message/?uin={$v1['shopQQ']}&Site=QQ交谈&Menu=yes">
+					  <img border="0" src="http://wpa.qq.com/pa?p=1:{$v1['shopQQ']}:7" alt="QQ交谈" width="60" height="25" />
+				  </a>
+				  </span>
+				{/if}
+				{if condition="$v1['shopWangWang'] neq ''"}
+				<span class="wst-lfloat" style="margin-left:3px;">
+		          <a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid={$v1['shopWangWang']}&siteid=cntaobao&status=1&charset=utf-8">
+			       <img style='padding-top:2px;' border="0" src="http://amos.alicdn.com/realonline.aw?v=2&uid={$v1['shopWangWang']}&site=cntaobao&s=1&charset=utf-8" alt="和我联系" width="65" height="23"/>
+		          </a>
+				  </span>
+				{/if}
+				<span class="wst-lfloat j-score" style="margin-left:3px;position: relative;">
+				<img class="wst-lfloat" style="margin:5px 0px 0px 45px;width:16px;cursor:pointer;" src="__STYLE__/img/icon_fenlei.png"/>
+				<div class="wst-shopstr-score j-scores hide">
+					<p class="title" style="margin-top:18px;">店铺动态评分</p>
+					<p class="">商品评价：<span class="title">{$v1['goodsScore']}</span></p>
+					<p class="">时效评价：<span class="title">{$v1['timeScore']}</span></p>
+					<p class="">服务评价：<span class="title">{$v1['serviceScore']}</span></p>
+				</div>
+				</span>
+			{volist name="v1['accreds']" id="v2"}
+				<img class="wst-lfloat" style="margin:5px 0px 0px 6px;width:15px;" src="__ROOT__/{$v2['accredImg']}" title="{$v2['accredName']}" alt="{$v2['accredName']}"/>
+			{/volist}
+			</div>
+			<div class="wst-shopstr-pr">
+				<span class="wst-lfloat" style="margin-left:3px;">主营：{:WSTMSubstr($v1['catshops'],0,12)}</span>
+			</div>
+		</div>
+		<div class="wst-shopstr-shopr">
+			<div class="wst-shopstr-more"><a href="{:url('home/shops/home',array('shopId'=>$v1['shopId']))}" class="wst-rfloat">查看更多 ></a></div>
+			<div class="wst-shopstr-more"><span class="wst-lfloat">&nbsp;店长推荐</span></div>
+			<div class="wst-shopstr-good wst-lfloat">
+			  <div class="als-container" id="{if ($v1['goodsTotal']>6)}js-goods{$k}{/if}">
+			  {if ($v1['goodsTotal']>6)}<span class="als-prev"><img src="__STYLE__/img/icon_left.png" alt="prev" title="previous" /></span>{/if}
+			  <div class="als-viewport">
+			    <ul class="als-wrapper">
+				{volist name="v1['goods']" id="v3"}
+			      <li class="als-item wst-shopstr-goods">
+					<div class="wst-shopstr-goodimg"><a href="{:url('home/goods/detail',array('id'=>$v3['goodsId']))}" target="_blank"><img class="goodsImg" data-original="__ROOT__/{$v3['goodsImg']}" title="{$v3['goodsName']}"/></a></div>
+					<span>￥{$v3['shopPrice']}</span>
+				  </li>
+				{/volist}
+			    </ul>
+			  </div>
+			  {if ($v1['goodsTotal']>6)}<span class="als-next"><img src="__STYLE__/img/icon_right.png" alt="next" title="next" /></span>{/if}
+			</div>
+			</div>
+		</div>
+		<div class="wst-clear"></div>
+	</div>
+	{/volist}
+	<div class="shopstrPaging">
+		<div id="shopstrPaging"></div>
+	</div>
+</div>
+{include file="default2/right_cart"/}
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/js/jquery.als.js?v={$v}'></script>
+<script type='text/javascript' src='__STYLE__/js/shopstreet.js?v={$v}'></script>
+<script>
+$(function(){
+	if({$list['TotalPage']}>1){
+	laypage({
+	    cont: 'shopstrPaging',
+	    pages: {$list['TotalPage']}, //总页数
+	    curr: {$list['CurrentPage']},
+	    skip: true, //是否开启跳页
+	    skin: '#fd6148',
+	    groups: 3, //连续显示分页数
+	   	prev: '<<',
+		next: '>>',
+	    jump: function(e, first){ //触发分页后的回调
+	        if(!first){ //一定要加此判断，否则初始时会无限刷新
+	        	var nuewurl = WST.splitURL("page");
+	        	var ulist = nuewurl.split("?");
+	        	if(ulist.length>1){
+	        		location.href = nuewurl+'&page='+e.curr;
+	        	}else{
+	        		location.href = '?page='+e.curr;
+	        	}
+	            
+	        }
+	    }
+	});
+	}
+});
+</script>
+{/block}
+{block name="footer"}{__block__}
+{/block}

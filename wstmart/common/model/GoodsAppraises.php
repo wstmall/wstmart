@@ -139,7 +139,7 @@ class GoodsAppraises extends Base{
 				// 查询该订单是否已经完成评价,修改orders表中的isAppraise
 				$ogRs = Db::name('order_goods')->alias('og')
 				   ->join('__GOODS_APPRAISES__ ga','og.orderId=ga.orderId and og.goodsId=ga.goodsId and og.goodsSpecId=ga.goodsSpecId','left')
-				   ->where('og.orderId',$orderId)->field('og.id,ga.id gid');
+				   ->where('og.orderId',$orderId)->field('og.id,ga.id gid')->select();
 				$isFinish = true;
 				foreach ($ogRs as $key => $v){
 					if($v['id']>0 && $v['gid']==''){

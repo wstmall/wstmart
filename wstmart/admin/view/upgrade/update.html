@@ -1,0 +1,32 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+{/block}
+{block name="js"}
+<script src="__ADMIN__/upgrade/upgrade.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<table class='wst-form wst-box-top'>
+  <tr>
+      <th width='150' colspan="2" style="text-align:left;padding-left:15px;">待升级文件列表<font color='red'> </font>：</th>
+  </tr>
+  {volist name="$list" id="l" key="k"}
+  <tr>
+    <td colspan="2" style="padding-left:100px;" >
+      <img src="__ROOT__/Install/images/loading-2.gif" style="display:none;"  id="file-{$k}">
+      {$l.filePath}/{$l.fileName}
+      <input type="hidden"  id="filePath-{$k}" value="{$l.filePath}/{$l.fileName}" class="upd" >
+    </td>
+  </tr>
+  {/volist}
+  <tr>
+    <td colspan="2">
+      <input type="hidden" value="1.0.1" id="version" />
+      <button  class="btn btn-blue" onclick="update()">更新</button>
+      <button  class="btn btn-blue" onclick="javascript:history.go(-1)">返回</button>
+    </td>
+</tr>
+</table>
+{/block}
+

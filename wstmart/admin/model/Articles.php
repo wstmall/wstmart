@@ -59,6 +59,7 @@ class Articles extends Base{
 		$single = $this->where(['articleId'=>$id,'dataFlag'=>1])->find();
 		$singlec = Db::name('article_cats')->where(['catId'=>$single['catId'],'dataFlag'=>1])->field('catName')->find();
 		$single['catName']=$singlec['catName'];
+		$single['articleContent'] = htmlspecialchars_decode($single['articleContent']);
 		return $single;
 	}
 	

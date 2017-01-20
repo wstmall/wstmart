@@ -20,7 +20,6 @@ class Sysconfigs extends Base{
     	$m = new M();
     	$object = $m->getSysConfigs();
     	$this->assign("object",$object);
-    	$this->assign("areaList",model('areas')->listQuery(0));
     	return $this->fetch("edit");
     }
     

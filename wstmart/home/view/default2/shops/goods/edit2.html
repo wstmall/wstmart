@@ -1,0 +1,45 @@
+<style>
+.wst-batchupload .placeholder .webuploader-pick {
+    background: #e45050 none repeat scroll 0 0;
+}
+.wst-batchupload .statusBar .btns .uploadBtn {
+    background: #e45050 none repeat scroll 0 0;
+}
+.wst-batchupload .statusBar .btns .uploadBtn:hover{
+    background: #e42525;
+}
+</style>
+<div id="batchUpload" class="wst-batchupload">
+    <div class="queueList filled">
+        <div id="dndArea" class="placeholder {if !empty($object['gallery'])}element-invisible{/if}">
+            <div id="filePicker"></div>
+            <p>或将照片拖到这里，单次最多可选50张，每张最大不超过5M</p>
+        </div>
+        <ul class="filelist" >
+            {volist name="$object['gallery']" id="vo"}
+		    <li  class="state-complete" style="border: 1px solid rgb(59, 114, 165);">
+		       <p class="title"></p>
+		       <p class="imgWrap">
+		          <img src="__ROOT__/{$vo}">
+		       </p>
+		       <input type="hidden" v="{$vo}" iv="{$vo}" class="j-gallery-img">
+		       <span class="btn-del">删除</span>
+		    </li>
+		    {/volist}
+	    </ul>
+    </div>
+    <div class="statusBar" {if empty($object['gallery'])}style="display: none;"{/if}>
+        <div class="progress" style="display: none;">
+            <span class="text">0%</span>
+            <span class="percentage" style="width: 0%;"></span>
+        </div>
+        <div class="info"></div>
+        <div class="btns">
+            <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
+        </div>
+    </div>
+</div>
+<div style='margin:0px auto;text-align:center;border-top:1px solid #cccccc;'>
+<button class="s-btn" onclick='javascript:save()' type='button'>保存</button>
+<button type="reset" class="s-btn">重置</button>
+</div>

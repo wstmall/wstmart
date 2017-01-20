@@ -16,7 +16,7 @@ $(function () {
 	    fields: {
 	    	articleTitle: {
 	    		tip: "请输入文章名称",
-	    		rule: '文章名称:required;length[~16];'
+	    		rule: '文章名称:required;length[~50];'
 	    	},
 	    	catIds: {
 		        tip: "请选择文章分类",
@@ -47,7 +47,7 @@ $(function () {
 <table class='wst-form wst-box-top'>
   <tr>
      <th width='150'>文章标题<font color='red'>*</font>：</th>
-     <td><input type="text" id='articleTitle' name='articleTitle' maxLength='20' style='width:300px;' class='ipt'/></td>
+     <td><input type="text" id='articleTitle' name='articleTitle' maxLength='50' style='width:300px;' class='ipt'/></td>
   </tr>
    <tr>
      <th width='150' align='right'>分类类型<font color='red'>*</font>：</th>

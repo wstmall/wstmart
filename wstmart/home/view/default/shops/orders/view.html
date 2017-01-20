@@ -37,7 +37,7 @@
    	<span>{$lo['logContent']}<br/>{$lo['logTime']}</span>
    {/volist}
    </div>
-   <p>下单</p>{if $object['payType']==1}<p>支付</p>{/if}<p>商家发货</p><p>确认收货</p><p>订单结束<br/>双方互评</p>
+   <p>下单</p>{if $object['payType']==1}<p>等待支付</p>{/if}<p>商家发货</p><p>确认收货</p><p>订单结束<br/>双方互评</p>
    </div>
    <div class="wst-clear"></div>
    </div>
@@ -66,7 +66,7 @@
            <th>支付方式：</th>
            <td>{:WSTLangPayType($object['payType'])}</td>
          </tr>
-         {if($object['payType']==1)}
+         {if($object['payType']==1 && $object['tradeNo']!='')}
          <tr>
            <th>交易流水：</th>
            <td>【{:WSTLangPayFrom($object['payFrom'])}】{$object['tradeNo']}</td>

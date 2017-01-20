@@ -30,7 +30,7 @@ class CronJobs extends Base{
 		$autoCancelNoPayDays = (int)WSTConf('CONF.autoCancelNoPayDays');
 	 	$autoCancelNoPayDays = ($autoCancelNoPayDays>0)?$autoCancelNoPayDays:6;
 	 	$lastDay = date("Y-m-d H:i:s",strtotime("-".$autoCancelNoPayDays." hours"));
-	 	$orders = Db::name('orders')->alias('o')->join('__SHOPS__ s','o.shopId=s.shopId','left')->where('o.createTime<"'.$lastDay.'" and o.orderStatus=-2 and o.dataFlag=1 and o.payType=1 and o.isPay=0')->field("o.orderId,o.orderNo,o.userId,o.shopId,s.userId shopUserId")->select();
+	 	$orders = Db::name('orders')->alias('o')->join('__SHOPS__ s','o.shopId=s.shopId','left')->where("o.createTime<'".$lastDay."' and o.orderStatus=-2 and o.dataFlag=1 and o.payType=1 and o.isPay=0")->field("o.orderId,o.orderNo,o.userId,o.shopId,s.userId shopUserId")->select();
 	 	if(!empty($orders)){
 	 		$prefix = config('database.prefix');
 	 		$orderIds = [];
@@ -82,7 +82,7 @@ class CronJobs extends Base{
         $autoAppraiseDays = (int)WSTConf('CONF.autoAppraiseDays');
 	 	$autoAppraiseDays = ($autoAppraiseDays>0)?$autoAppraiseDays:7;//避免有些客户没有设置值
 	 	$lastDay = date("Y-m-d 00:00:00",strtotime("-".$autoAppraiseDays." days"));
-	 	$rs = model('orders')->where('receiveTime<"'.$lastDay.'" and orderStatus=2 and dataFlag=1 and isAppraise=0')->field("orderId,userId,orderScore,shopId")->select();
+	 	$rs = model('orders')->where("receiveTime<'".$lastDay."' and orderStatus=2 and dataFlag=1 and isAppraise=0")->field("orderId,userId,orderScore,shopId")->select();
 	 	if(!empty($rs)){
 	 		$prefix = config('database.prefix');
 	 		$orderIds = [];
@@ -175,7 +175,7 @@ class CronJobs extends Base{
 	 	$autoReceiveDays = (int)WSTConf('CONF.autoReceiveDays');
 	 	$autoReceiveDays = ($autoReceiveDays>0)?$autoReceiveDays:10;//避免有些客户没有设置值
 	 	$lastDay = date("Y-m-d 00:00:00",strtotime("-".$autoReceiveDays." days"));
-	 	$rs = model('orders')->where('deliveryTime<"'.$lastDay.'" and orderStatus=1 and dataFlag=1')->field("orderId,orderNo,shopId,userId,shopId,orderScore")->select();
+	 	$rs = model('orders')->where("deliveryTime<'".$lastDay."' and orderStatus=1 and dataFlag=1")->field("orderId,orderNo,shopId,userId,shopId,orderScore")->select();
 	 	if(!empty($rs)){
 	 		$prefix = config('database.prefix');
 	 		Db::startTrans();

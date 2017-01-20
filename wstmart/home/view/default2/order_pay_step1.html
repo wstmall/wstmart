@@ -1,0 +1,107 @@
+{extend name="default2/base" /}
+{block name="title"}我的购物车 - {:WSTConf('CONF.mallName')}{__block__}{/block}
+{block name="css"}
+<link href="__STYLE__/css/carts.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="main"}
+<div class="wst-container">
+	
+    <div class="pay-sbox-head">
+    	<a href='{$Request.root.true}'>首页</a>&nbsp;&gt;&nbsp;支付
+    </div>
+    <div>
+    	<div class="pay-tip1"></div>
+    </div>
+    <div class='pay-sbox'>
+    	<div>
+	    <div class="tips-box">
+	    	<input type="hidden" id="oId" value="{$id}"/>
+	    	<input type="hidden" id="isBatch" value="{$isBatch}"/>
+	    	请及时付款，以便快速处理您的订单，在线实付金额<span class="wst-fred">&nbsp;¥{$object['totalMoney']}&nbsp;</span><span id="wst-check-orders" class="wst-check-orders">查看订单详情</span>
+	    </div>
+	    <div>
+		    <div id="wst-orders-box" style="display:none;">
+			    <table class='wst-order-list'>
+				 	{volist name="$rs['list']" id="order"}
+				 	<thead>
+					 	<tr>
+					     	<td colspan="3" class="wst-left-noborder wst-align-left">订单号：{$order['orderNo']}</td>
+					        <td colspan="3" class="wst-right-noborder wst-align-right">订单金额：￥{$order['needPay']}【运费：￥{$order['deliverMoney']}】</td>
+					 	</tr>
+					 	<tr class='head'>
+					         <td colspan="2" class="wst-left-noborder">商品</th>
+					         <th width="150">商品单价</th>
+					         <th width="150">数量</th>
+					         <th width="150" class="wst-right-noborder">商品总价</th>
+					   	</tr>
+				   </thead>
+				   <tbody class="otbody">
+				 	{volist name="$rs['goods'][$order['orderId']]" id="vo"}
+				 	<tr>
+				     	<td class="wst-left-noborder" width="64">
+				     		<div class="goods-img">
+					     		<a href="{:url('home/goods/detail',array('id'=>$vo['goodsId']))}" target="_blank">
+					     			<img class='goodsImg' data-original="__ROOT__/{$vo['goodsImg']}"  title="{$vo['goodsName']}" width='60'/>
+					     		</a>
+				     		</div>
+				     	</td>
+				        <td class="wst-align-left">
+				        	<div>{$vo['goodsName']}
+				        	{if condition="count($vo['goodsSpecNames']) gt 0"}
+				        		【
+				        		{volist name="$vo['goodsSpecNames']" id="spec"}
+				        		{$spec}&nbsp;
+				        		{/volist}
+				        		】
+				        	{/if}
+				        	</div>
+				        </td>
+				        <td>{$vo['goodsPrice']}</td>
+				        <td>{$vo['goodsNum']}</td>
+				        <td class="wst-right-noborder">{$vo['goodsPrice']*$vo['goodsNum']}</td>
+				 	</tr>
+				 	{/volist}
+				 	{/volist}
+			       </tbody>
+			    </table>
+		    </div>
+		    <div class="pay-type">选择支付方式</div>
+		    <div class="pay-list">
+		    	<input type="hidden" id="payCode" name="payCode" />
+		    	{volist name="$rs['payments']" id="payment"}
+                 	{if condition="$payment['isOnline'] eq 1"}
+                    	<div class="wst-payCode-{$payment['payCode']}" data="{$payment['payCode']}"></div>
+                 	{/if}
+                 {/volist}
+		         <div class="wst-clear"></div>
+		    </div>
+		    <div class="bnt-box">
+		    	<div onclick='javascript:getPayUrl();' class="wst-pay-bnt"></div>
+		    </div>
+	    </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/js/carts.js?v={$v}'></script>
+<script>
+$(function(){
+	$("#wst-check-orders").click(function(){
+		$("#wst-orders-box").slideToggle(600);
+	});
+	$("div[class^=wst-payCode]").click(function(){
+		var payCode = $(this).attr("data");
+		$("div[class^=wst-payCode]").each(function(){
+			$(this).removeClass().addClass("wst-payCode-"+$(this).attr("data"));
+		});
+		$(this).removeClass().addClass("wst-payCode-"+payCode+"-curr");
+		$("#payCode").val(payCode);
+	});
+	if($("div[class^=wst-payCode]").length>0){
+		$("div[class^=wst-payCode]")[0].click();
+	}
+});
+
+</script>
+{/block}

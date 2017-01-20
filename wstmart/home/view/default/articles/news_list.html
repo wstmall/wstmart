@@ -55,7 +55,7 @@
 			<h1>{$content.articleTitle}</h1>
 			<div class="cat-time"><span>{$content.catName}　</span>发布于：{:date('Y-m-d',strtotime($content.createTime))}</div>
 			<div class="n-content">
-				{$content.articleContent}
+				{:htmlspecialchars_decode($content.articleContent)}
 			</div>
 
 

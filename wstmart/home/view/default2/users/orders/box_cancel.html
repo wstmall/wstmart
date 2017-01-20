@@ -1,0 +1,15 @@
+<table class='wst-form' style='margin-top:30px;'>
+   <tr>
+     <td colspan='2' style='padding-left:70px;'>请选择您取消订单的原因，以便我们能更好的为您服务。</td>
+   </tr>
+   <tr>
+     <th width='120'>取消原因：</th>
+     <td>
+        <select id='reason'>
+           {volist name=":WSTDatas(1)" id="vo"}
+           <option value='{$vo["dataVal"]}'>{$vo["dataName"]}</option>
+           {/volist}
+        </select>
+     </td>
+   </tr>
+</table>

@@ -31,7 +31,7 @@ class Payments extends Base{
 		$Id = input('post.id/d',0);
 		//获取数据
 		$data = input('post.');
-		$data["payConfig"] = json_encode($data['payConfig']);
+		$data["payConfig"] = isset($data['payConfig'])?json_encode($data['payConfig']):"";
 		$data['enabled']=1;
 	    $result = $this->validate('payments.edit')->allowField(true)->save($data,['id'=>$Id]);
         if(false !== $result){

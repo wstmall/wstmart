@@ -12,20 +12,20 @@
            <tr>
              <th align='right'> <font color='red'>*</font>原始密码：</th>
              <td>
-             <input type='password' class="ipt" id='oldPass' name='oldPass' {if ($data['payPwd'])}data-rule="原始支付密码: required;length[6~20]" data-msg-required="请填写原始支付密码" data-tip="请输入原始支付密码"{/if} style='width:250px;' maxLength='20'/>
+             <input type='password' class="ipt" id='oldPass' name='oldPass' {if ($data['payPwd'])}data-rule="原始支付密码: required;length(6)" data-msg-required="请填写原始支付密码" data-tip="请输入原始支付密码"{/if} style='width:250px;' maxLength='6'/>
              </td>
            </tr>
         {/if}
            <tr>
              <th align='right'> <font color='red'>*</font>新支付密码：</th>
              <td>
-             <input type='password' class="ipt" id='newPass' name='newPass' style='width:250px;' maxLength='20' data-rule='新支付密码:required;length[6~20]'/>
+             <input type='password' class="ipt" id='newPass' name='newPass' style='width:250px;' maxLength='6' data-rule='新支付密码:required;length(6)'/>
              </td>
            </tr>
            <tr>
              <th align='right'> <font color='red'>*</font>确认支付密码：</th>
              <td>
-             <input type='password' class="ipt" id='reNewPass' name='reNewPass' style='width:250px;' maxLength='20' data-rule='新支付密码:required;length[6~20]'/>
+             <input type='password' class="ipt" id='reNewPass' name='reNewPass' style='width:250px;' maxLength='6' data-rule='新支付密码:required;length(6)'/>
              </td>
            </tr>
            <tr>

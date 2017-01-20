@@ -184,9 +184,9 @@ td.head-ititle{background:url('../img/img_seller_ggjt.png') no-repeat 5px 4px;pa
 .order-box .log-box .arrow2{color: #7ebb53;}
 .order-box .log-box .state{float:left;width:100%;margin-left:18px;}
 .order-box .log-box .state2{float:left;width:100%;position: relative;}
-.order-box .log-box .state2 p{float:left;width:100px;height:50px;text-align:center;margin-right:88px;color:#f05858;font-size: 15px;}
+.order-box .log-box .state2 p{float:left;width:178px;height:50px;text-align:left;margin-left:15px;color:#f05858;font-size: 15px;}
 .order-box .log-box .state2 .path{position: absolute;z-index: 10;}
-.order-box .log-box .state2 .path span{float:left;width:100px;height:50px;text-align:center;margin-right:88px;background: #ffffff;}
+.order-box .log-box .state2 .path span{float:left;width:178px;height:50px;text-align:left;margin-left:15px;background: #ffffff;}
 /**推荐管理**/
 .recom-lbox{width:350px;height:350px;border:1px solid #ddd;padding:5px;text-align:left;overflow-x:hidden;overflow-y:auto;}
 .recom-lbox .head,.recom-rbox .head{border-bottom:1px solid #eee;}

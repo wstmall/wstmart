@@ -1,0 +1,36 @@
+{extend name="default2/users/base" /}
+{block name="title"}关注的商品 - 买家中心{__block__}{/block}
+{block name="css"}{/block}
+{block name="content"}
+<div class="wst-user-head"><span>我关注的商品 </span></div>
+<div class="wst-clear"></div>
+<div class="wst-fav-listg" id="list-goods"></div>
+<div class="wst-clear"></div>
+<div class="wst-fav-pa"><div id="goodsPage"></div></div>
+<script id="list" type="text/html">
+{{# for(var i = 0; i < d.length; i++){}}
+	<div class="wst-fav-goods">
+		<div class="wst-fav-goimg"><img class="goodsImg2" data-original="__ROOT__/{{ d[i].goodsImg }}" title="{{ d[i].goodsName }}"><span class="js-operate" onclick="javascript:cancelFavorite({{ d[i].favoriteId }},0)">取消收藏</div>
+		<a href="javascript:getGoods({{ d[i].goodsId }})">
+		<p class="wst-fav-gonam">{{WST.cutStr(d[i].shopName,15)}}</p>
+		<p class="wst-fav-goodp1"><span class="wst-fav-goodpr">￥{{ d[i].shopPrice }}</span><span class="wst-rfloat">成交数：<span class="wst-fav-goodpr2">{{ d[i].saleNum }}</span></p>
+		<p class="wst-fav-goodp2"><span class="wst-fav-goodpr3">市场价：￥{{ d[i].marketPrice }}</span><span class="wst-rfloat">已有<span class="wst-fav-goodpr4">{{ d[i].appraiseNum }}</span>人评价</span></p>
+		<p class="wst-fav-shop">
+			<span class="wst-lfloat">{{WST.cutStr(d[i].shopName,8)}}</span>
+			{{# for(var a = 0; a < d[i].accreds.length; a++){ }}
+			<img src="__ROOT__/{{ d[i].accreds[a].accredImg }}" title="{{ d[i].accreds[a].accredName }}">
+			{{# } }}
+		</p>
+		</a>
+	</div>
+{{# } }}
+</script>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/users/favorites/favorites.js?v={$v}'></script>
+<script>
+$(function(){
+	freGoodsList();
+});
+</script>
+{/block}

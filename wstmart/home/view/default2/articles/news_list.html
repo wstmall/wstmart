@@ -1,0 +1,75 @@
+{extend name="default2/base" /}
+{block name="title"}{:WSTConf('CONF.mallName')}-{:WSTConf('CONF.mallSlogan')}{__block__}{/block}
+{block name="css"}
+<link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/articles.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="main"}
+<div class="bc-nav">
+	<p>
+		<a href="{:url('/')}">首页</a>
+		<a href="{:url('home/news/view')}">> 资讯中心</a>
+		{volist name="$bcNav" id="bc"}
+	    <a href="{:url('home/news/nlist',['catId'=>$bc['catId']])}">> {$bc['catName']}</a> 
+	    {/volist}
+	    {if isset($content['articleTitle'])}
+	    	<a href="{:url('home/news/view',['id'=>$content['articleId']])}">> 详情</a>
+	    {/if}
+	</p>
+</div>
+<div class="help-box">
+	<div class="help-left">
+		<p class="h-title b-lg">资讯中心</p>
+		<ul id="parent">
+			{volist name="$list" id="v" }
+            <li class="h-cat h-show">
+                <span>{$v['catName']}<p></p></span>
+                <ul class="h-list">
+                	{volist name="$v['children']" id="v1" key="k1"}
+                    <a href="{:url('home/News/nList',['catId'=>$v1['catId']])}"><li class="{if ($v1['catId']==$catId)}h-curr{/if}">{$v1['catName']}（{$v1['newsCount']}）</li></a>
+                    {/volist}
+                </ul>
+            </li>
+            {/volist}
+        </ul>
+	</div>
+	<div class="help-right">
+		<div class="h-content">
+			{if(!input("param.catId") && !input("param.id"))}
+			<div class="head"><p><span>N</span>ews&nbsp;资讯中心</p><div class='wst-clear'></div></div>
+			<ul class="news-list">
+				{volist name="$index" id="li"}
+				<li><div id="g-square"></div><a href="{:url('home/news/view',['id'=>$li['articleId']])}">{$li['articleTitle']}</a><span class="list-time"> {:date('Y-m-d H:i:s',strtotime($li['createTime']))}</span></li>
+				{/volist}
+			</ul>
+			{/if}
+			{if isset($newsList)}
+			<div class="head"><p><span>N</span>ews&nbsp;{$bc['catName']}</p><div class='wst-clear'></div></div>
+			<ul class="news-list">
+				{volist name="$newsList" id="n"}
+				<li><div id="g-square"></div><a href="{:url('home/news/view',['id'=>$n['articleId']])}">{$n['articleTitle']}</a><span class="list-time"> {:date('Y-m-d H:i:s',strtotime($n['createTime']))}</span></li>
+				{/volist}
+			</ul>
+			{/if}
+			{if isset($content)}
+			<h1>{$content.articleTitle}</h1>
+			<div class="cat-time"><span>{$content.catName}　</span>发布于：{:date('Y-m-d',strtotime($content.createTime))}</div>
+			<div class="n-content">
+				{$content.articleContent}
+			</div>
+
+
+			{/if}
+			{if isset($page)}
+			<div class="h-page">{$page}<div class='wst-clear'></div></div>
+			{/if}
+		</div>
+	</div>
+	<div class='wst-clear'></div>
+</div>
+{/block}
+{block name="js"}
+<script src="__STYLE__/articles/articles.js"></script>
+{/block}
+{block name="footer"}{__block__}
+{/block}
