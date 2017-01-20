@@ -392,3 +392,15 @@ $('#respondForm').validator({
     }
 });
 }
+//导出订单
+function toExport(typeId,status,type){
+	var params = {};
+	params = WST.getParams('.s-ipt');
+	params.typeId = typeId;
+	params.orderStatus = status;
+	params.type = type;
+	var box = WST.confirm({content:"您确定要导出订单吗?",yes:function(){
+		layer.close(box);
+		location.href=WST.U('home/orders/toExport',params);
+         }});
+}

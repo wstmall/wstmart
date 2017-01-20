@@ -202,7 +202,6 @@ class Settlements extends Base{
             	return WSTReturn('生成结算单成功',1);
             }
 		}catch (\Exception $e) {
-            print_r($e);
             Db::rollback();
         }
         return WSTReturn('生成结算单失败',-1);

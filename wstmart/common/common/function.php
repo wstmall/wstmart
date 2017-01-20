@@ -682,9 +682,12 @@ function WSTImg($imgurl,$imgType = 1){
  */
 function WSTOrderFreight($shopId,$cityId){
 	$goodsFreight = ['total'=>0,'shops'=>[]];
-	$rs = Db::name('shops')->alias('s')->join('__SHOP_FREIGHTS__ sf','s.shopId=sf.shopId','left')
-	     ->where('s.shopId',$shopId)->field('s.freight,sf.freightId,sf.freight freight2')->find();
-    return ((int)$rs['freightId']>0)?$rs['freight2']:$rs['freight'];
+	$rs = Db::name('shops')->alias('s')->join('__SHOP_FREIGHTS__ sf','s.shopId=sf.shopId and sf.areaId2='.$cityId,'left')
+	     ->where(['s.shopId'=>$shopId])->field('s.freight,sf.freightId,sf.freight freight2')->find();
+	if(empty($rs))return 0;
+	if((int)$rs['freight']<0)$rs['freight'] = 0;
+    if((int)$rs['freight2']<0)$rs['freight2'] = 0;
+    return (int)((int)$rs['freightId']>0)?$rs['freight2']:$rs['freight'];
 }
 /**
  * 生成订单号

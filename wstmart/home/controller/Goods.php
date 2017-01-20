@@ -185,10 +185,7 @@ class Goods extends Base{
         $aModel = model('home/areas');
 
         // 获取地区
-        $data['area1'] = $aModel->listQuery(); // 省级
-        // 默认地区信息
-        $data['area2'] = $aModel->listQuery(440000); // 广东的下级
-        $data['area3'] = $aModel->listQuery(440100); // 广州的下级
+        $data['area1'] = $data['area2'] = $data['area3'] = $aModel->listQuery(); // 省级
 
         // 如果有筛选地区 获取上级地区信息
         if($data['areaId']!==0){
@@ -242,10 +239,7 @@ class Goods extends Base{
         $aModel = model('home/areas');
 
         // 获取地区
-        $data['area1'] = $aModel->listQuery(); // 省级
-        // 默认地区信息
-        $data['area2'] = $aModel->listQuery(440000); // 广东的下级
-        $data['area3'] = $aModel->listQuery(440100); // 广州的下级
+        $data['area1'] = $data['area2'] = $data['area3'] = $aModel->listQuery(); // 省级
 
         // 如果有筛选地区 获取上级地区信息
         if($data['areaId']!==0){

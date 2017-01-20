@@ -92,7 +92,7 @@ class Users extends Base{
 			}
 			
 			WSTUnset($data,'createTime,userId');
-		    $result = $this->validate('Users.add')->allowField(true)->save($data,['userId'=>$Id]);
+		    $result = $this->allowField(true)->save($data,['userId'=>$Id]);
 	        if(false !== $result){
 	        	Db::commit();
 	        	return WSTReturn("编辑成功", 1);

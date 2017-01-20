@@ -22,8 +22,8 @@ class LogOperates extends Base{
 		$startDate = input('get.startDate');
 		$endDate = input('get.endDate');
 		$where = [];
-		if($startDate!='')$where['l.loginTime'] = ['>=',$startDate." 00:00:00"];
-		if($endDate!='')$where[' l.loginTime'] = ['<=',$endDate." 23:59:59"];
+		if($startDate!='')$where['l.operateTime'] = ['>=',$startDate." 00:00:00"];
+		if($endDate!='')$where[' l.operateTime'] = ['<=',$endDate." 23:59:59"];
 		return $mrs = Db::name('log_operates')->alias('l')->join('__STAFFS__ s',' l.staffId=s.staffId','left')
 		    ->join('__MENUS__ m',' l.menuId=m.menuId','left')
 			->where($where)

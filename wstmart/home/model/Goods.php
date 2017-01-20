@@ -246,7 +246,7 @@ class Goods extends CGoods{
     	        }
     	        //保存商品属性
 		    	$attrsArray = [];
-		    	$attrRs = Db::name('attributes')->where(['goodsCatId'=>['in',$goodsCats],'isShow'=>1,'dataFlag'=>1,'attrType'=>['<>',0]])
+		    	$attrRs = Db::name('attributes')->where(['goodsCatId'=>['in',$goodsCats],'isShow'=>1,'dataFlag'=>1])
 		    		            ->field('attrId')->select();
 		    	foreach ($attrRs as $key =>$v){
 		    		$attrs = [];
@@ -630,10 +630,11 @@ class Goods extends CGoods{
 	* 修改商品状态
 	*/
 	public function changSaleStatus(){
+		$shopId = (int)session('WST_USER.shopId');
 		$is = input('post.is');
 		$status = (input('post.status',1)==1)?0:1;
 		$id = (int)input('post.id');
-		$rs = $this->setField([$is=>$status,'goodsId'=>$id]);
+		$rs = $this->where(["shopId"=>$shopId,'goodsId'=>$id])->setField($is,$status);
 		if($rs!==false){
 			return WSTReturn('设置成功',1);
 		}else{
@@ -644,6 +645,7 @@ class Goods extends CGoods{
 	 * 批量修改商品状态
 	 */
 	public function changeGoodsStatus(){
+		$shopId = (int)session('WST_USER.shopId');
 		//设置为什么 hot new best rec
 		$allowArr = ['isHot','isNew','isBest','isRecom'];
 		$is = input('post.is');
@@ -651,7 +653,7 @@ class Goods extends CGoods{
 		//设置哪一个状态
 		$status = input('post.status',1);
 		$ids = input('post.ids/a');
-		$rs = $this->where(['goodsId'=>['in',$ids]])->setField($is, $status);
+		$rs = $this->where(['goodsId'=>['in',$ids],'shopId'=>$shopId])->setField($is, $status);
 		if($rs!==false){
 			return WSTReturn('设置成功',1);
 		}else{
@@ -718,6 +720,7 @@ class Goods extends CGoods{
 			//如果有一个属性是没有商品的话就不需要查了
 			if(empty($goodsIds2))return [-1];
 			//第一次比较就先过滤，第二次以后的就找集合
+			$goodsIds2[] = -1;
 			if(empty($goodsIds)){
 				$goodsIds = $goodsIds2;
 			}else{
@@ -757,8 +760,13 @@ class Goods extends CGoods{
 		if(!empty($goodsCatIds))$where['goodsCatIdPath'] = ['like',implode('_',$goodsCatIds).'_%'];
 	    $sprice = input("param.sprice");//开始价格
 	    $eprice = input("param.eprice");//结束价格
-		if($sprice!='')$where['g.shopPrice'] = [">=",(int)$sprice];
-		if($eprice!='')$where['g.shopPrice'] = ["<=",(int)$eprice];
+		if($sprice!='' && $eprice!=''){
+	    	$where['g.shopPrice'] = ['between',[(int)$sprice,(int)$eprice]];
+	    }elseif($sprice!=''){
+	    	$where['g.shopPrice'] = [">=",(int)$sprice];
+		}elseif($eprice!=''){
+			$where['g.shopPrice'] = ["<=",(int)$eprice];
+		}
 		$list = Db::name("goods")->alias('g')->join("__SHOPS__ s","g.shopId = s.shopId")
 			->where($where)
 			->field('goodsId,goodsName,goodsSn,goodsStock,saleNum,shopPrice,marketPrice,isSpec,goodsImg,appraiseNum,visitNum,s.shopId,shopName')
@@ -795,8 +803,13 @@ class Goods extends CGoods{
 		if(!empty($goodsCatIds))$where['goodsCatIdPath'] = ['like',implode('_',$goodsCatIds).'_%'];
 		$sprice = input("param.sprice");//开始价格
 	    $eprice = input("param.eprice");//结束价格
-		if($sprice!='')$where['g.shopPrice'] = [">=",(int)$sprice];
-		if($eprice!='')$where['g.shopPrice'] = ["<=",(int)$eprice];
+	    if($sprice!='' && $eprice!=''){
+	    	$where['g.shopPrice'] = ['between',[(int)$sprice,(int)$eprice]];
+	    }elseif($sprice!=''){
+	    	$where['g.shopPrice'] = [">=",(int)$sprice];
+		}elseif($eprice!=''){
+			$where['g.shopPrice'] = ["<=",(int)$eprice];
+		}
 		$rs = Db::name("goods")->alias('g')->join("__SHOPS__ s","g.shopId = s.shopId",'inner')
 			->where($where)
 			->field('min(shopPrice) minPrice,max(shopPrice) maxPrice')->find();
@@ -903,12 +916,11 @@ class Goods extends CGoods{
 			$data[$datat[$type]] = $number;
 			if($type==1 || $type==2){
 				$data['goodsId'] = $goodsId = input('post.goodsId/d');
-				$gs = new GoodsSpecs();
-				$rss = $gs->update($data,['id'=>$id]);
+				$rss = Db::name("goods_specs")->where('id', $id)->update($data);
 				//更新商品库存
 				$goodsStock = 0;
 				if($rss!==false){
-					$specStocks = $gs->where(['shopId'=>$shopId,'goodsId'=>$goodsId,'dataFlag'=>1])->field('specStock')->select();
+					$specStocks = Db::name("goods_specs")->where(['shopId'=>$shopId,'goodsId'=>$goodsId,'dataFlag'=>1])->field('specStock')->select();
 					foreach ($specStocks as $key =>$v){
 						$goodsStock = $goodsStock+$v['specStock'];
 					}

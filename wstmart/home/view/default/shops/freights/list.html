@@ -45,7 +45,7 @@
 	     <span class="wst-tree-second"></span>
 	     <span style='width:400px;height:22px;'>{{ d[i].listProvince[j].areaName }}</span>
 	     </td>
-{{#if(typeof(d[i].listProvince[j].freight)=='null'){}}
+{{#if(typeof(d[i].listProvince[j].freight)=='object'){}}
   	<td><input class='price_{{ d[i].listProvince[j].parentId }} possort ipt' id="{{ d[i].listProvince[j].areaId }}" type='text' style='width:80px;' value="{$shFreight['freight']}"  onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberKey(event)"/></td>
 {{# }else{ }}
 	<td><input class='price_{{ d[i].listProvince[j].parentId }} possort ipt' id="{{ d[i].listProvince[j].areaId }}" type='text' style='width:80px;' value="{{d[i].listProvince[j].freight}}"  onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberKey(event)"/></td>

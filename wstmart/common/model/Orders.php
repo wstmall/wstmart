@@ -155,17 +155,17 @@ class Orders extends Base{
 	 * 根据订单唯一流水获取订单信息
 	 */
 	public function getByUnique(){
-		$id = input('id');
-		$isBatch = input('isBatch/d',1);
+		$orderNo = input('orderNo');
+		$isBatch = (int)input('isBatch/d',1);
 		$userId = (int)session('WST_USER.userId');
 		if($isBatch==1){
-			$rs = $this->where(['userId'=>$userId,'orderunique'=>$id])->field('orderId,orderNo,payType,needPay,orderunique,deliverMoney')->select();
+			$rs = $this->where(['userId'=>$userId,'orderunique'=>$orderNo])->field('orderId,orderNo,payType,needPay,orderunique,deliverMoney')->select();
 		}else{
-			$rs = $this->where(['userId'=>$userId,'orderId'=>$id])->field('orderId,orderNo,payType,needPay,orderunique,deliverMoney')->select();
+			$rs = $this->where(['userId'=>$userId,'orderNo'=>$orderNo])->field('orderId,orderNo,payType,needPay,orderunique,deliverMoney')->select();
 		}
 		
 		$data = [];
-		$data['orderunique'] = $id;
+		$data['orderunique'] = $orderNo;
 		$data['list'] = [];
 		$payType = 0;
 		$totalMoney = 0;
@@ -397,6 +397,10 @@ class Orders extends Base{
 						$score['scoreType'] = 1;
 						$score['createTime'] = date('Y-m-d H:i:s');
 						model('UserScores')->save($score);
+						// 增加用户积分
+						model('Users')->where("userId=$userId")->setInc('userScore',$order['orderScore']);
+						// 用户总积分
+						model('Users')->where("userId=$userId")->setInc('userTotalScore',$order['orderScore']);
 					}
 					Db::commit();
 					return WSTReturn('操作成功',1);
@@ -452,7 +456,6 @@ class Orders extends Base{
 				}
 			}catch (\Exception $e) {
 		        Db::rollback();
-		        print_r($e);
 	            return WSTReturn('操作失败',-1);
 	        }
 		}

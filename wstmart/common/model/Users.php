@@ -257,6 +257,7 @@ class Users extends Base{
     public function edit(){
     	$Id = (int)session('WST_USER.userId');
     	$data = input('post.');
+        $data['brithday'] = ($data['brithday']=='')?date('Y-m-d'):$data['brithday'];
     	WSTAllow($data,'brithday,trueName,userName,userId,userPhoto,userQQ,userSex');
     	Db::startTrans();
 		try{

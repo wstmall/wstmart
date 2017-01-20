@@ -12,7 +12,7 @@ function edit(){
 				$('#licenseTr').show();
 				$('#licenseStatus').html(json.license.licenseStatus);
 			}else{
-				WST.msg("操作成功",{icon:1});
+				WST.msg("授权码验证失败",{icon:1});
 			}
 		});
 	}});

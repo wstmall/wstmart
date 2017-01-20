@@ -220,7 +220,8 @@ td.head-ititle{background:url('../img/img_seller_ggjt.png') no-repeat 5px 4px;pa
 /***风格切换***/
 .style-main{padding:10px;}
 .style-box{width:200px;height:300px;border:1px solid #ddd;padding:5px;margin:5px;float:left;}
-.style-box .style-img{width:200px;height:200px;}
-.style-box .style-img img{width:200px;height:200px;}
+.style-box .style-img{width:200px;height:200px;text-align:center;vertical-align:middle;display:block;position:relative}
+.style-box .style-img a{display:table-cell;vertical-align:middle;width:200px; height:200px;border:1px solid #ddd;} 
+.style-box .style-img a img{max-width:200px;max-height:200px; } 
 .style-box .style-txt,.style-box .style-author,.style-box .style-web{width:200px;height:25px;overflow:hidden;text-align:left;line-height:25px;}
 .style-box .style-op{height:30px;text-align: center;overflow:hidden;}

@@ -1,5 +1,6 @@
 {extend name="base" /}
 {block name="js"}
+<script src="__ADMIN__/js/wstgridtree.js?v={$v}" type="text/javascript"></script>
 <script src="__ADMIN__/homemenus/homemenus.js?v={$v}" type="text/javascript"></script>
 {/block}
 {block name="main"}
@@ -39,13 +40,13 @@
        </tr>
        <tr>
           <th>菜单类型<font color='red'>*</font>：</th>
-          <td>
-			<select id="menuType" class="ipt">
-				<option value="0">用户菜单</option>
-				<option value="1">商家菜单</option>
-			</select>
-          </td>
-       </tr>
+            <td>
+        <select id="menuType" class="ipt">
+          <option value="0">用户菜单</option>
+          <option value="1">商家菜单</option>
+        </select>
+            </td>
+        </tr>
        <tr>
           <th>菜单排序<font color='red'>*</font>：</th>
           <td>

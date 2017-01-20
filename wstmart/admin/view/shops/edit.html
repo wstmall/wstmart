@@ -15,7 +15,7 @@
   <tr>
      <td colspan='2' class='head-ititle'>基础信息</td>
   </tr>
- {if $object['shopId']==0 || $object['userId']==0 }
+ {if $object['shopId']==0 && $object['userId']==0 }
   <tr>
      <th width='150'>登录账号<font color='red'>*</font>：</th>
      <td><input type="text" id='loginName' name='loginName' class='ipt' value="{$object['loginName']}" maxLength='20' data-rule="登录账号: required;length[6~20];remote(post:{:url('admin/users/checkLoginKey')})" onkeyup="javascript:WST.isChinese(this,1)"/></td>

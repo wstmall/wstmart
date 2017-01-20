@@ -5,9 +5,10 @@
 {block name="content"}
   <div class="wst-user-head"><span>已取消订单</span></div>
   <div class='wst-user-tbar'>
-     订单号：<input type='text' class="s-query" id='orderNo'/> 
-     店铺名称：<input type='text' class="s-query" id='shopName'/> 
+     订单号：<input type='text' class="u-query" id='orderNo'/> 
+     店铺名称：<input type='text' class="u-query" id='shopName'/> 
      <button class="wst-sec-but u-btn" onclick="cancelByPage()">查询</button>
+     <button class="wst-sec-but u-btn" style="float: right;" onclick="javascript:toExport(1,-1,'')">导出</button>
   </div>
   <div class='wst-user-content'>
     <table class='wst-order-list'>

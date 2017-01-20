@@ -57,16 +57,16 @@ function getVerifyCode(){
 		var html = [];
 			html.push('<table class="wst-smsverfy"><tr><td width="80" align="right">');
 			html.push('验证码：</td><td><input type="text" id="smsVerfyl" size="12" class="wst-text" maxLength="8">');
-			html.push('<img style="vertical-align:middle;cursor:pointer;height:39px;" class="verifyImg" src="'+WST.DOMAIN+'/wstmart/Home/View/default/images/clickForVerify.png" title="刷新验证码" onclick="javascript:WST.getVerify(\'.verifyImg\')"/>');
+			html.push('<img style="vertical-align:middle;cursor:pointer;height:39px;" class="verifyImgd" src="'+WST.DOMAIN+'/wstmart/Home/View/default/images/clickForVerify.png" title="刷新验证码" onclick="javascript:WST.getVerify(\'.verifyImgd\')"/>');
 			html.push('</td></tr></table>');
 		layer.open({
 			title:'请输入验证码',
 			type: 1,
 			area: ['420px', '150px'], //宽高
 			content: html.join(''),
-			btn: ['发送验证码', '取消'],
+			btn: ['发送验证码'],
 			success: function(layero, index){
-				WST.getVerify('.verifyImg');
+				WST.getVerify('.verifyImgd');
 			},
 			yes: function(index, layero){
 				isSend = true;
@@ -140,11 +140,12 @@ function initRegist(){
 	                   '请填写用户名、手机号或者邮箱';
 	        },
 	        mobileCode: function(element){
-	        	if(this.test(document.getElementById("loginName"), "mobile")===true){
-	        		return true;
-	    		}else{
-	    			return false;
-	    		}
+	        	if(window.conf.SMS_OPEN=='1'){
+		        	if(this.test(document.getElementById("loginName"), "mobile")===true){
+		        		return true;
+		    		}
+	        	}
+	        	return false;
 	        },
 	        verifyCode: function(element){
 	        	if(this.test(document.getElementById("loginName"), "mobile")===false){

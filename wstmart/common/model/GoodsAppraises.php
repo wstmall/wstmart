@@ -149,7 +149,7 @@ class GoodsAppraises extends Base{
 				}
 				//订单商品全部评价完则修改订单状态
 				if($isFinish){
-					if(WSTConf("isAppraisesScore")==1){
+					if(WSTConf("CONF.isAppraisesScore")==1){
 						//给用户增加积分
 						$score = [];
 						$score['userId'] = $userId;
@@ -160,6 +160,10 @@ class GoodsAppraises extends Base{
 						$score['scoreType'] = 1;
 						$score['createTime'] = date('Y-m-d H:i:s');
 						model('UserScores')->save($score);
+						// 增加用户积分
+						model('Users')->where("userId=$userId")->setInc('userScore',5);
+						// 用户总积分
+						model('Users')->where("userId=$userId")->setInc('userTotalScore',5);
 					}
 					//修改订单评价状态
 					model('orders')->where('orderId',$orderId)->update(['isAppraise'=>1,'isClosed'=>1]);
@@ -171,7 +175,6 @@ class GoodsAppraises extends Base{
 			}
 		}catch (\Exception $e) {
 		    Db::rollback();
-		    print_r($e);
 	        return WSTReturn('评价失败',-1);
 	    }
 

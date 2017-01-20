@@ -113,7 +113,6 @@ class Recommends extends Base{
 	        return WSTReturn("提交成功", 1);
 	    }catch(\Exception $e) {
             Db::rollback();
-            print_r($e);
             return WSTReturn('提交失败',-1);
         }
 	}
@@ -165,7 +164,6 @@ class Recommends extends Base{
 	        return WSTReturn("提交成功", 1);
 	    }catch(\Exception $e) {
             Db::rollback();
-            print_r($e);
             return WSTReturn('提交失败',-1);
         }
 	}

@@ -111,7 +111,16 @@ function changeAddrId(id){
 		if(json.status==1){
 			inEffect($('#addr-'+id),1);
 			$('#s_addressId').val(json.data.addressId);
-			$('#s_areaId').val(json.data.areaId);
+			$("select[id^='area_0_']").remove();
+			var areaIdPath = json.data.areaIdPath.split("_");
+			// 设置收货地区市级id
+			$('#s_areaId').val(areaIdPath[1]);
+
+	     	$('#area_0').val(areaIdPath[0]);
+	     	// 计算运费
+			getCartMoney(areaIdPath[1]);
+	     	var aopts = {id:'area_0',val:areaIdPath[0],childIds:areaIdPath,className:'j-areas'}
+	 		WST.ITSetAreas(aopts);
 			WST.setValues(json.data);
 		}
 	})
@@ -229,6 +238,9 @@ function editAddress(){
 	    	 })
 	    	 $('#s_userName').html(params.userName+'<i></i>');
 	    	 $('#s_address').html(params.userName+'&nbsp;&nbsp;&nbsp;'+areaNames.join('')+'&nbsp;&nbsp;'+params.userAddress+'&nbsp;&nbsp;'+params.userPhone);
+
+	    	 $('#s_address').siblings('.operate-box').find('a').attr('onclick','toEditAddress('+params.addressId+',this,1,1,1)');
+
 	    	 if(params.isDefault==1){
 	    		 $('#isdefault').html('默认地址').addClass('j-default');
 	    	 }else{
@@ -292,7 +304,12 @@ function toEditAddress(id,obj,n,flag,type){
 }
 function getCartMoney(areaId2){
 	var deliverType = $('#deliverType').val();
+
+	// 自提的话减去运费
 	if(deliverType==1){
+		//将每个店铺的运费设为零
+		$('span[id^="shopF_"]').each(function(k,v){$(v).html(0);})
+		$('span[id^="shopC_"]').each(function(k,v){$(v).html($(v).attr('v'))})
 		$('#deliverMoney').html(0);
 		$('#totalMoney').html($('#totalMoney').attr('v'));
 	}else{
@@ -303,6 +320,10 @@ function getCartMoney(areaId2){
 		     if(json.status==1){
 		    	 var shopFreight = 0;
 		    	 for(var key in json.shops){
+		    	 	// 设置每间店铺的运费及总价格
+		    	 	$('#shopF_'+key).html(json.shops[key]);
+		    	 	var gMoney = parseInt($('#shopC_'+key).attr('v'))+parseInt(json.shops[key]);
+		    	 	$('#shopC_'+key).html(gMoney);
 		    		 shopFreight = shopFreight + json.shops[key];
 		    	 }
 		    	 $('#deliverMoney').html(shopFreight);
@@ -313,7 +334,7 @@ function getCartMoney(areaId2){
 }
 function changeDeliverType(n,index,obj){
 	changeSelected(n,index,obj);
-	var areaId2 = $('#areaId2').val();
+	var areaId2 = $('#s_areaId').val();
 	getCartMoney(areaId2);
 }
 function submitOrder(){
@@ -324,7 +345,7 @@ function submitOrder(){
 		var json = WST.toJson(data);
 	    if(json.status==1){
 	    	 WST.msg(json.msg,{icon:1},function(){
-	    		 location.href=WST.U('home/orders/succeed','id='+json.data);
+	    		 location.href=WST.U('home/orders/succeed','orderNo='+json.data);
 	    	 });
 	    }else{
 	    	WST.msg(json.msg,{icon:2});
@@ -357,7 +378,7 @@ function changeSelected(n,index,obj){
 
 function getPayUrl(){
 	var params = {};
-		params.id = $("#oId").val();
+		params.orderNo = $("#orderNo").val();
 		params.isBatch = $("#isBatch").val();
 		params.payCode = $.trim($("#payCode").val());
 	if(params.payCode==""){

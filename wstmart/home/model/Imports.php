@@ -142,7 +142,6 @@ class Imports{
             Db::commit();
             return json_encode(['status'=>1,'importNum'=>$importNum]);
 		}catch (\Exception $e) {
-			print_r($e);
             Db::rollback();
             return json_encode(WSTReturn('导入商品失败',-1));
         }

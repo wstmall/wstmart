@@ -34,3 +34,11 @@ function loadGrid(){
 	var p = WST.arrayParams('.j-ipt');
 	grid.set('url',WST.U('admin/orders/pageQuery',p.join('&')));
 }
+function toExport(){
+	var params = {};
+	params = WST.getParams('.j-ipt');
+	var box = WST.confirm({content:"您确定要导出订单吗?",yes:function(){
+		layer.close(box);
+		location.href=WST.U('admin/orders/toExport',params);
+         }});
+}

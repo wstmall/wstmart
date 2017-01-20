@@ -37,7 +37,6 @@
 				      {/if}
 				      	<br/>
 			         </div>
-			         <span id="picErr"></span>
 	          </td>
 	   </tr>
 	   		<tr>
@@ -59,7 +58,7 @@
 	       <tr>
 	          <th>生日<font color='red'></font>：</th>
 	          <td class="uinfo">
-	              <input type="text" class="ipt" id="brithday" name="brithday" value="{$data['brithday']}" />
+	              <input  id="brithday"   class="ipt" id="brithday" name="brithday" value="{$data['brithday']}"  />
 	          </td>
 	       </tr>
 
@@ -110,7 +109,7 @@
 	   <tr>
             <td></td>
 	   		<td width="50">
-	           	<input type='hidden' id='userPic' value='{$data['userPhoto']}' data-rule="用户头像:required" data-target="#picErr"/>
+	           	<input type='hidden' id='userPic' value='{$data['userPhoto']}'/>
              	<div id="userPhotoPicker" style='margin-left:0px;margin-top:5px;height:30px;overflow:hidden'>上传用户头像</div>
             </td>
 	   </tr>
@@ -169,4 +168,5 @@
 	<script type='text/javascript' src='__STYLE__/users/user.js?v={$v}'></script>
 	<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
 	<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+	<script type="text/javascript" src="__STATIC__/plugins/layer/laydate.js?v={$v}"></script>
 {/block}

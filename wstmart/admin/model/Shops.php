@@ -220,7 +220,6 @@ class Shops extends Base{
 	        return WSTReturn("编辑成功", 1);
         }catch (\Exception $e) {
             Db::rollback();
-            print_r($e);
             return WSTReturn('编辑失败',-1);
         }
 	}

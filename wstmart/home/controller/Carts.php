@@ -73,7 +73,7 @@ class Carts extends Base{
 		foreach ($carts['carts'] as $key =>$v){
 			$shopFreight = WSTOrderFreight($v['shopId'],$areaId);
 			$data['shops'][$v['shopId']] = $shopFreight;
-			$data['total'] = $v['goodsMoney'] + $shopFreight;
+			$data['total'] += $v['goodsMoney'] + $shopFreight;
 		}
 		return $data;
 	}

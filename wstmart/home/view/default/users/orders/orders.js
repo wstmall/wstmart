@@ -124,7 +124,7 @@ function waitAppraiseByPage(p){
 function finishByPage(p){
 	$('#loading').show();
 	var params = {};
-	params = WST.getParams('.s-query');
+	params = WST.getParams('.u-query');
 	params.key = $.trim($('#key').val());
 	params.page = p;
 	$.post(WST.U('home/orders/finishByPage'),params,function(data,textStatus){
@@ -238,7 +238,7 @@ function changeRejectType(v){
 function cancelByPage(p){
 	$('#loading').show();
 	var params = {};
-	params = WST.getParams('.s-query');
+	params = WST.getParams('.u-query');
 	params.key = $.trim($('#key').val());
 	params.page = p;
 	$.post(WST.U('home/orders/cancelByPage'),params,function(data,textStatus){
@@ -274,7 +274,7 @@ function cancelByPage(p){
 function abnormalByPage(p){
 	$('#loading').show();
 	var params = {};
-	params = WST.getParams('.s-query');
+	params = WST.getParams('.u-query');
 	params.key = $.trim($('#key').val());
 	params.page = p;
 	$.post(WST.U('home/orders/abnormalByPage'),params,function(data,textStatus){
@@ -637,4 +637,16 @@ function complainByPage(p){
           }
         }  
   });
+}
+//导出订单
+function toExport(typeId,status,type){
+	var params = {};
+	params = WST.getParams('.u-query');
+	params.typeId = typeId;
+	params.orderStatus = status;
+	params.type = type;
+	var box = WST.confirm({content:"您确定要导出订单吗?",yes:function(){
+		layer.close(box);
+		location.href=WST.U('home/orders/toExport',params);
+         }});
 }

@@ -70,15 +70,16 @@ class HomeMenus extends Base{
 	 * 分页
 	 */
 	public function pageQuery(){
-		$menuType = (int)input('menuType',-1);
 		$where = [];
-		$where['a.dataFlag'] = 1;
+		$menuType = (int)input('menuType',-1);
 		if($menuType!=-1)$where['a.menuType'] = $menuType;
+		$where['a.parentId'] = (int)input('menuId',0);
+		$where['a.dataFlag'] = 1;
 		$rs = $this->alias('a')->join('__HOME_MENUS__ b','a.parentId = b.menuId','left')
-			->field("a.menuId, a.parentId, a.menuName, a.menuUrl, a.menuOtherUrl, a.menuType, a.isShow, a.menuSort, b.menuName parentName")
+			->field("a.menuId,a.menuType, a.parentId, a.menuName, a.menuUrl, a.menuOtherUrl, a.isShow, a.menuSort, b.menuName parentName")
 			->where($where)
-			->order('a.menuType asc,a.menuSort asc')
-			->paginate(input('pagesize/d',1));
+			->order('a.menuSort asc')
+			->paginate(input('pagesize/d'));
 		return $rs;
 	}
 	
@@ -87,14 +88,37 @@ class HomeMenus extends Base{
 	 */
 	public function setToggle(){
 		$menuId = input('post.menuId',0);
+		// 获取其子集id
+		$ids = $this->getChildId($menuId);
 		$isShow = input('post.isShow/d');
-		$result = $this->where(['menuId'=>$menuId,"dataFlag"=>1])->setField("isShow", $isShow);
+		$result = $this->where(['menuId'=>['in',$ids],"dataFlag"=>1])->setField("isShow", $isShow);
 		if(false !== $result){
 			return WSTReturn("设置成功", 1);
 		}else{
 			return WSTReturn($this->getError(),-1);
 		}
 	}
+	/**
+	* 获取子集id
+	*/
+	private function getChildId($mId){
+		$data = $this->field('menuId,parentId')->where('dataFlag=1')->select();
+		$ids = $this->_getChildId($data,$mId,true);
+		$ids[]=(int)$mId;
+		return $ids;
+	}
+	private function _getChildId($data,$pId,$isClear=false){
+		static $ids = [];
+		if($isClear)$ids=[];
+		foreach($data as $k=>$v){
+			if($v['parentId']==$pId){
+				$ids[] = $v['menuId'];
+				$this->_getChildId($data,$v['menuId']);
+			}
+		}
+		return $ids;
+	}
+
 	
 	/**
 	 * 获取菜单列表

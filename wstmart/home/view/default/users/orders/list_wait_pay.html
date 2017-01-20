@@ -8,6 +8,7 @@
      订单号：<input type='text'  class="u-query" id='orderNo'/> 
      店铺名称：<input type='text' class="u-query"  id='shopName'/> 
      <button class="wst-sec-but u-btn" onclick="waitPayByPage()">查询</button>
+     <button class="wst-sec-but u-btn" style="float: right;" onclick="javascript:toExport(1,-2,1)">导出</button>
   </div>
   <div class='wst-user-content'>
     <table class='wst-order-list'>
@@ -44,7 +45,7 @@
             for(var j = 0; j < d[i]['list'].length; j++){ 
             tmp = d[i]['list'][j];
 			var parmas = {};
-				parmas.id = d[i].orderId;
+				parmas.orderNo = d[i].orderNo;
 				parmas.isBatch = 0;
          }}
          <tr class='goods-box'>

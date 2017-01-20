@@ -21,9 +21,9 @@
 	  		</div>
 
 	  		<p class="shop-ct1-ct2">
-	  			<?php foreach($cat1['children'] as $k1=>$v1){?>
+	  			{volist name="$cat1['children']" id="v1" key="k1"  }
 	  			<a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId'],'ct2'=>$v1['catId']])}">{$v1['catName']}</a> 
-	  			<?php }?>
+	  			{/volist}
 	  		</p>
 		 </div>
 

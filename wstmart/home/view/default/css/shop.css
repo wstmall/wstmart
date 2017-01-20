@@ -594,7 +594,7 @@ a.wst-lite-in:hover{
 	color:#ffffff;
 	background:#df2003;
 }
-.wst-shop-tbar{width:100%;height: 45px;margin:15px 0 0 10px;clear:both;}
+.wst-shop-tbar{height: 45px;margin:15px 0 0 0px;clear:both;padding:0px 10px;}
 .wst-shop-content{padding:2px;clear:both;margin-top:10px;}
 /*button按钮*/
 /*红*/

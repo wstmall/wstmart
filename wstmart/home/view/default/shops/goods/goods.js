@@ -298,7 +298,13 @@ function addSpecSaleCol(){
 		html.push('<th class="j-saleTd">'+$('#specCat_'+key).html()+'</th>');
 		specArray.push(specCols[key]);
 	}
-	if(html.length==0)return;
+	if(html.length==0){
+        $('#goodsStock').removeAttr('disabled');
+		$('#shopPrice').removeAttr('disabled');
+		$('#marketPrice').removeAttr('disabled');
+		$('#warnStock').removeAttr('disabled');
+		return;
+	}
 	$(html.join('')).insertBefore('#thCol');
 	//组合规格值
 	this.combined = function(doubleArrays){
@@ -377,13 +383,10 @@ function addSpecSaleCol(){
 	$('#spec-sale-tby').append(html.join(''));
 	//判断是否禁用商品价格和库存字段
 	if($('#spec-sale-tby').html()!=''){
-		$('#goodsStock').attr('disalbed',true);
-		$('#shopPrice').attr('disalbed',true);
-		$('#marketPrice').attr('disalbed',true);
-	}else{
-		$('#goodsStock').attr('disalbed',false);
-		$('#shopPrice').attr('disalbed',false);
-		$('#marketPrice').attr('disalbed',false);
+		$('#goodsStock').prop('disabled',true);
+		$('#shopPrice').prop('disabled',true);
+		$('#marketPrice').prop('disabled',true);
+		$('#warnStock').prop('disabled',true);
 	}
 	//设置销售规格表值
 	if(OBJ.saleSpec)fillSepcSale();

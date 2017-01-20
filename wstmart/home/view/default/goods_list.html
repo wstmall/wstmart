@@ -166,7 +166,7 @@
 		     <div class='drop-down'>
 		        <a class='link' href='__ROOT__'>
 		        	{if empty($areaInfo['areaName'])}
-		        	广东省广州市天河区
+		        	请选择
 		        	{else /}
 		        		{$areaInfo['areaName']}
 		        	{/if}
@@ -182,7 +182,7 @@
      	 		{if isset($areaInfo)}
      	 		<a href='javascript:void(0)'>{$areaInfo[0]['areaName']}</a>
      	 		{else /}
-     	 		<a href='javascript:void(0)'>广东省</a>
+     	 		<a href='javascript:void(0)'>请选择</a>
      	 		{/if}
      	 	</li>
 
@@ -194,11 +194,11 @@
 				<a href="javascript:void(0)">{$areaInfo[2]['areaName']}</a>
 			</li>
 			{else /}
-			<li class="tab-item1" id="fl_1_2" onclick="gpanelOver(this);" c="1" pid="440100" >
-				<a href="javascript:void(0)">广州市</a>
+			<li class="tab-item1" id="fl_1_2" onclick="gpanelOver(this);" c="1" pid="" >
+				<a href="javascript:void(0)">请选择</a>
 			</li>
-			<li class="tab-item1 j-tab-selected1" id="fl_1_3" onclick="gpanelOver(this);" c="1" pid="440106" >
-				<a href="javascript:void(0)">天河区</a>
+			<li class="tab-item1 j-tab-selected1" id="fl_1_3" onclick="gpanelOver(this);" c="1" pid="" >
+				<a href="javascript:void(0)">请选择</a>
 			</li>
 			{/if}
 
@@ -315,6 +315,11 @@
 {block name="js"}
 <script type='text/javascript' src='__STYLE__/js/goodslist.js?v={$v}'></script>
 <script type='text/javascript'>
+$(function(){
+	{if !isset($areaInfo)}
+	$('#fl_1_1').click();
+	{/if}
+});
 laypage({
     cont: 'wst-pager',
     pages: {$goodsPage["TotalPage"]}, //总页数

@@ -54,7 +54,6 @@ class ShopConfigs extends Base{
 	            return WSTReturn('操作成功',1);
 	        }
 		}catch (\Exception $e) {
-			print_r($e);
             Db::rollback();
         }
         return WSTReturn('操作失败',-1);

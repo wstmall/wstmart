@@ -146,7 +146,6 @@ class Staffs extends Base{
 	        	return WSTReturn("编辑成功", 1);
 	        }
 		}catch (\Exception $e) {
-			print_r($e);
             Db::rollback();
             return WSTReturn('编辑失败',-1);
         }

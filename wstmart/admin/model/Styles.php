@@ -48,7 +48,6 @@ class Styles extends Base{
 		     }
 		 }catch (\Exception $e) {
             Db::rollback();
-            print_r($e);
             return WSTReturn('操作失败');
         }
          

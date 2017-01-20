@@ -340,4 +340,12 @@ class Orders extends Base{
 		$rs = $m->shopOrdersByPage(-2);
 		return WSTReturn("", 1,$rs);
 	}
+	/**
+	 * 导出订单
+	 */
+	public function toExport(){
+		$m = new M();
+		$rs = $m->toExport();
+		$this->assign('rs',$rs);
+	}
 }

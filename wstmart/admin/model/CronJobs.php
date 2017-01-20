@@ -68,7 +68,6 @@ class CronJobs extends Base{
 		        Db::commit();
 				return WSTReturn('操作成功',1);
 	 		}catch (\Exception $e) {
-	 			print_r($e);
 	            Db::rollback();
 	            return WSTReturn('操作失败',-1);
 	        }
@@ -82,7 +81,7 @@ class CronJobs extends Base{
         $autoAppraiseDays = (int)WSTConf('CONF.autoAppraiseDays');
 	 	$autoAppraiseDays = ($autoAppraiseDays>0)?$autoAppraiseDays:7;//避免有些客户没有设置值
 	 	$lastDay = date("Y-m-d 00:00:00",strtotime("-".$autoAppraiseDays." days"));
-	 	$rs = model('orders')->where("receiveTime<'".$lastDay."' and orderStatus=2 and dataFlag=1 and isAppraise=0")->field("orderId,userId,orderScore,shopId")->select();
+	 	$rs = model('orders')->where("receiveTime<'".$lastDay."' and orderStatus=2 and dataFlag=1 and isAppraise=0")->field("orderId,userId,orderScore,shopId,orderNo")->select();
 	 	if(!empty($rs)){
 	 		$prefix = config('database.prefix');
 	 		$orderIds = [];
@@ -144,7 +143,7 @@ class CronJobs extends Base{
 					}
 					//订单商品全部评价完则修改订单状态
 					if($isFinish){
-						if(WSTConf("isAppraisesScore")==1){
+						if(WSTConf("CONF.isAppraisesScore")==1){
 							//给用户增加积分
 							$score = [];
 							$score['userId'] = $order->userId;
@@ -155,13 +154,16 @@ class CronJobs extends Base{
 							$score['scoreType'] = 1;
 							$score['createTime'] = date('Y-m-d H:i:s');
 							Db::name('user_scores')->insert($score);
+							// 增加用户积分
+						    model('Users')->where("userId=".$order->userId)->setInc('userScore',5);
+						    // 用户总积分
+						    model('Users')->where("userId=".$order->userId)->setInc('userTotalScore',5);
 						}
 					}
 				}
 		        Db::commit();
 				return WSTReturn('操作成功',1);
 	 		}catch (\Exception $e) {
-	 			print_r($e);
 	            Db::rollback();
 	            return WSTReturn('操作失败',-1);
 	        }
@@ -220,6 +222,10 @@ class CronJobs extends Base{
 							$score['scoreType'] = 1;
 							$score['createTime'] = date('Y-m-d H:i:s');
 							model('UserScores')->save($score);
+							// 增加用户积分
+						    model('Users')->where("userId=".$order->userId)->setInc('userScore',$order->orderScore);
+						    // 用户总积分
+						    model('Users')->where("userId=".$order->userId)->setInc('userTotalScore',$order->orderScore);
 						}
 		 			}
 	 			}

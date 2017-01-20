@@ -73,7 +73,7 @@ function getCommunity(areaId3, val){
 function listQuery(){
    $.post(WST.U('Home/Useraddress/listQuery'),'',function(data,textStatus){
     var json = WST.toJson(data);
-    if(json.status==1){
+    if(json.status==1 && json.data){
       json = json.data;
 	    var count = json.length;//已添加的记录数
 	    $('.g1').html(count);

@@ -39,4 +39,12 @@ class Orders extends Base{
         $this->assign("object",$rs);
         return $this->fetch("view");
     }
+    /**
+     * 导出订单
+     */
+    public function toExport(){
+    	$m = new M();
+    	$rs = $m->toExport();
+    	$this->assign('rs',$rs);
+    }
 }
