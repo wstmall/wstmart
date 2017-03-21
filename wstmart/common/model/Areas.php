@@ -76,4 +76,10 @@ class Areas extends Base{
 			return $this->getParentNames((int)$areas['parentId'], $data);
 		}
 	}
+	/**
+	* 检测是否还存在下级
+	*/
+	public function hasChild($areaId){
+		return $this->where(['parentId'=>(int)$areaId])->find();
+	}
 }

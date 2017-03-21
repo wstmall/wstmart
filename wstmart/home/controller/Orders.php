@@ -262,22 +262,6 @@ class Orders extends Base{
 		return WSTReturn("", 1,$rs);
 	}
 	/**
-	 * 获取订单信息方便修改价格
-	 */
-	public function getMoneyByOrder(){
-		$m = new M();
-		$rs = $m->getMoneyByOrder();
-		return WSTReturn("", 1,$rs);
-	}
-	/**
-	 * 商家修改订单价格
-	 */
-	public function editOrderMoney(){
-		$m = new M();
-		$rs = $m->editOrderMoney();
-		return $rs;
-	}
-	/**
 	 * 商家-订单详情
 	 */
 	public function view(){

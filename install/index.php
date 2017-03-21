@@ -24,7 +24,7 @@ require INSTALL_PATH.'/include/install_var.php';
 require INSTALL_PATH.'/include/install_function.php';
 $step = (int)$_GET['step'];
 if($step<3){
-	if(file_exists(INSTALL_PATH.'/install.ok'))$step = 3;
+	if(file_exists(INSTALL_PATH.'/install.ok'))header("Location:../index.php");;
 }
 timezone_set();
 ?>
@@ -71,7 +71,7 @@ timezone_set();
             <p style='text-indent: 2em'>WSTMart演示站：http://demo.wstmart.net</p>
             <p style='text-indent: 2em'>客服 Q Q：153289970</p>
             <p style='text-indent: 2em'>交流QQ群：590755485</p>
-            <p style='text-indent: 2em'>联系电话: 020-85289921/18902295525</p>
+            <p style='text-indent: 2em'>联系电话: 020-85289921/15918671994</p>
             <p style='text-indent: 2em'>联系邮箱: wstmart@qq.com</p>
         </div>
         <div class='bottom'>
@@ -146,8 +146,15 @@ timezone_set();
                 <tr>
                   <td width="130" align="right" class="item">数据库主机<span class='red'>*</span>：</td>
                   <td align="left">
-                      <input type="text" class="ipt" name="db_host" id="db_host" value="localhost" onblur='checkVal(this.id)'>
+                      <input type="text" class="ipt" name="db_host" id="db_host" value="127.0.0.1" onblur='checkVal(this.id)'>
                       <span class='db_host tips'>数据库主机不能为空</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="130" align="right" class="item">数据库端口<span class='red'>*</span>：</td>
+                  <td align="left">
+                      <input type="text" class="ipt" name="db_port" id="db_port" value="3306" onblur='checkVal(this.id)'>
+                      <span class='db_port tips'>数据库端口不能为空</span>
                   </td>
                 </tr>
                 <tr>

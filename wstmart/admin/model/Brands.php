@@ -146,6 +146,8 @@ class Brands extends Base{
 			$desc = $this->where('brandId',$id)->value('brandDesc');
 			WSTEditorImageRocord(1, $id, $desc,'');
 			if(false !== $result){
+				//删除推荐品牌
+				Db::name('recommends')->where(['dataSrc'=>2,'dataId'=>$id])->delete();
 				Db::commit();
 				return WSTReturn("删除成功", 1);
 			}

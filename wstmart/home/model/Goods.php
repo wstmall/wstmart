@@ -163,6 +163,8 @@ class Goods extends CGoods{
 		$data['isSpec'] = ($specsIds!='')?1:0;
 		Db::startTrans();
         try{
+        	$shop = model('shops')->get($shopId);
+        	if($shop['dataFlag']==-1 || $shop['shopStatus']!=1)$data['isSale'] = 0;
 			$result = $this->validate(true)->allowField(true)->save($data);
 			if(false !== $result){
 				$goodsId = $this->goodsId;
@@ -297,8 +299,8 @@ class Goods extends CGoods{
 			// 商品描述图片
 	        $desc = $this->where('goodsId',$goodsId)->value('goodsDesc');
 			WSTEditorImageRocord(0, $goodsId, $desc, $data['goodsDesc']);
-
-
+            $shop = model('shops')->get($shopId);
+            if($shop['dataFlag']==-1 || $shop['shopStatus']!=1)$data['isSale'] = 0;
 			$result = $this->validate(true)->allowField(true)->save($data,['goodsId'=>$goodsId]);
 			if(false !== $result){
 				/**
@@ -594,7 +596,7 @@ class Goods extends CGoods{
 			$shopId = (int)session('WST_USER.shopId');
 			//0.核对店铺状态
 	 		$shopRs = model('shops')->find($shopId);
-	 		if($shopRs['shopStatus']!=1){
+	 		if($shopRs['shopStatus']!=1  || $shopRs['dataFlag']==-1){
 	 			return 	WSTReturn('上架商品失败!您的店铺权限不能出售商品，如有疑问请与商城管理员联系。',-3);
 	 		}
 	 		//直接设置上架 返回受影响条数

@@ -1,6 +1,21 @@
 @CHARSET "UTF-8";
 body,html{height:100%;}
 body{ padding:0px; margin:0;overflow-x:hidden;}  
+/*自定义提示图标*/
+.layui-layer-icowst1,.layui-layer-icowst2,.layui-layer-icowst3{
+  background-image:url(../../../../static/images/wst_icon.png) !important;
+  background-repeat: no-repeat !important;
+  background-size: cover!important;
+}
+.layui-layer-icowst2{background-position: -40px 0!important;}
+.layui-layer-icowst3 {background-position: -80px -1px!important;}
+.layui-layer-icowstloading{
+  background-image:url(../../../../static/images/loading.gif) !important;
+  background-repeat: no-repeat !important;
+  background-size: 206% auto !important;
+  background-position: -16px -16px !important;
+}
+
 /* 顶部 */
 .wst-top-link{ display:inline-block; height:26px; line-height:26px; padding-left:10px; text-decoration:underline; color:#333;}
 .wst-link{ display:block; height:26px; line-height:26px; padding-left:10px; text-decoration:underline; color:#333;}

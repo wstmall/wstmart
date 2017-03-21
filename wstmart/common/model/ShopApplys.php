@@ -41,14 +41,21 @@ class ShopApplys extends Base{
 		}
 		$mobileCode = input("post.mobileCode");
 		$code = input("post.smsVerfy");
+		$verifyCode = input("post.verifyCodea");
 		
-		$verify = session('VerifyCode_shopPhone');
-		$startTime = (int)session('VerifyCode_shopPhone_Time');
-		if((time()-$startTime)>120){
-			return WSTReturn("验证码已超过有效期!");
-		}
-		if($mobileCode=="" || $verify != $mobileCode){
-			return WSTReturn("验证码错误!");
+		if(WSTConf("CONF.smsOpen")==0){
+			if(!WSTVerifyCheck($verifyCode)){
+				return WSTReturn('验证码错误!');
+			}
+		}else{
+			$verify = session('VerifyCode_shopPhone');
+			$startTime = (int)session('VerifyCode_shopPhone_Time');
+			if((time()-$startTime)>120){
+				return WSTReturn("验证码已超过有效期!");
+			}
+			if($mobileCode=="" || $verify != $mobileCode){
+				return WSTReturn("验证码错误!");
+			}
 		}
 		$data = array();
 		$data['userId'] = (int)session('WST_USER.userId');

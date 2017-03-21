@@ -26,6 +26,8 @@ if(function_exists('mysqli_connect')) {
 }
 $db = new MySql;
 $db_host = trim($_POST['db_host']);
+$db_port = (int)trim($_POST['db_port']);
+if($db_port==0)$db_port = 3306;
 $db_user = trim($_POST['db_user']);
 $db_pass = trim($_POST['db_pass']);
 $db_prefix = trim($_POST['db_prefix']);
@@ -34,7 +36,7 @@ $admin_name = trim($_POST['admin_name']);
 $admin_password = trim($_POST['admin_password']);
 $db_type = (int)trim($_POST['db_demo']);
 $act = $_POST['act'];
-$db->connect($db_host, $db_user, $db_pass, $db_name, DBCHARSET,$db_prefix);
+$db->connect($db_host,$db_port, $db_user, $db_pass, $db_name, DBCHARSET,$db_prefix);
 if($act=='list'){
 	$list = array();
     $dh=opendir('../data/'.$db_type);
@@ -49,20 +51,21 @@ if($act=='list'){
 	$sql = file_get_contents($sql);
 	$db->excute($sql);
 	if(intval($_POST['isFinish'])==1){
-		$sql = 'UPDATE '.$db_prefix.'staffs SET loginName="'.$admin_name.'",loginPwd="'.md5($admin_password."9365").'" WHERE staffId=1';
+		$sql = "UPDATE ".$db_prefix."staffs SET loginName='".$admin_name."',loginPwd='".md5($admin_password."9365")."' WHERE staffId=1";
 	    $db->excute($sql);
-	    initConfig($db_host,$db_user,$db_pass,$db_prefix,$db_name);
+	    initConfig($db_host,$db_port,$db_user,$db_pass,$db_prefix,$db_name);
 	    if(!file_exists(INSTALL_ROOT."/wstmart/common/conf/database.php")){
-	    	echo json_encode(array('status'=>-1,'msg'=>'无法创建配置文件，请检查apps/common/conf目录是否有写入权限!'));exit();
+	    	echo json_encode(array('status'=>-1,'msg'=>'无法创建配置文件，请检查wstmart/common/conf目录是否有写入权限!'));exit();
 	    }
 	    $counter_file = INSTALL_PATH.'/install.ok';
 		$fopen = fopen($counter_file,'wb');
 		fputs($fopen,   @date('Y-m-d H:i:s'));
 		fclose($fopen);
 		if(file_exists(INSTALL_PATH.'/install.ok')){
+			WSTDelDir(INSTALL_ROOT."/runtime");
 	        echo json_encode(array('status'=>1));exit();
 		}else{
-			echo json_encode(array('status'=>-1,'msg'=>'无法创建配置文件，请检查Install目录是否有写入权限!'));exit();
+			echo json_encode(array('status'=>-1,'msg'=>'无法创建配置文件，请检查install目录是否有写入权限!'));exit();
 		}
     }
     echo json_encode(array('status'=>1));

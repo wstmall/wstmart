@@ -102,4 +102,11 @@ class Users extends Base{
         $m = new M();
         return $m->getAllUserId();
     }
+    /**
+    * 重置支付密码
+    */
+    public function resetPayPwd(){
+        $m = new M();
+        return $m->resetPayPwd();
+    }
 }

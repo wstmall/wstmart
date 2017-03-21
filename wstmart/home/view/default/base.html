@@ -13,6 +13,16 @@
 <script type='text/javascript' src='__STATIC__/js/common.js?v={$v}'></script>
 {block name="depend_common_js"}{/block}
 <script type='text/javascript' src='__STYLE__/js/common.js?v={$v}'></script>
+
+{/*未登录的话加载登录框所需要的文件*/}
+{if ((int)session('WST_USER.userId')<=0) }
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+<link href="__STYLE__/css/login.css?v={$v}" rel="stylesheet">
+<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+<script type='text/javascript' src='__STYLE__/js/login.js?v={$v}'></script>
+{/if}
+
 <script>
 window.conf = {
 		"ROOT"      : "__ROOT__", 

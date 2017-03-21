@@ -88,10 +88,6 @@ function editGoods(suffix){
 	$('input[name="rchk'+suffix+'"]').each(function(){
 		ids.push($(this).val());
 	});
-	if(ids.length==0){
-		WST.msg('请选择要推荐的商品');
-		return;
-	}
 	$('.s-ipt'+suffix).each(function(){
 		params['ipt'+$(this).attr('v')] = $(this).val();
 	})
@@ -177,10 +173,6 @@ function editShops(suffix){
 	$('input[name="rchk'+suffix+'"]').each(function(){
 		ids.push($(this).val());
 	});
-	if(ids.length==0){
-		WST.msg('请选择要推荐的店铺');
-		return;
-	}
 	$('.s-ipt'+suffix).each(function(){
 		params['ipt'+$(this).attr('v')] = $(this).val();
 	})
@@ -265,10 +257,6 @@ function editBrands(suffix){
 	$('input[name="rchk'+suffix+'"]').each(function(){
 		ids.push($(this).val());
 	});
-	if(ids.length==0){
-		WST.msg('请选择要推荐的品牌');
-		return;
-	}
 	$('.s-ipt'+suffix).each(function(){
 		params['ipt'+$(this).attr('v')] = $(this).val();
 	})

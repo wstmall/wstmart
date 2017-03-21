@@ -41,7 +41,6 @@ function shopVerifys(){
 			isSend = false;
 			WST.getVerify('#verifyImg3');
 		}if(json.status==1){
-			layer.close(index2);
 			WST.msg('短信已发送，请注册查收');
 			time = 120;
 			$('#timeTips').css('width','100px');
@@ -57,6 +56,7 @@ function shopVerifys(){
 				}
 			},1000);
 		}
+		if(json.status!=-2)layer.close(index2);
 	});
 }
 
@@ -66,11 +66,17 @@ $(function() {
         	protocol: {
 	    		rule: 'checked();'
             },
-		    verifyCode: {
+            mobileCode: {
 		        rule:"required",
 		        msg:{required:"请输入短信验证码"},
 		        tip:"请输入短信验证码",
 		        target:"#mobileCodeTips"
+		    },
+		    verifyCodea: {
+		        rule:"required",
+		        msg:{required:"请输入验证码"},
+		        tip:"请输入验证码",
+		        target:"#verifya"
 		    }
         },
 	    // 表单验证通过后，ajax提交
@@ -90,6 +96,7 @@ $(function() {
 	    			me.holdSubmit(false);
 	    			WST.msg(json.msg, {icon: 5});
 	    		}
+	    		WST.getVerify('#verifyImga');
 	    		WST.getVerify('#verifyImg3');
 	    	});
 	    }

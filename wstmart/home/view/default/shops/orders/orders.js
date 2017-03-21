@@ -107,43 +107,6 @@ function deliveredByPage(p){
         } 
   });
 }
-function editOrderMoney(id){
-	var ll = WST.load({msg:'正在加载记录，请稍候...'});
-	$.post(WST.U('home/orders/getMoneyByOrder'),{id:id},function(data){
-    	layer.close(ll);
-    	var json = WST.toJson(data);
-		if(json.status>0 && json.data){
-			var tmp = json.data;
-			$('#m_orderNo').html(tmp.orderId);
-			$('#m_goodsMoney').html(tmp.goodsMoney);
-			$('#m_deliverMoney').html(tmp.deliverMoney);
-			$('#m_totalMoney').html(tmp.totalMoney);
-			$('#m_realTotalMoney').html(tmp.realTotalMoney);
-			WST.open({type: 1,title:"修改订单价格",shade: [0.6, '#000'],border: [0],
-				content: $('#editMoneyBox'),area: ['550px', '320px'],btn: ['确定','取消'],
-				yes:function(index, layero){
-					var newOrderMoney = $('#m_newOrderMoney').val();
-					WST.confirm({content:'您确定修改后的订单价格为¥<span class="j-warn-order-money">'+newOrderMoney+'</span>吗？',yes:function(cf){
-						var ll = WST.load({msg:'正在提交信息，请稍候...'});
-						$.post(WST.U('home/orders/editOrderMoney'),{id:id,orderMoney:newOrderMoney},function(data){
-							var json = WST.toJson(data);
-							if(json.status>0){
-								$('#newOrderMoney').val();
-								WST.msg(json.msg,{icon:1});
-								waituserPayByPage(0);
-								layer.close(cf);
-								layer.close(index);
-						    	layer.close(ll);
-							}else{
-								WST.msg(json.msg,{icon:2});
-							}
-						});
-					}});
-				}
-			});
-		}
-    });
-}
 function deliver(id){
 	WST.open({type: 1,title:"请输入发货快递信息",shade: [0.6, '#000'], border: [0],
 		content: $('#deliverBox'),area: ['350px', '180px'],btn: ['确定发货','取消'],

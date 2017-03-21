@@ -23,7 +23,7 @@ $(function(){
           }},
           { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
               var h = "";
-              if(WST.GRANT.QTCD_01)h += "<a href='javascript:toEdit(0," + rowdata['menuId'] + ")'>添加子菜单</a> ";
+              if(WST.GRANT.QTCD_01)h += "<a href='javascript:toEdit(0," + rowdata['menuId'] + ","+rowdata['menuType']+")'>添加子菜单</a> ";
               if(WST.GRANT.QTCD_02)h += "<a href='javascript:getForEdit("+rowdata["parentId"]+"," + rowdata['menuId'] + ")' href='"+WST.U('admin/homemenus/toEdit','menuId='+rowdata['menuId'])+"'>修改</a> ";
               if(WST.GRANT.QTCD_03)h += "<a href='javascript:toDel("+rowdata["parentId"]+"," + rowdata['menuId'] + ")'>删除</a> "; 
               return h;
@@ -129,13 +129,19 @@ function getForEdit(pid,menuId){
    });
 }
 
-function toEdit(menuId,parentId){
+function toEdit(menuId,parentId,tId){
   var title = "编辑";
   if(menuId==0){
     $('#menuForm')[0].reset();
     title = "新增";
-    $('input[name="isShow"]')[0].checked=true;
+    WST.setValue('isShow',1);
   }
+  if(parentId>0){
+	  $('#menuTypes').hide();
+  }else{
+	  $('#menuTypes').show();
+  }
+  if(tId==1){$('#menuType').val(1);}
   var box = WST.open({title:title,type:1,content:$('#menuBox'),area: ['550px', '350px'],btn:['确定','取消'],yes:function(){
     $('#menuForm').submit();
   }});
@@ -195,7 +201,7 @@ function loadGrid(){
           }},
           { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
               var h = "";
-              if(WST.GRANT.QTCD_01)h += "<a href='javascript:toEdit(0," + rowdata['menuId'] + ")'>添加子菜单</a> ";
+              if(WST.GRANT.QTCD_01)h += "<a href='javascript:toEdit(0," + rowdata['menuId'] + ","+rowdata['menuType']+")'>添加子菜单</a> ";
               if(WST.GRANT.QTCD_02)h += "<a href='javascript:getForEdit("+rowdata["parentId"]+"," + rowdata['menuId'] + ")' href='"+WST.U('admin/homemenus/toEdit','menuId='+rowdata['menuId'])+"'>修改</a> ";
               if(WST.GRANT.QTCD_03)h += "<a href='javascript:toDel("+rowdata["parentId"]+"," + rowdata['menuId'] + ")'>删除</a> "; 
               return h;

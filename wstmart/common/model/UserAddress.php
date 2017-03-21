@@ -85,6 +85,10 @@ class UserAddress extends Base{
         $data = input('post.');
         $data['userId'] = (int)session('WST_USER.userId');
         $data['createTime'] = date('Y-m-d H:i:s');
+        // 检测是否存在下级地区
+        $hasChild = model('Areas')->hasChild(input('areaId'));
+        if($hasChild)return WSTReturn('请选择完整的地区信息',-1);
+        
         $areaIds = model('Areas')->getParentIs((int)input('areaId'));
         if(!empty($areaIds))$data['areaIdPath'] = implode('_',$areaIds)."_";
         $result = $this->validate('UserAddress.add')->allowField(true)->save($data);

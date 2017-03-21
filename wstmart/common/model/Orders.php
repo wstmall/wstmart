@@ -1,6 +1,7 @@
 <?php
 namespace wstmart\common\model;
 use think\Db;
+use think\Loader;
 /**
  * ============================================================================
  * WSTMart多用户商城
@@ -512,38 +513,6 @@ class Orders extends Base{
 		return $this->where('orderId',$orderId)->field('orderId,goodsMoney,deliverMoney,totalMoney,realTotalMoney')->find();
 	}
 	
-
-	/**
-	 * 修改订单价格
-	 */
-	public function editOrderMoney(){
-		$orderId = input('post.id');
-		$orderMoney = (float)input('post.orderMoney');
-		$userId = (int)session('WST_USER.userId');
-		$shopId = (int)session('WST_USER.shopId');
-		if($orderMoney<0)return WSTReturn("订单价格不能小于0");
-		Db::startTrans();
-		try{
-			$result = $this->where(['orderId'=>$orderId,'shopId'=>$shopId,'orderStatus'=>-2])->update(['realTotalMoney'=>$orderMoney]);
-			if(false !== $result){
-				//新增订单日志
-				$logOrder = [];
-				$logOrder['orderId'] = $orderId;
-				$logOrder['orderStatus'] = -2;
-				$logOrder['logContent'] = "商家修改订单价格为：".$orderMoney;
-				$logOrder['logUserId'] = $userId;
-				$logOrder['logType'] = 0;
-				$logOrder['logTime'] = date('Y-m-d H:i:s');
-				Db::name('log_orders')->insert($logOrder);
-				Db::commit();
-				return WSTReturn('操作成功',1);
-			}
-		}catch (\Exception $e) {
-		    Db::rollback();
-	        return WSTReturn('操作失败',-1);
-	    }
-	}
-	
 	/**
 	 * 获取订单详情
 	 */
@@ -623,5 +592,157 @@ class Orders extends Base{
 		}else{
 			return WSTReturn('订单已支付',-1);
 		}
+	}
+
+	/**
+	 * 导出订单
+	 */
+	public function toExport(){
+		$name='订单表';
+		$where = ['o.dataFlag'=>1];
+		$orderStatus = (int)input('orderStatus',0);
+		if($orderStatus==0){
+			$name='待发货订单表';
+		}else if($orderStatus==-2){
+			$name='待付款订单表';
+		}else if($orderStatus==1){
+			$name='配送中订单表';
+		}else if($orderStatus==-1){
+			$name='取消订单表';
+		}else if($orderStatus==-3){
+			$name='拒收订单表';
+		}else if($orderStatus==2){
+			$name='已收货订单表';
+		}else if($orderStatus==10000){
+			$name='取消/拒收订单表';
+		}else if($orderStatus==20000){
+			$name='待收货订单表';
+		}
+		$typeId = (int)input('typeId',0);
+		if($typeId==1){
+			$userId = (int)session('WST_USER.userId');
+			$where = ['o.userId'=>$userId];
+		}else{
+			$shopId = (int)session('WST_USER.shopId');
+			$where = ['o.shopId'=>$shopId];
+		}
+		$orderNo = input('orderNo');
+		$shopName = input('shopName');
+		
+		$type = (int)input('type',-1);
+		$payType = $type>0?$type:(int)input('payType',-1);
+		$deliverType = (int)input('deliverType');
+		if($orderStatus == 10000)$orderStatus = [-1,-3];
+		if($orderStatus == 20000)$orderStatus = [0,1];
+		if(is_array($orderStatus)){
+			$where['o.orderStatus'] = ['in',$orderStatus];
+		}else{
+			$where['o.orderStatus'] = $orderStatus;
+		}
+		if($orderNo!=''){
+			$where['orderNo'] = ['like',"%$orderNo%"];
+		}
+		if($shopName!=''){
+			$where['shopName'] = ['like',"%$shopName%"];
+		}
+		if($payType > -1){
+			$where['payType'] =  $payType;
+		}
+		if($deliverType > -1){
+			$where['deliverType'] =  $deliverType;
+		}
+		$page = $this->alias('o')->where($where)->join('__SHOPS__ s','o.shopId=s.shopId','left')
+		->join('__ORDER_REFUNDS__ orf','orf.orderId=o.orderId and refundStatus=0','left')
+		->join('__LOG_ORDERS__ lo','lo.orderId=o.orderId and lo.orderStatus in (-1,-3) ','left')
+		->field('o.orderId,orderNo,goodsMoney,totalMoney,realTotalMoney,o.orderStatus,deliverType,deliverMoney,isAppraise,o.deliverMoney,lo.logContent
+		              ,payType,o.userName,o.userAddress,o.userPhone,o.orderRemarks,o.invoiceClient,o.receiveTime,o.deliveryTime,orderSrc,o.createTime,orf.id refundId')
+				              ->order('o.createTime', 'desc')
+				               ->select();
+		if(count($page)>0){
+			foreach ($page as $key => $v){
+				$page[$key]['payTypeName'] = WSTLangPayType($v['payType']);
+				$page[$key]['deliverType'] = WSTLangDeliverType($v['deliverType']==1);
+				$page[$key]['status'] = WSTLangOrderStatus($v['orderStatus']);
+			}
+		}
+		Loader::import('phpexcel.PHPExcel.IOFactory');
+		$objPHPExcel = new \PHPExcel();
+		// 设置excel文档的属性
+		$objPHPExcel->getProperties()->setCreator("WSTMart")//创建人
+		->setLastModifiedBy("WSTMart")//最后修改人
+		->setTitle($name)//标题
+		->setSubject($name)//题目
+		->setDescription($name)//描述
+		->setKeywords("订单")//关键字
+		->setCategory("Test result file");//种类
+	
+		// 开始操作excel表
+		$objPHPExcel->setActiveSheetIndex(0);
+		// 设置工作薄名称
+		$objPHPExcel->getActiveSheet()->setTitle(iconv('gbk', 'utf-8', 'Sheet'));
+		// 设置默认字体和大小
+		$objPHPExcel->getDefaultStyle()->getFont()->setName(iconv('gbk', 'utf-8', ''));
+		$objPHPExcel->getDefaultStyle()->getFont()->setSize(11);
+		$styleArray = array(
+				'font' => array(
+						'bold' => true,
+						'color'=>array(
+								'argb' => 'ffffffff',
+						)
+				),
+				'borders' => array (
+						'outline' => array (
+								'style' => \PHPExcel_Style_Border::BORDER_THIN,  //设置border样式
+								'color' => array ('argb' => 'FF000000'),     //设置border颜色
+						)
+				)
+		);
+		//设置宽
+		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(12);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(12);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(12);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(25);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(12);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(12);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(12);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(12);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(12);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(12);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(12);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(20);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(20);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(20);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(50);
+		$objPHPExcel->getActiveSheet()->getStyle('A1:P1')->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
+		$objPHPExcel->getActiveSheet()->getStyle('A1:P1')->getFill()->getStartColor()->setARGB('333399');
+	
+		$objPHPExcel->getActiveSheet()->setCellValue('A1', '订单编号')->setCellValue('B1', '订单状态')->setCellValue('C1', '收货人')->setCellValue('D1', '收货地址')->setCellValue('E1', '联系方式')
+		->setCellValue('F1', '支付方式')->setCellValue('G1', '配送方式')->setCellValue('H1', '买家留言')->setCellValue('I1', '发票信息')->setCellValue('J1', '订单总金额')->setCellValue('K1', '运费')
+		->setCellValue('L1', '实付金额')->setCellValue('M1', '下单时间')->setCellValue('N1', '发货时间')->setCellValue('O1', '收货时间')->setCellValue('P1', '取消/拒收原因');
+		$objPHPExcel->getActiveSheet()->getStyle('A1:P1')->applyFromArray($styleArray);
+	
+		for ($row = 0; $row < count($page); $row++){
+			$i = $row+2;
+			$objPHPExcel->getActiveSheet()->setCellValue('A'.$i, $page[$row]['orderNo'])->setCellValue('B'.$i, $page[$row]['status'])->setCellValue('C'.$i, $page[$row]['userName'])->setCellValue('D'.$i, $page[$row]['userAddress'])
+			->setCellValue('E'.$i, $page[$row]['userPhone'])->setCellValue('F'.$i, $page[$row]['payTypeName'])->setCellValue('G'.$i, $page[$row]['deliverType'])->setCellValue('H'.$i, $page[$row]['orderRemarks'])->setCellValue('I'.$i, $page[$row]['invoiceClient'])
+			->setCellValue('J'.$i, $page[$row]['totalMoney'])->setCellValue('K'.$i, $page[$row]['deliverMoney'])->setCellValue('L'.$i, $page[$row]['realTotalMoney'])->setCellValue('M'.$i, $page[$row]['createTime'])->setCellValue('N'.$i, $page[$row]['deliveryTime'])
+			->setCellValue('O'.$i, $page[$row]['receiveTime'])->setCellValue('P'.$i, $page[$row]['logContent']);
+		}
+	
+		//输出EXCEL格式
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		// 从浏览器直接输出$filename
+		header('Content-Type:application/csv;charset=UTF-8');
+		header("Pragma: public");
+		header("Expires: 0");
+		header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
+		header("Content-Type:application/force-download");
+		header("Content-Type:application/vnd.ms-excel;");
+		header("Content-Type:application/octet-stream");
+		header("Content-Type:application/download");
+		header('Content-Disposition: attachment;filename="'.$name.'.xls"');
+		header("Content-Transfer-Encoding:binary");
+		$objWriter->save('php://output');
 	}
 }

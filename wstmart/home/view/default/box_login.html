@@ -1,11 +1,3 @@
-{extend name="default/base" /}
-{block name="css"}
-<link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
-<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
-<link href="__STYLE__/css/login.css?v={$v}" rel="stylesheet">
-{/block}
-{block name="nav"}{/block}
-{block name="main"}
 <form method="post" autocomplete="off">
 	<table class="wst-table">
 		<tr class="wst-login-tr">
@@ -40,10 +32,3 @@
 		</tr>
 	</table>
 </form>
-{/block}
-{block name="js"}
-<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
-<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
-<script type='text/javascript' src='__STYLE__/js/login.js?v={$v}'></script>
-{/block}
-{block name="footer"}{/block}

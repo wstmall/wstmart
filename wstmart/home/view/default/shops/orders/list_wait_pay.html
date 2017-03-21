@@ -90,9 +90,6 @@
                 <div>实付金额：¥{{d[i].realTotalMoney}}</div>
             </td>
             <td rowspan="{{rows}}">
-                {{#if(d[i].payType==1 && d[i].isPay==0){}}
-                <div><a href='#none' onclick='editOrderMoney({{d[i].orderId}})'>【修改价格】</a></div>
-                {{#}}}
                 <div><a href='#none' onclick='view({{d[i].orderId}})'>【订单详情】</a></div>
             </td>
             {{#}}}
@@ -105,36 +102,6 @@
             <td colspan='4' id='pager' align="center" style='padding:5px 0px 5px 0px'>&nbsp;</td>
        </tr>
     </table>
-    <div id='editMoneyBox' style='display:none'>
-       <form id='newOrderForm' autocomplete='off'>
-       <table class='wst-form wst-box-top'>
-          <tr>
-            <th width='120'>订单号：</th>
-            <td><span id='m_orderNo'></span></td>
-          </tr>
-          <tr>
-            <th>商品总价格：</th>
-            <td>¥<span id='m_goodsMoney'></span></td>
-          </tr>
-          <tr>
-            <th>运费：</th>
-            <td>¥<span id='m_deliverMoney'></span></td>
-          </tr>
-          <tr>
-            <th>商品总价格：</th>
-            <td>¥<span id='m_totalMoney'></span></td>
-          </tr>
-           <tr>
-            <th>实际支付价格：</th>
-            <td>¥<span id='m_realTotalMoney' class='j-warn-order-money'></span></td>
-          </tr>
-          <tr>
-            <th>新价格：</th>
-            <td><input type='text' id='m_newOrderMoney' maxLength='10' style='width:150px' onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberdoteKey(event,true)" onblur='javascript:WST.limitDecimal(this,2)'></td>
-          </tr>
-       </table>
-       </form>
-    </div>
   </div>
 {/block}
 {block name="js"}

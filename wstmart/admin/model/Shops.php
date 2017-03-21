@@ -32,13 +32,21 @@ class Shops extends Base{
 	    $id = input('post.id/d');
 		$data = [];
 		$data['dataFlag'] = -1;
-	    $result = $this->update($data,['shopId'=>$id]);
-	    WSTUnuseImage('shops','shopImg',$id);
-        if(false !== $result){
-        	return WSTReturn("删除成功", 1);
-        }else{
-        	return WSTReturn($this->getError(),-1);
+	    Db::startTrans();
+        try{
+	        $result = $this->update($data,['shopId'=>$id]);
+	        WSTUnuseImage('shops','shopImg',$id);
+            if(false !== $result){
+            	//删除推荐店铺
+            	Db::name('recommends')->where(['dataSrc'=>1,'dataId'=>$id])->delete();
+            	//下架商品
+        	    model('goods')->unsaleByshopId($id);
+        	    return WSTReturn("删除成功", 1);
+            }
+        }catch (\Exception $e) {
+            Db::rollback();
         }
+        return WSTReturn('删除失败',-1);
 	}
 	
 	/**
@@ -215,6 +223,12 @@ class Shops extends Base{
 			        	Db::name('shop_accreds')->insert(['shopId'=>$shopId,'accredId'=>$v]);
 			        }
 			    }
+	        }
+	        if((int)input('shopStatus')!=1){
+	        	//删除推荐店铺
+	        	Db::name('recommends')->where(['dataSrc'=>1,'dataId'=>$shopId])->delete();
+	        	//店铺状态不正常就停用所有的商品
+	        	model('goods')->unsaleByshopId($shopId);
 	        }
 	        Db::commit();
 	        return WSTReturn("编辑成功", 1);

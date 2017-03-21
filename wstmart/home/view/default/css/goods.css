@@ -184,3 +184,4 @@ input[type="text"].buy-num{text-align:center;width:50px;float:left;border-left:0
   position:relative;
   margin-bottom:5px;
 }
+.goods-desc-box img{display: block;}

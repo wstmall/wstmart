@@ -45,6 +45,13 @@ class HomeMenus extends Base{
 		$menuId = input('post.menuId/d',0);
 	    $result = $this->validate('HomeMenus.edit')->allowField(['menuName','menuSort','menuType','isShow','menuUrl','menuOtherUrl'])->save(input('post.'),['menuId'=>$menuId]);
         if(false !== $result){
+        	$parentId = input('post.parentId');
+        	if($parentId==0){
+        		// 获取其子集id
+        		$ids = $this->getChildId($menuId);
+        		$menuType = input('post.menuType/d');
+        		$result = $this->where(['menuId'=>['in',$ids],"dataFlag"=>1])->setField("menuType", $menuType);
+        	}
         	return WSTReturn("编辑成功", 1);
         }else{
         	return WSTReturn($this->getError(),-1);

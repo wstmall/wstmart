@@ -16,6 +16,18 @@ WST.confirm = function(options){
 }
 WST.msg = function(msg, options, func){
 	var opts = {};
+	if(options){
+		if(options.icon==1){
+			options.icon='wst1';
+		}else if(options.icon==2 || options.icon==5){
+			options.icon='wst2';
+		}else if(options.icon==3){
+			options.icon='wst3';
+		}else if(options.icon==16){
+			options.icon='wstloading';
+			options.time = 0;
+		}
+	}
 	//有抖動的效果,第二位是函數
 	if(typeof(options)!='function'){
 		opts = $.extend(opts,{time:2000,shade: [0.4, '#000000']},options);

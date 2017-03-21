@@ -9,6 +9,7 @@
 			<td class="wst-shopapp-td">手机号</td>
 			<td><input id="userPhone2" name="userPhone" class="wst_ipt2 wst-shopapp-input" tabindex="1" maxlength="30" autocomplete="off" onpaste="return false;" style="ime-mode:disabled;" placeholder="手机号"  type="text"data-rule="手机号 required;mobile;remote(post:{:url('home/users/checkLoginKey')})" data-msg-mobile="请输入有效的手机号" data-msg-required="请输入手机号" data-tip="请输入手机号" data-target="#userPhone2"/></td>
 		</tr>
+		{if(WSTConf('CONF.smsOpen')==1)}
 		<tr>
 			<td class="wst-shopapp-td">短信验证码</td>
 			<td>
@@ -17,6 +18,17 @@
 				<span id="mobileCodeTips"></span>
 			</td>
 		</tr>
+		{else}
+		<tr>
+			<td class="wst-shopapp-td">验证码</td>
+			<td>
+				<div class="wst-apply-code">
+				<input id="verifyCodea" style="ime-mode:disabled" name="verifyCodea"  class="wst_ipt2 wst-apply-codein" tabindex="6" autocomplete="off" maxlength="6" type="text" placeholder="验证码"/>
+				<img id='verifyImga' class="wst-apply-codeim" src="" onclick='javascript:WST.getVerify("#verifyImga")' style="width:101px;border-top-right-radius:2px;border-bottom-right-radius:2px;"><span id="verifya"></span>    	
+			   	</div>
+			</td>
+		</tr>
+		{/if}
 		<tr>
 			<td class="wst-shopapp-td">备注</td>
 			<td>

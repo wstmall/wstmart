@@ -115,7 +115,8 @@ class Users extends Base{
         if(input("post.loginName"))$val=input("post.loginName");
         if(input("post.userPhone"))$val=input("post.userPhone");
         if(input("post.userEmail"))$val=input("post.userEmail");
-        $rs = WSTCheckLoginKey($val);
+        $userId = (int)session('WST_USER.userId');
+        $rs = WSTCheckLoginKey($val,$userId);
         if($rs["status"]==1){
             return array("ok"=>"");
         }else{
@@ -678,7 +679,7 @@ class Users extends Base{
             return WSTReturn('你没有预留手机号码，请通过邮箱方式找回密码！',-1);
         }
         $phoneVerify = rand(100000,999999);
-        $msg = "您正在重置登录密码，验证码为:".$phoneVerify."，请在10分钟内输入。【".WSTConf("mallName")."】";
+        $msg = "您正在重置登录密码，验证码为:".$phoneVerify."，请在10分钟内输入。【".WSTConf("CONF.mallName")."】";
         $m = new LogSms();
         session('WST_USER',null);
         $rv = $m->sendSMS(0,session('findPass.userPhone'),$msg,'getPhoneVerify',$phoneVerify);

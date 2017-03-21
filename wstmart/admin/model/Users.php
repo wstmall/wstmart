@@ -146,5 +146,20 @@ class Users extends Base{
 	{
 		return $this->where('dataFlag',1)->column('userId');
 	}
+	/**
+	* 重置支付密码
+	*/
+	public function resetPayPwd(){
+		$Id = (int)input('post.userId');
+		$loginSecret = $this->where('userId',$Id)->value('loginSecret');
+		// 重置支付密码为6个6
+		$payPwd = md5('666666'.$loginSecret);
+		$result = $this->where('userId',$Id)->setField('payPwd',$payPwd);
+		if(false !== $result){
+        	return WSTReturn("重置成功", 1);
+        }else{
+        	return WSTReturn($this->getError(),-1);
+        }
+	}
 	
 }

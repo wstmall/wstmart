@@ -42,7 +42,7 @@
       <div class="wst-search-keys">
       {php}$searchKeys = WSTSearchKeys();{/php}
       {volist name="$searchKeys" id="vo"}
-       <a href='{:Url("home/goods/search","key=".$vo)}'>{$vo}</a>
+       <a href='{:Url("home/goods/search","keyword=".$vo)}'>{$vo}</a>
        {if $i< count($searchKeys)}&nbsp;&nbsp;|&nbsp;&nbsp;{/if}
       {/volist}
       </div>

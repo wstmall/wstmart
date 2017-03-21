@@ -270,11 +270,23 @@ WST.confirm = function(options){
 }
 WST.load = function(options){
 	var opts = {};
-	opts = $.extend(opts,{time:2000,shade: [0.4, '#000000'],offset: '200px'},options);
+	opts = $.extend(opts,{time:0,icon:'wstloading',shade: [0.4, '#000000'],offset: '200px'},options);
 	return layer.msg(opts.msg, opts);
 }
 WST.msg = function(msg, options, func){
 	var opts = {};
+	if(options){
+		if(options.icon==1 || options.icon==6){
+			options.icon='wst1';
+		}else if(options.icon==2 || options.icon==5){
+			options.icon='wst2';
+		}else if(options.icon==3){
+			options.icon='wst3';
+		}else if(options.icon==16){
+			options.icon='wstloading';
+			options.time = 0;
+		}
+	}
 	//有抖動的效果,第二位是函數
 	if(typeof(options)!='function'){
 		opts = $.extend(opts,{time:1000,shade: [0.4, '#000000'],offset: '200px'},options);
@@ -332,6 +344,7 @@ function shopApply(){
 	    	//layer.close(index);
 	    }
 	});
+	WST.getVerify('#verifyImga');
 	WST.getVerify('#verifyImg3');
 	$('.layui-layer').css('background','transparent');
 	$('.layui-layer').css('box-shadow','none');
@@ -364,7 +377,9 @@ WST.getVerify = function(id){
     $(id).attr('src',WST.U('home/index/getVerify','rnd='+Math.random()));
 }
 WST.loginWindow = function(){
-	WST.open({type:2,area:['550px','320px'],offset:'auto',title:'用户登录',content:[WST.U('home/users/toLoginBox'),'no']});
+	$.post(WST.U('home/users/toLoginBox'),{},function(data){
+		WST.open({type:1,area:['550px','320px'],offset:'auto',title:'用户登录',content:data});
+	});
 }
 /********************* 选项卡切换隐藏 **********************/
 $.fn.TabPanel = function(options){

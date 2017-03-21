@@ -18,9 +18,9 @@ if(!defined('IN_WSTMART')) {
 
 class Mysql {
 	var $tablepre;
-	function connect($dbhost, $dbuser, $dbpw, $dbname = '', $dbcharset, $tablepre='') {
+	function connect($dbhost, $db_port,$dbuser, $dbpw, $dbname = '', $dbcharset, $tablepre='') {
 		$this->tablepre = $tablepre;
-		if(!$this->link = mysqli_connect($dbhost, $dbuser, $dbpw)) {
+		if(!$this->link = mysqli_connect($dbhost.":".$db_port, $dbuser, $dbpw)) {
 			die('{status:-1,msg:"Can not connect to MySQL server"}');
 		}
 	    if($dbname) {

@@ -33,7 +33,9 @@ class Shops extends Base{
      */
     public function getBriefShop($shopId){
         $shop = $this->alias('s')->join('__SHOP_SCORES__ cs','cs.shopId = s.shopId','left')
-                    ->where(['s.shopId'=>$shopId,'s.shopStatus'=>1,'s.dataFlag'=>1])->field('s.shopImg,s.shopId,s.shopName,cs.*')->find()->toArray();
+                    ->where(['s.shopId'=>$shopId,'s.shopStatus'=>1,'s.dataFlag'=>1])->field('s.shopImg,s.shopId,s.shopName,cs.*')->find();
+        if(empty($shop))return [];
+        $shop->toArray();
         $shop['totalScore'] = WSTScore($shop['totalScore']/3,$shop['totalUsers']);
         $shop['goodsScore'] = WSTScore($shop['goodsScore'],$shop['goodsUsers']);
         $shop['serviceScore'] = WSTScore($shop['serviceScore'],$shop['serviceUsers']);
@@ -105,6 +107,7 @@ class Shops extends Base{
     	$order='';
     	$where['g.dataFlag'] = 1;
     	$where['g.shopId'] = 1;
+        $where['g.isSale'] = 1;
     	$where[$arr[$type]]=1;
     	if($type=='hot')$order='saleNum desc';
     	$rs = $this->alias('s')

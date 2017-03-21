@@ -304,4 +304,29 @@ class Goods extends Base{
 		return $this->alias('g')->join('__SHOPS__ s','g.shopId=s.shopId','inner')
 		     ->where($where)->field('g.goodsName,s.shopName,g.goodsId')->limit(50)->select();
 	}
+
+	
+	/**
+	 * 根据下架指定店铺下的所有商品
+	 */
+	public function unsaleByshopId($shopId){
+        //下架商品
+		$data = [];
+		$data['isSale'] = 0;
+		$goodsIds = [];
+		$goods = $this->where(['shopId'=>$shopId,'isSale'=>1])->field('goodsId')->select();
+		if(!empty($goods)){
+			foreach ($goods as $key => $v) {
+				$goodsIds[] = $v['goodsId'];
+			}
+		}
+		$result = $this->where(['shopId'=>$shopId])->update($data);
+		if(false !== $result){
+		    //删除推荐商品
+		    if(count($goodsIds)>0)Db::name('recommends')->where(['dataSrc'=>0,'dataId'=>['in',$goodsIds]])->delete();
+		    Db::commit();
+			return WSTReturn('操作成功',1);
+		}
+        return WSTReturn('删除失败',-1);
+    }
 }

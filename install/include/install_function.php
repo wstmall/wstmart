@@ -61,7 +61,30 @@ function dir_check(&$dir_items) {
 	}
 	return $dir_items;
 }
-
+function WSTDelDir($dirpath){
+	$dh=opendir($dirpath);
+	while (($file=readdir($dh))!==false) {
+		if($file!="." && $file!="..") {
+		    $fullpath=$dirpath."/".$file;
+		    if(!is_dir($fullpath)) {
+		        unlink($fullpath);
+		    } else {
+		        WSTDelDir($fullpath);
+		        @rmdir($fullpath);
+		    }
+	    }
+	}	 
+	closedir($dh);
+    $isEmpty = true;
+	$dh=opendir($dirpath);
+	while (($file=readdir($dh))!== false) {
+		if($file!="." && $file!="..") {
+			$isEmpty = false;
+			break;
+		}
+	}
+	return $isEmpty;
+}
 function dir_writeable($dir) {
 	$writeable = 0;
 	if(!is_dir($dir)) {
@@ -79,12 +102,12 @@ function dir_writeable($dir) {
 	}
 	return $writeable;
 }
-function initConfig($db_host,$db_user,$db_pass,$db_prefix,$db_name){
+function initConfig($db_host,$db_port,$db_user,$db_pass,$db_prefix,$db_name){
 	$code = "return [
 			// 数据库类型
 			'type'           => 'mysql',
 			// 服务器地址
-			'hostname'       => '127.0.0.1',
+			'hostname'       => '".$db_host."',
 			// 数据库名
 			'database'       => '".$db_name."',
 			// 用户名
@@ -92,7 +115,7 @@ function initConfig($db_host,$db_user,$db_pass,$db_prefix,$db_name){
 			// 密码
 			'password'       => '".$db_pass."',
 			// 端口
-			'hostport'       => '',
+			'hostport'       => '".$db_port."',
 			// 连接dsn
 			'dsn'            => '',
 			// 数据库连接参数
@@ -102,7 +125,7 @@ function initConfig($db_host,$db_user,$db_pass,$db_prefix,$db_name){
 			// 数据库表前缀
 			'prefix'         => '".$db_prefix."',
 			// 数据库调试模式
-			'debug'          => true,
+			'debug'          => false,
 			// 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
 			'deploy'         => 0,
 			// 数据库读写是否分离 主从式有效

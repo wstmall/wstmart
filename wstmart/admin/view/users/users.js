@@ -97,8 +97,8 @@ function editInit(){
                   ok:"",
                 },
                 userTotalScore: {
-                  rule:"match[gt, userScore];integer[+0];",
-                  msg:{integer:"当前积分只能是正整数",match:'会员历史积分必须大于会员积分'},
+                  rule:"match[gte, userScore];integer[+0];",
+                  msg:{integer:"当前积分只能是正整数",match:'会员历史积分必须不小于会员积分'},
                   tip:"当前积分只能是正整数",
                   ok:"",
                 },

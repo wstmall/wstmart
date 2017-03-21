@@ -20,12 +20,29 @@ function initGrid(){
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";
 	            if(WST.GRANT.ZHGL_02)h += "<a href='javascript:getForEdit(" + rowdata['userId'] + ")'>修改</a> ";
+	            if(WST.GRANT.ZHGL_02)h += "<a href='javascript:resetPayPwd(" + rowdata['userId'] + ")'>重置支付密码</a> ";
 	            return h;
 	        }}
         ]
     });
 }
 
+function resetPayPwd(id){
+	var box = WST.confirm({content:"您确定重置支付密码为666666吗?",yes:function(){
+	           var loading = WST.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
+	           	$.post(WST.U('admin/users/resetPayPwd'),{userId:id},function(data,textStatus){
+	           			  layer.close(loading);
+	           			  var json = WST.toAdminJson(data);
+	           			  if(json.status=='1'){
+	           			    	WST.msg("重置成功",{icon:1});
+	           			    	layer.close(box);
+	           		            grid.reload();
+	           			  }else{
+	           			    	WST.msg(json.msg,{icon:2});
+	           			  }
+	           		});
+	            }});
+}
 function getForEdit(id){
 	 var loading = WST.msg('正在获取数据，请稍后...', {icon: 16,time:60000});
      $.post(WST.U('admin/users/get'),{id:id},function(data,textStatus){

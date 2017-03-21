@@ -37,6 +37,7 @@ class SysConfigs extends Base{
         try{
 			foreach ($list as $key =>$v){
 				$code = trim($v['fieldCode']);
+				if(in_array($code,['wstVersion','wstMd5','wstMobileImgSuffix','mallLicense']))continue;
 				$val = Input('post.'.trim($v['fieldCode']));
 				if($isRequire && $val=='')continue;
 			    //启用图片

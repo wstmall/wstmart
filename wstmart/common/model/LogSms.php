@@ -28,7 +28,7 @@ class LogSms extends Base{
 			$smsverfy = input("post.smsVerfy");
 			$rs = WSTVerifyCheck($smsverfy);
 			if(!$rs){
-				return WSTReturn("验证码不正确!");
+				return WSTReturn("验证码不正确!",-2);
 			}
 		}
 		//检测是否超过每日短信发送数

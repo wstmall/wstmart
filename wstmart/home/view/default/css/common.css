@@ -19,6 +19,22 @@ input[type=button]{cursor:pointer}
 .wst-align-left{text-align: left;}
 .wst-align-right{text-align: right;}
 .hide{display:none}
+/*自定义提示图标*/
+.layui-layer-icowst1,.layui-layer-icowst2,.layui-layer-icowst3{
+  background-image:url(../../../../../static/images/wst_icon.png) !important;
+  background-repeat: no-repeat !important;
+  background-size: cover!important;
+}
+.layui-layer-icowst2{background-position: -40px 0!important;}
+.layui-layer-icowst3 {background-position: -80px -1px!important;}
+
+.layui-layer-icowstloading{
+  background-image:url(../../../../../static/images/loading.gif) !important;
+  background-repeat: no-repeat !important;
+  background-size: 206% auto !important;
+  background-position: -16px -16px !important;
+}
+
 /***layout**/
 .wst-header{margin:0 auto;width: 100%;border-bottom:1px solid #eee;background:#fafafa;}
 .wst-header ul li{float: left;}
@@ -82,7 +98,7 @@ input[type=button]{cursor:pointer}
 .wst-header .wst-nav .j-dorpdown .product-list{width:91px;}
 .wst-header .wst-nav .j-dorpdown .des-list{width:91px;}
 .wst-header .wst-nav .j-dorpdown .foucs-list{width:91px;}
-.wst-header .wst-nav .j-dorpdown .sweep-list{width:210px;}
+.wst-header .wst-nav .j-dorpdown .sweep-list{width:215px;}
 .pdl5{padding-left:5px!important;}
 .pdr5{padding-right: 5px!important;}
 
@@ -106,7 +122,7 @@ input[type=button]{cursor:pointer}
 
 .j-dorpdown-layer .qrcodea .qrcodeal{float:left;margin-top:5px;}
 .j-dorpdown-layer .qrcodea .qrcodear{float:right;margin-right:3px;}
-.j-dorpdown-layer .qrcodea .qrcodear p{color:#fa8a42;font-weight: bold;text-align: center;}
+.j-dorpdown-layer .qrcodea .qrcodear p{color:#fa8a42;font-weight: bold;text-align: center;width: 88px;}
 .j-dorpdown-layer .qrcodea .qrcodear a{float:right;width:75px;border:1px solid #ededed;padding:0px 5px;margin:0px 3px 3px 0px;background:#f5f5f5;}
 .wst-nav .headrf .drop-down .di-right{top: 12px;right: 0px;height: 7px;overflow: hidden;font-style:normal;color: #6A6A6A;display: block;position: absolute;}
 .wst-nav .headrf .drop-down .di-left{top: 12px;left: 0px;height: 7px;overflow: hidden;font-style:normal;display: block;position: absolute;}

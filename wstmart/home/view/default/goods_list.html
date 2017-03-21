@@ -116,7 +116,7 @@
        <div class='item <?=($selectorNum > 3)?"hideItem hide":"" ?>'>
           <div class='label'>价格：</div>
           <ul class='content'>
-          {volist name='priceGrade' id='vo' key='key'}
+          {volist name='priceGrade' id='vo' key='pKey'}
           <li class='s-item' onclick='javascript:goodsFilter(this,2)' v="{$key}">{$vo}</li>
           {/volist}
           </ul>

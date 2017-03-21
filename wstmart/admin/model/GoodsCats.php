@@ -174,7 +174,7 @@ class GoodsCats extends Base{
 		$result = $this->validate('GoodsCats.edit')->allowField(true)->save($data,['catId'=>$catId]);
 		$ids = array();
 		$ids = $this->getChild($catId);
-		$this->where("catId in(".implode(',',$ids).")")->update(['isShow' => (int)$data['isShow'],'isFloor'=> $data['isFloor']]);
+		$this->where("catId in(".implode(',',$ids).")")->update(['isShow' => (int)$data['isShow'],'isFloor'=> $data['isFloor'],'commissionRate'=>(float)$data['commissionRate']]);
 		if(false !== $result){
 			if($data['isShow']==0){
 				//删除购物车里的相关商品

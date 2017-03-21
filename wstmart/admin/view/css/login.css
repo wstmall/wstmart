@@ -92,3 +92,17 @@ body{
 #verifyImg{
 	cursor:pointer;width:108px;border-top-right-radius:6px;border-bottom-right-radius:6px;height:33px;
 }
+/*自定义提示图标*/
+.layui-layer-icowst1,.layui-layer-icowst2,.layui-layer-icowst3{
+  background-image:url(../../../../static/images/wst_icon.png) !important;
+  background-repeat: no-repeat !important;
+  background-size: cover!important;
+}
+.layui-layer-icowst2{background-position: -40px 0!important;}
+.layui-layer-icowst3 {background-position: -80px -1px!important;}
+.layui-layer-icowstloading{
+  background-image:url(../../../../static/images/loading.gif) !important;
+  background-repeat: no-repeat !important;
+  background-size: 206% auto !important;
+  background-position: -16px -16px !important;
+}

@@ -230,8 +230,8 @@ class Orders extends Base{
 		Loader::import('phpexcel.PHPExcel.IOFactory');
 		$objPHPExcel = new \PHPExcel();
 		// 设置excel文档的属性
-		$objPHPExcel->getProperties()->setCreator("WSTshop")//创建人
-		->setLastModifiedBy("WSTshop")//最后修改人
+		$objPHPExcel->getProperties()->setCreator("WSTMart")//创建人
+		->setLastModifiedBy("WSTMart")//最后修改人
 		->setTitle($name)//标题
 		->setSubject($name)//题目
 		->setDescription($name)//描述

@@ -31,6 +31,7 @@ $(document).ready(function(){
         var admin_password = $('#admin_password').val();
         var admin_password2 = $('#admin_password2').val();
         var dbHost = $('#dbHost').val();
+        var dbPort = $('#dbPort').val();
         var dbUser = $('#dbUser').val();
         var dbPass = $('#dbPass').val();
         var dbPrefix = $('#dbPrefix').val();
@@ -40,6 +41,7 @@ $(document).ready(function(){
             
         data = {
             action: 'admin_info',
+            dbPort: dbPort,
             dbHost: dbHost,
             dbUser: dbUser,
             dbPass: dbPass,
@@ -66,6 +68,7 @@ var dataTables = [];
 function initDataBase(){
 	var check = true;
 	dataConfig.db_host = $('#db_host').val();
+    dataConfig.db_port = $('#db_port').val();
 	dataConfig.db_user = $('#db_user').val();
 	dataConfig.db_pass = $('#db_pass').val();
 	dataConfig.db_prefix = $('#db_prefix').val();
@@ -75,6 +78,10 @@ function initDataBase(){
 	dataConfig.admin_password2 = $('#admin_password2').val();
     if( dataConfig.db_host == ''){
         $('.db_host').show().addClass('red');
+        check = false;
+    }
+    if( dataConfig.db_port == ''){
+        $('.db_port').show().addClass('red');
         check = false;
     }
     if( dataConfig.db_user == ''){

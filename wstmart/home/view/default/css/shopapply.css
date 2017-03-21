@@ -66,3 +66,27 @@ input.wst-shopapp-input2{
 	 background:url(../img/btn_sqkd_back.png) 0px 0px no-repeat;
 	 
 }
+.wst-apply-code:focus,.wst-apply-codein:focus{
+	border:1px solid #eb654a;
+}
+.wst-apply-code{
+	height:31px;
+	width: 225px;
+	margin-left: 10px;
+	border-radius:2px;
+	border:1px solid #bac4c3;
+}
+input.wst-apply-codein{
+	padding:0px;
+	padding-left:5px;
+	width:119px;
+	height:31px;
+	position:absolute;
+	font-size: 15px;
+	outline: none;
+	border:0;
+	border-radius:2px;
+}
+.wst-apply-codeim{
+	margin-left:124px;
+}
