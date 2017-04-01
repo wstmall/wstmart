@@ -32,7 +32,7 @@ class Orders extends Base{
 		$this->assign('object',$rs);
 		if(!empty($rs['list'])){
 			if($rs['payType']==1){
-				$this->assign('id',input("get.id"));
+				$this->assign('orderNo',input("get.orderNo"));
 				$this->assign('isBatch',input("get.isBatch/d",1));
 				$this->assign('rs',$rs);
 				return $this->fetch('order_pay_step1');

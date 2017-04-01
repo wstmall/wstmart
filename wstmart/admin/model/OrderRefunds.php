@@ -27,14 +27,17 @@ class OrderRefunds extends Base{
 		$shopName = input('shopName');
 		$deliverType = (int)input('deliverType',-1);
 		$areaId1 = (int)input('areaId1');
-		$areaId2 = (int)input('areaId2');
-		$areaId3 = (int)input('areaId3');
+		if($areaId1>0){
+			$where['s.areaIdPath'] = ['like',"$areaId1%"];
+			$areaId2 = (int)input("areaId1_".$areaId1);
+			if($areaId2>0)$where['s.areaIdPath'] = ['like',$areaId1."_"."$areaId2%"];
+			$areaId3 = (int)input("areaId1_".$areaId1."_".$areaId2);
+			if($areaId3>0)$where['s.areaId'] = $areaId3;
+		}
 		$isRefund = (int)input('isRefund',-1);
 		if($orderNo!='')$where['orderNo'] = ['like','%'.$orderNo.'%'];
 		if($shopName!='')$where['shopName|shopSn'] = ['like','%'.$shopName.'%'];
-		if($areaId1>0)$where['s.areaId1'] = $areaId1;
-		if($areaId2>0)$where['s.areaId2'] = $areaId2;
-		if($areaId3>0)$where['s.areaId3'] = $areaId3;
+		
 		if($deliverType!=-1)$where['o.deliverType'] = $deliverType;
 		if($isRefund!=-1)$where['o.isRefund'] = $isRefund;
 		$page = Db::name('orders')->alias('o')->join('__SHOPS__ s','o.shopId=s.shopId','left')

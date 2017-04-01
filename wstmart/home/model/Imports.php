@@ -46,6 +46,9 @@ class Imports{
 	            $goods['shopId'] = $shopId;
 	            $goods['goodsName'] = trim($sheet->getCell("A".$row)->getValue());
 	            if($goods['goodsName']=='')break;//如果某一行第一列为空则停止导入
+	            $goods['goodsImg'] = '';
+	            $goods['shopCatId1'] = 0;
+	            $goods['shopCatId2'] = 0;
 	            $goods['goodsSn'] = trim($sheet->getCell("B".$row)->getValue());
 	            $goods['productNo'] = trim($sheet->getCell("C".$row)->getValue());
 	            $goods['marketPrice'] = trim($sheet->getCell("D".$row)->getValue());

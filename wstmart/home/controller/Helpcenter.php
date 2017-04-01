@@ -13,6 +13,9 @@ namespace wstmart\home\controller;
  * ============================================================================
  */
 class Helpcenter extends Base{
+	public function index(){
+    	return $this->view();
+    }
 	public function view(){
 		//获取左侧列表
 		$m = model('home/Articles');

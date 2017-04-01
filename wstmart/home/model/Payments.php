@@ -50,17 +50,19 @@ class Payments extends Base{
 	 */
 	public function getPayOrders ($obj){
 		$userId = (int)$obj["userId"];
-		$orderId = $obj["orderId"];
+		$orderNo = $obj["orderNo"];
 		$isBatch = (int)$obj["isBatch"];
 		$needPay = 0;
 		$where = ["userId"=>$userId,"dataFlag"=>1,"orderStatus"=>-2,"isPay"=>0,"payType"=>1,"needPay"=>[">",0]];
 		if($isBatch==1){
-			$where['orderunique'] = $orderId;
+			$where['orderunique'] = $orderNo;
 		}else{
-			$where['orderId'] = $orderId;
+			$where['orderNo'] = $orderNo;
 		}
 		return model('orders')->where($where)->sum('needPay');
 	}
+	
+	
 	
 	/**
 	 * 完成支付订单

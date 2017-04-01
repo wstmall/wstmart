@@ -37,7 +37,15 @@ class News extends Base{
 				break;
 			}
 		}
+		// 获取title
+		$currTitle = '';
+		foreach($bcNav as $k=>$v){
+			if($v['catId']==(int)input('catId'))$currTitle = $v['catName'];
+		}
+		$this->assign('title',$currTitle);
 		$this->assign('bcNav',$bcNav);
+		// 防止没有数据时报错
+		if(empty($bcNav))$this->redirect('home/News/view');
 		return $this->fetch('articles/news_list');
 	}
 
@@ -71,10 +79,13 @@ class News extends Base{
 		}
 
 
-		return $this->fetch('articles/news_list');
+		return $this->fetch('articles/news_view');
 	}
 	public function bcNav(){
 		$m = model('home/Articles');
 		return $m->bcNav();
+	}
+	public function index(){
+		return $this->view();
 	}
 }

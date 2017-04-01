@@ -20,7 +20,7 @@ class Mysql {
 	var $tablepre;
 	function connect($dbhost, $db_port,$dbuser, $dbpw, $dbname = '', $dbcharset, $tablepre='') {
 		$this->tablepre = $tablepre;
-		if(!$this->link = mysqli_connect($dbhost.":".$db_port, $dbuser, $dbpw)) {
+		if(!$this->link = mysqli_connect($dbhost, $dbuser, $dbpw,'',$db_port)) {
 			die('{status:-1,msg:"Can not connect to MySQL server"}');
 		}
 	    if($dbname) {

@@ -49,9 +49,9 @@ class Weixinpays extends Base{
 		$userId = (int)session('WST_USER.userId');
 		$data = model('Orders')->checkOrderPay();
 		if($data["status"]==1){
-			$orderId = input("id/s");
+			$orderNo = input("orderNo/s");
 			$isBatch = (int)input("isBatch/d");
-			$pkey = $userId."@".$orderId;
+			$pkey = $userId."@".$orderNo;
 			if($isBatch==1){
 				$pkey = $pkey."@1";
 			}else{
@@ -72,7 +72,7 @@ class Weixinpays extends Base{
 			$userId = (int)session('WST_USER.userId');
 			$obj = array();
 			$obj["userId"] = $userId;
-			$obj["orderId"] = $pkeys[1];
+			$obj["orderNo"] = $pkeys[1];
 			$obj["isBatch"] = $pkeys[2];
 			$m = new M();
 			$needPay = $m->getPayOrders($obj);
@@ -80,7 +80,7 @@ class Weixinpays extends Base{
 				// 使用统一支付接口
 				$wxQrcodePay = new \WxQrcodePay ();
 				$wxQrcodePay->setParameter ( "body", "支付订单费用" ); // 商品描述
-				$out_trade_no = $obj["orderId"];
+				$out_trade_no = $obj["orderNo"];
 				$wxQrcodePay->setParameter ( "out_trade_no", "$out_trade_no" ); // 商户订单号
 				$wxQrcodePay->setParameter ( "total_fee", $needPay * 100 ); // 总金额
 				$wxQrcodePay->setParameter ( "notify_url", $this->wxpayConfig['notifyurl'] ); // 通知地址
@@ -103,7 +103,7 @@ class Weixinpays extends Base{
 					$code_url = $wxQrcodePayResult ["code_url"];
 					// 商户自行增加处理流程
 				}
-				$this->assign ( 'out_trade_no', $obj["orderId"] );
+				$this->assign ( 'out_trade_no', $obj["orderNo"] );
 				$this->assign ( 'code_url', $code_url );
 				$this->assign ( 'wxQrcodePayResult', $wxQrcodePayResult );
 				$this->assign ( 'needPay', $needPay );

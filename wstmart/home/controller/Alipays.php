@@ -31,14 +31,13 @@ class Alipays extends Base{
 	 */
 	function getAlipaysUrl(){
 		$m = new M();
-		$obj["orderId"] = input("id/s");
+		$obj = array();
+		$userId = (int)session('WST_USER.userId');
+		$obj["userId"] = $userId;
+		$obj["orderNo"] = input("orderNo/s");
 		$obj["isBatch"] = (int)input("isBatch/d");
 		$data = model('Orders')->checkOrderPay($obj);
 		if($data["status"]==1){
-			$userId = (int)session('WST_USER.userId');
-			$obj["userId"] = $userId;
-			$obj["orderId"] = input("id");
-			$obj["isBatch"] = (int)input("isBatch");
 			$orderAmount = $m->getPayOrders($obj);
 			$return_url = url("home/alipays/response","",true,true);
 			$notify_url = url("home/alipays/aliNotify","",true,true);
@@ -52,7 +51,7 @@ class Alipays extends Base{
 					/* 业务参数 */
 					'subject'           => '支付购买商品费用'.$orderAmount.'元',
 					'body'  	        => '支付订单费用',
-					'out_trade_no'      => $obj["orderId"],
+					'out_trade_no'      => $obj["orderNo"],
 					'total_fee'         => $orderAmount,
 					'quantity'          => 1,
 					'payment_type'      => 1,
@@ -136,7 +135,7 @@ class Alipays extends Base{
 			$returnRes['info'] = '签名验证失败';
 			return $returnRes;
 		}
-		if ($request['trade_status'] == 'TRADE_SUCCESS' || $request['trade_status'] == 'TRADE_FINISHED' || $request['trade_status'] == 'WAIT_SELLER_SEND_GOODS' || $request['trade_status'] == 'WAIT_BUYER_CONFIRM_GOODS'){
+		if ($request['trade_status'] == 'TRADE_SUCCESS' || $request['trade_status'] == 'TRADE_FINISHED'){
 			$returnRes['status'] = true;
 		}
 		return $returnRes;

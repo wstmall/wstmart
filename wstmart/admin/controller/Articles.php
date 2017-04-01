@@ -91,4 +91,13 @@ class Articles extends Base{
     	$rs = $m->del();
     	return $rs;
     }
+
+    /**
+     * 批量删除
+     */
+    public function delByBatch(){
+        $m = new M();
+        $rs = $m->delByBatch();
+        return $rs;
+    }
 }

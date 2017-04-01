@@ -577,14 +577,14 @@ class Orders extends Base{
 	 */
 	public function checkOrderPay (){
 		$userId = (int)session('WST_USER.userId');
-		$orderId = input("id");
+		$orderNo = input("orderNo");
 		$isBatch = (int)input("isBatch");
 		$rs = array();
 		$where = ["userId"=>$userId,"dataFlag"=>1,"orderStatus"=>-2,"isPay"=>0,"payType"=>1];
 		if($isBatch==1){
-			$where['orderunique'] = $orderId;
+			$where['orderunique'] = $orderNo;
 		}else{
-			$where['orderId'] = $orderId;
+			$where['orderNo'] = $orderNo;
 		}
 		$rs = $this->field('orderId,orderNo')->where($where)->select();
 		if(count($rs)>0){

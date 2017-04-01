@@ -1,9 +1,11 @@
 {extend name="default/base" /}
 {block name="title"}
-{$title} - {:WSTConf('CONF.mallName')}{__block__}{/block}
+{if isset($content)}
+{if $content.articleTitle!=''}{$content.articleTitle}{else}资讯中心{/if}
+{else}资讯中心{/if} - {:WSTConf('CONF.mallName')}{__block__}{/block}
 {block name="meta"}
-<meta name="keywords" content="资讯中心,{:WSTConf('CONF.mallName')}" />
-<meta name="description" content="资讯中心,{:WSTConf('CONF.mallName')}" />
+<meta name="keywords" content="{$content.articleKey}" />
+<meta name="description" content="{$content.articleTitle}" />
 {/block}
 {block name="css"}
 <link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
@@ -17,6 +19,9 @@
 		{volist name="$bcNav" id="bc"}
 	    <a href="{:url('home/news/nlist',['catId'=>$bc['catId']])}">> {$bc['catName']}</a> 
 	    {/volist}
+	    {if isset($content['articleTitle'])}
+	    	<a href="{:url('home/news/view',['id'=>$content['articleId']])}">> 详情</a>
+	    {/if}
 	</p>
 </div>
 <div class="help-box">
@@ -45,16 +50,12 @@
 				{/volist}
 			</ul>
 			{/if}
-			{if isset($newsList)}
-			<div class="head"><p><span>N</span>ews&nbsp;{$bc['catName']}</p><div class='wst-clear'></div></div>
-			<ul class="news-list">
-				{volist name="$newsList" id="n"}
-				<li><div id="g-square"></div><a href="{:url('home/news/view',['id'=>$n['articleId']])}">{$n['articleTitle']}</a><span class="list-time"> {:date('Y-m-d H:i:s',strtotime($n['createTime']))}</span></li>
-				{/volist}
-			</ul>
-			{/if}
-			{if isset($page)}
-			<div class="h-page">{$page}<div class='wst-clear'></div></div>
+			{if isset($content)}
+			<h1>{$content.articleTitle}</h1>
+			<div class="cat-time"><span>{$content.catName}　</span>发布于：{:date('Y-m-d',strtotime($content.createTime))}</div>
+			<div class="n-content">
+				{:htmlspecialchars_decode($content.articleContent)}
+			</div>
 			{/if}
 		</div>
 	</div>

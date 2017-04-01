@@ -51,7 +51,7 @@ function initEdit(){
 	WST.upload({
 	  	  pick:'#goodsImgPicker',
 	  	  formData: {dir:'goods',isWatermark:1,isThumb:1},
-	  	  accept: {extensions: 'gif,jpg,jpeg,bmp,png',mimeTypes: 'image/*'},
+	  	  accept: {extensions: 'gif,jpg,jpeg,png',mimeTypes: 'image/jpg,image/jpeg,image/png,image/gif'},
 	  	  callback:function(f){
 	  		  var json = WST.toJson(f);
 	  		  if(json.status==1){
@@ -230,7 +230,7 @@ function addSpecImg(opts){
 		  cat:opts.catId,
 	  	  pick:'#specImgPicker_'+specNum,
 	  	  formData: {dir:'goods',isThumb:1},
-	  	  accept: {extensions: 'gif,jpg,jpeg,bmp,png',mimeTypes: 'image/*'},
+	  	  accept: {extensions: 'gif,jpg,jpeg,png',mimeTypes: 'image/jpg,image/jpeg,image/png,image/gif'},
 	  	  callback:function(f){
 	  		  var json = WST.toJson(f);
 	  		  if(json.status==1){

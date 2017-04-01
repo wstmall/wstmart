@@ -372,7 +372,7 @@ function upload(n){
         pick:'#filePicker'+n,
         formData: {dir:'appraises',isThumb:1},
         fileNumLimit:5,
-        accept: {extensions: 'gif,jpg,jpeg,bmp,png',mimeTypes: 'image/*'},
+        accept: {extensions: 'gif,jpg,jpeg,png',mimeTypes: 'image/jpg,image/jpeg,image/png,image/gif'},
         callback:function(f,file){
           var json = WST.toJson(f);
           if(json.status==1){
@@ -536,7 +536,7 @@ function userComplainInit(){
         pick:'#filePicker',
         formData: {dir:'complains',isThumb:1},
         fileNumLimit:5,
-        accept: {extensions: 'gif,jpg,jpeg,bmp,png',mimeTypes: 'image/*'},
+        accept: {extensions: 'gif,jpg,jpeg,png',mimeTypes: 'image/jpg,image/jpeg,image/png,image/gif'},
         callback:function(f,file){
           var json = WST.toJson(f);
           if(json.status==1){

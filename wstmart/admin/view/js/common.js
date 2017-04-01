@@ -66,7 +66,7 @@ WST.toAdminJson = function(str){
 }
 WST.upload = function(opts){
 	var _opts = {};
-	_opts = $.extend(_opts,{auto: true,swf: WST.ROOT +'/plugins/webuploader/Uploader.swf',server:WST.U('admin/index/uploadPic')},opts);
+	_opts = $.extend(_opts,{auto: true,swf: WST.conf.ROOT +'/plugins/webuploader/Uploader.swf',server:WST.U('admin/index/uploadPic')},opts);
 	var uploader = WebUploader.create(_opts);
 	uploader.on('uploadSuccess', function( file,response ) {
 	    var json = WST.toAdminJson(response._raw);

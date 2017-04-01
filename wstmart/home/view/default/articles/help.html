@@ -1,5 +1,5 @@
 {extend name="default/base" /}
-{block name="title"}{:WSTConf('CONF.mallName')}-{:WSTConf('CONF.mallSlogan')}{__block__}{/block}
+{block name="title"}{if $data.articleTitle!=''}{$data.articleTitle}{else}客服中心{/if} - {:WSTConf('CONF.mallName')}{__block__}{/block}
 {block name="css"}
 <link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
 <link href="__STYLE__/css/articles.css?v={$v}" rel="stylesheet">
@@ -36,6 +36,7 @@
             {/volist}
         </ul>
 	</div>
+	{if($data.articleTitle!='')}
 	<div class="help-right b">
 		<div class="h-right-title"><div id="square"></div><h4>{$data.articleTitle}</h4></div>
 		<div class="c"><input type="hidden" value="{$data.articleId}" id="artId"></div>
@@ -49,6 +50,7 @@
 			<input class="h-button" onclick="solve(0)" type="button" value="否，咨询客服" />
 		</div>
 	</div>
+	{/if}
 	
 	<div class="c"></div>
 </div>

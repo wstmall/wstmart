@@ -10,6 +10,9 @@ $(function(){initGrid();})
 <div class="wst-toolbar">
 	   文章标题：<input type='text' id='key' placeholder='文章标题'/>  
    <button class="btn btn-blue" onclick='javascript:loadGrid()'>查询</button>
+   {if WSTGrant('WZGL_03')}
+   <button class="btn btn-red f-right" onclick='javascript:toBatchDel()' style='margin-left:10px;'>批量删除</button>
+   {/if}
    {if WSTGrant('WZGL_01')}
    <button class="btn btn-green f-right" onclick='javascript:toEdit(0)'>新增</button>
    {/if}

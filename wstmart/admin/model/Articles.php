@@ -109,4 +109,19 @@ class Articles extends Base{
 			return WSTReturn($this->getError(),-1);
 		}
 	}
+
+	/**
+	 * 批量删除
+	 */
+	public function delByBatch(){
+		$ids = input('post.ids');
+		$data = [];
+		$data['dataFlag'] = -1;
+		$result = $this->where(['articleId'=>['in',$ids]])->update($data);
+		if(false !== $result){
+			return WSTReturn("删除成功", 1);
+		}else{
+			return WSTReturn($this->getError(),-1);
+		}
+	}
 }

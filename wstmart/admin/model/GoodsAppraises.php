@@ -37,7 +37,7 @@ class GoodsAppraises extends Base{
 
 
 	 	if($shopName!='')
-	 		$where.=" and (p.shopName like '%".$shopName."%' or p.shopSn like '%'".$shopName."%')";
+	 		$where.=" and (p.shopName like '%".$shopName."%' or p.shopSn like '%".$shopName."%')";
 	 	if($goodsName!='')
 	 		$where.=" and (g.goodsName like '%".$goodsName."%' or g.goodsSn like '%".$goodsName."%')";
 

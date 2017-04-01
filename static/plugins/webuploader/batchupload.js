@@ -80,7 +80,7 @@ function batchUpload(options){
             mimeTypes: 'image/*'
         },
         // swf文件路径
-        swf: WST.STATIC + '/plugins/webuploader/js/Uploader.swf',
+        swf: WST.conf.STATIC + '/plugins/webuploader/js/Uploader.swf',
         disableGlobalDnd: true,
         chunked: true,
         server: opts.uploadServer,
