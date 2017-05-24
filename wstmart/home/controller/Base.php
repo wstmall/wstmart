@@ -22,7 +22,7 @@ class Base extends Controller {
 
 	protected function fetch($template = '', $vars = [], $replace = [], $config = [])
     {
-    	$style = WSTConf('CONF.wstPCStyle')?WSTConf('CONF.wsthomeStyle'):'default';
+    	$style = WSTConf('CONF.wsthomeStyle')?WSTConf('CONF.wsthomeStyle'):'default';
     	$replace['__STYLE__'] = str_replace('/index.php','',\think\Request::instance()->root()).'/wstmart/home/view/'.WSTConf('CONF.wsthomeStyle');
         return $this->view->fetch($style."/".$template, $vars, $replace, $config);
     }

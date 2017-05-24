@@ -52,7 +52,9 @@ class Roles extends Base{
 	 * 新增
 	 */
 	public function add(){
-		$result = $this->validate('Roles.add')->allowField(true)->save(input('post.'));
+		$data = input('post.');
+		$data['createTime'] = date('Y-m-d H:i:s');
+		$result = $this->validate('Roles.add')->allowField(true)->save($data);
         if(false !== $result){
         	return WSTReturn("新增成功", 1);
         }else{

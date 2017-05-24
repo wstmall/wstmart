@@ -103,7 +103,7 @@ class Attributes extends Base{
 		$dbo = $this->field(true);
 		$map = array();
 		$map['dataFlag']  = 1;
-		if($keyName!="")$map['catName']  = ["like","%".$keyName."%"];
+		if($keyName!="")$map['attrName']  = ["like","%".$keyName."%"];
 		if($goodsCatPath!='')$map['goodsCatPath']  = ["like",$goodsCatPath."_%"];
 		$page = $dbo->field(true)->where($map)->paginate(input('pagesize/d'))->toArray();
 	    if(count($page['Rows'])>0){

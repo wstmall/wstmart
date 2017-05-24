@@ -13,8 +13,8 @@ function initGrid(){
 	        	return '<img src="'+WST.conf.ROOT+'/'+rowdata['userrankImg']+'" height="28px" />';
 	        }},
 	        { display: '会员等级名称', name: 'rankName', isSort: false},
-	        { display: '积分上限', name: 'startScore', isSort: false},
-	        { display: '积分下限', name: 'endScore', isSort: false},
+	        { display: '积分下限', name: 'startScore', isSort: false},
+	        { display: '积分上限', name: 'endScore', isSort: false},
 	        { display: '折扣率(%)', name: 'rebate', isSort: false},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";

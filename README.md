@@ -29,8 +29,8 @@
 -----------------------------------------------------
 联系我们: 广州商淘信息科技有限公司
 WSTMart官方网站：http://www.wstmart.net
-WSTMart演示站：http://wstmart.shangtaosoft.com
+WSTMart演示站：http://demo.wstmart.com
 客服 Q Q：153289970
 交流QQ群：590755485
-联系电话: 020-85289921/18902295525
+联系电话: 020-85289921/15918671994
 联系邮箱: wstmart@qq.com

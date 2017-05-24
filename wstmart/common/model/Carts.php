@@ -26,6 +26,7 @@ class Carts extends Base{
 		$goodsSpecId = (int)input('post.goodsSpecId');
 		$cartNum = (int)input('post.buyNum',1);
 		$cartNum = ($cartNum>0)?$cartNum:1;
+		if($userId==0 || $goodsId==0)return WSTReturn('加入购物车失败');
 		//验证传过来的商品是否合法
 		$chk = $this->checkGoodsSaleSpec($goodsId,$goodsSpecId);
 		if($chk['status']==-1)return $chk;

@@ -70,8 +70,8 @@ function toDel(pid,menuId){
       if(json.status=='1'){
         WST.msg("操作成功",{icon:1});
         layer.close(box);
-        if($('#s_menuType').val()>-1){loadGrid();}
-        grid.reload(pid);
+        
+        loadGrid();
       }else{
         WST.msg(json.msg,{icon:2});
       }
@@ -91,7 +91,7 @@ function edit(pid,menuId){
       var json = WST.toAdminJson(data);
       if(json.status=='1'){
           WST.msg("操作成功",{icon:1});
-          grid.reload();
+          loadGrid();
       }else{
             WST.msg(json.msg,{icon:2});
       }
@@ -107,7 +107,7 @@ function isShowtoggle(menuId, t){
       var v = (isShow==0)?1:0;
       var text = (v==0)?'显示':'隐藏';
       $(t).attr('v',v).html(text);
-      grid.reload(menuId);
+      loadGrid();
     }else{
       WST.msg(json.msg,{icon:2});
     }
@@ -165,8 +165,8 @@ function toEdit(menuId,parentId,tId){
                 WST.msg("操作成功",{icon:1});
                 $('#menuForm')[0].reset();
                 layer.close(box);
-                if($('#s_menuType').val()>-1){loadGrid();}
-                grid.reload(parentId);
+                
+                loadGrid();
                 $('#menuForm')[0].reset();
            }else{
              WST.msg(json.msg,{icon:2});

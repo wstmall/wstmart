@@ -114,6 +114,14 @@ function getPhoneVerifyCode(params){
 	});
 }
 function initRegist(){
+	// 阻止按下回车键时触发短信验证码弹窗
+	document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];        
+             if(e && e.keyCode==13){ // enter 键
+             	$('#reg_butt').submit();
+             	return false;
+            }
+    }
 	$('#reg_form').validator({
 	    rules: {
 	    	loginName: function(element) {

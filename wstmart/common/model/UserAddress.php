@@ -84,7 +84,9 @@ class UserAddress extends Base{
     public function add(){
         $data = input('post.');
         $data['userId'] = (int)session('WST_USER.userId');
+        if($data['userId']==0)return WSTReturn('新增失败');
         $data['createTime'] = date('Y-m-d H:i:s');
+        if($data['userId']==0)return WSTReturn('新增地址失败，请先登录');
         // 检测是否存在下级地区
         $hasChild = model('Areas')->hasChild(input('areaId'));
         if($hasChild)return WSTReturn('请选择完整的地区信息',-1);

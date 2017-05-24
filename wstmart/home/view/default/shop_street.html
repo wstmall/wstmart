@@ -28,7 +28,7 @@
 		<div class="wst-shopstr-shopl"><a target='_blank' href="{:url('home/shops/home',array('shopId'=>$v1['shopId']))}"><img class="shopsImg" data-original="__ROOT__/{$v1['shopImg']}" title="{$v1['shopName']}" alt="{$v1['shopName']}"/></a></div>
 		<div class="wst-shopstr-shopi">
 			<div class="wst-shopstr-name">
-				<a class="name" target='_blank' href="{:url('home/shops/home',array('shopId'=>$v1['shopId']))}">{:WSTMSubstr($v1['shopName'],0,8)}</a>
+				<a class="name" target='_blank' href="{:url('home/shops/home',array('shopId'=>$v1['shopId']))}">{:WSTMSubstr($v1['shopName'],0,20)}</a>
 			    {if ((int)$v1['favoriteId']>0)}
 			    <a class="favorite j-fav" href='javascript:void(0);' onclick='WST.cancelFavorite(this,1,{$v1['shopId']},{$v1['favoriteId']})'>已关注</a>
                 {else}

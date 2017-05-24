@@ -848,7 +848,7 @@ class Goods extends CGoods{
 		if(isset($post['goodsStock'])){
 			$data['goodsStock'] = (int)input('post.goodsStock',0);
 		}elseif(isset($post['shopPrice'])){
-			$data['shopPrice'] = (int)input('post.shopPrice',0);
+			$data['shopPrice'] = (float)input('post.shopPrice',0);
 		}else{
 			return WSTReturn('操作失败',-1);
 		}

@@ -26,6 +26,7 @@ class Orders extends Base{
 		$invoiceClient = ($isInvoice==1)?input('post.invoiceClient'):'';
 		$payType = ((int)input('post.payType')!=0)?1:0;
 		$userId = (int)session('WST_USER.userId');
+		if($userId==0)return WSTReturn('下单失败,请先登录系统');
 		//检测购物车
 		$carts = model('carts')->getCarts(true);
 		if(empty($carts['carts']))return WSTReturn("请选择要购买的商品");
